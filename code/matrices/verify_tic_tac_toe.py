@@ -1,9 +1,5 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/matrices/verify-tic-tac-toe.js):
-
-function calculateWinnerInTicTacToe(squares) {
-    const lines = [
+def calculate_winner_in_tic_tac_toe(squares):
+    lines = [
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
@@ -11,17 +7,9 @@ function calculateWinnerInTicTacToe(squares) {
         [1, 4, 7],
         [2, 5, 8],
         [0, 4, 8],
-        [2, 4, 6]
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
-
-module.exports = calculateWinnerInTicTacToe;
-
-"""
+        [2, 4, 6],
+    ]
+    for a, b, c in lines:
+        if squares[a] and squares[a] == squares[b] and squares[a] == squares[c]:
+            return squares[a]
+    return None

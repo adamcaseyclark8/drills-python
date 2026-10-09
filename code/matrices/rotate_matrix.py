@@ -1,31 +1,20 @@
-r"""TODO: port to Python.
+def rotate(matrix):
+    n = len(matrix)
 
-Original JavaScript (code/matrices/rotate-matrix.js):
+    # Step 1: Transpose the matrix (swap rows and columns)
+    for i in range(n):
+        for j in range(i + 1, n):
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
-const rotate = matrix => {
-    const n = matrix.length;
+    # Step 2: Reverse each row
+    for row in matrix:
+        row.reverse()
 
-    // Step 1: Transpose the matrix (swap rows and columns)
-    for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j < n; j++) {
-            [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
-        }
-    }
+    return matrix
 
-    // Step 2: Reverse each row
-    for (let row of matrix) {
-        row.reverse();
-    }
 
-    return matrix;
-};
+# [1, 2],
+# [3, 4]
 
-module.exports = rotate;
-
-// [1, 2],
-// [3, 4]
-
-// [3, 1],
-// [4, 2]
-
-"""
+# [3, 1],
+# [4, 2]

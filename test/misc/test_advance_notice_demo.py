@@ -1,246 +1,196 @@
-r"""TODO: port to Python.
+import calendar
+from datetime import datetime
 
-Original JavaScript (test/misc/advance-notice-demo.test.js):
+import pytest
 
-const { AdvanceNoticeDemo, AdvanceNoticeExclusionConfig } = require('../../code/misc/advance-notice-demo.js');
+from code.misc.advance_notice_demo import AdvanceNoticeDemo, AdvanceNoticeExclusionConfig
 
-describe('AdvanceNoticeDemo Tests', () => {
-    let weekendsExcluded;
-    let noExclusions;
-    let saturdayOnlyExcluded;
+CUT_OFF = {'hour': 14, 'minute': 0}  # 2pm
 
-    const CUT_OFF = { hour: 14, minute: 0 }; // 2pm
-    const sundayAsIndexOfWeek = 0;
-    const mondayAsIndexOfWeek = 1;
-    const tuesdayAsIndexOfWeek = 2;
-    const wednesdayAsIndexOfWeek = 3;
-    const thursdayAsIndexOfWeek = 4;
-    const fridayAsIndexOfWeek = 5;
-    const saturdayAsIndexOfWeek = 6;
 
-    beforeEach(() => {
-        weekendsExcluded = new AdvanceNoticeExclusionConfig(true, true);
-        noExclusions = new AdvanceNoticeExclusionConfig(false, false);
-        saturdayOnlyExcluded = new AdvanceNoticeExclusionConfig(true, false);
-    });
+@pytest.fixture
+def weekends_excluded():
+    return AdvanceNoticeExclusionConfig(True, True)
 
-    // -------------------------------------------------------
-    // isSaturday & isSunday fn(date) [static]
-    // -------------------------------------------------------
 
-    describe('can determine saturday from date', () => {
-        test('returns true for a Saturday', () => {
-            const requestDayIsSaturday = new Date(2026, 2, 7); // March 7 2026 is a Saturday
-            expect(AdvanceNoticeDemo.isSaturday(requestDayIsSaturday)).toBe(true);
-        });
+@pytest.fixture
+def no_exclusions():
+    return AdvanceNoticeExclusionConfig(False, False)
 
-        test('returns false for a non-Saturday', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2); // Monday
-            expect(AdvanceNoticeDemo.isSaturday(requestDayIsMonday)).toBe(false);
-        });
-    });
 
-    describe('can determine sunday from date', () => {
-        test('returns true for a Sunday', () => {
-            const requestDayIsSunday = new Date(2026, 2, 8); // March 8 2026 is a Sunday
-            expect(AdvanceNoticeDemo.isSunday(requestDayIsSunday)).toBe(true);
-        });
+@pytest.fixture
+def saturday_only_excluded():
+    return AdvanceNoticeExclusionConfig(True, False)
 
-        test('returns false for a non-Sunday', () => {
-            const requestDayIsTuesday = new Date(2026, 2, 3);
-            expect(AdvanceNoticeDemo.isSunday(requestDayIsTuesday)).toBe(false);
-        });
-    });
 
-    // -------------------------------------------------------
-    // isServiceDay fn(date, exclusions)
-    // -------------------------------------------------------
+# -------------------------------------------------------
+# is_saturday & is_sunday fn(date) [static]
+# -------------------------------------------------------
 
-    describe('can determine working days from days off', () => {
-        test('Saturday is not a service day when excluded', () => {
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            expect(AdvanceNoticeDemo.isServiceDay(requestDayIsSaturday, weekendsExcluded)).toBe(false);
-        });
 
-        test('Sunday is not a service day when excluded', () => {
-            const requestDayIsSunday = new Date(2026, 2, 8);
-            expect(AdvanceNoticeDemo.isServiceDay(requestDayIsSunday, weekendsExcluded)).toBe(false);
-        });
+class TestCanDetermineSaturdayFromDate:
+    def test_returns_true_for_a_saturday(self):
+        request_day_is_saturday = datetime(2026, 3, 7)  # March 7 2026 is a Saturday
+        assert AdvanceNoticeDemo.is_saturday(request_day_is_saturday) is True
 
-        test('Saturday IS a service day when not excluded', () => {
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            expect(AdvanceNoticeDemo.isServiceDay(requestDayIsSaturday, noExclusions)).toBe(true);
-        });
+    def test_returns_false_for_a_non_saturday(self):
+        request_day_is_monday = datetime(2026, 3, 2)  # Monday
+        assert AdvanceNoticeDemo.is_saturday(request_day_is_monday) is False
 
-        test('weekday is always a service day', () => {
-            const monday = new Date(2026, 2, 2);
-            expect(AdvanceNoticeDemo.isServiceDay(monday, weekendsExcluded)).toBe(true);
-        });
 
-        test('Saturday excluded but Sunday not: Sunday is still a service day', () => {
-            const requestDayIsSunday = new Date(2026, 2, 8);
-            expect(AdvanceNoticeDemo.isServiceDay(requestDayIsSunday, saturdayOnlyExcluded)).toBe(true);
-        });
+class TestCanDetermineSundayFromDate:
+    def test_returns_true_for_a_sunday(self):
+        request_day_is_sunday = datetime(2026, 3, 8)  # March 8 2026 is a Sunday
+        assert AdvanceNoticeDemo.is_sunday(request_day_is_sunday) is True
 
-        test('null exclusions: all days are service days', () => {
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            expect(AdvanceNoticeDemo.isServiceDay(requestDayIsSaturday, null)).toBe(true);
-        });
-    });
+    def test_returns_false_for_a_non_sunday(self):
+        request_day_is_tuesday = datetime(2026, 3, 3)
+        assert AdvanceNoticeDemo.is_sunday(request_day_is_tuesday) is False
 
-    // -------------------------------------------------------
-    // adjustRequestForward fn(date) => getting the day index
-    // -------------------------------------------------------
 
-    describe('adjustRequestForward', () => {
-        test('weekday: no adjustment needed', () => {
-            const weekendsExcludedDemo = new AdvanceNoticeDemo(3, 10, null, weekendsExcluded);
-            const requestDayIsWednesday = new Date(2026, 2, 4);
-            const result = weekendsExcludedDemo.adjustRequestForward(requestDayIsWednesday);
-            expect(result.getDay()).toBe(wednesdayAsIndexOfWeek);
-        });
+# -------------------------------------------------------
+# is_service_day fn(date, exclusions)
+# -------------------------------------------------------
 
-        test('Saturday excluded: pushed to Monday', () => {
-            const weekendsExcludedDemo = new AdvanceNoticeDemo(3, 10, null, weekendsExcluded);
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            const result = weekendsExcludedDemo.adjustRequestForward(requestDayIsSaturday);
-            expect(result.getDay()).toBe(mondayAsIndexOfWeek);
-        });
 
-        test('Sunday excluded: pushed to Monday', () => {
-            const weekendsExcludedDemo = new AdvanceNoticeDemo(3, 10, null, weekendsExcluded);
-            const requestDayIsSunday = new Date(2026, 2, 8);
-            const result = weekendsExcludedDemo.adjustRequestForward(requestDayIsSunday);
-            expect(result.getDay()).toBe(mondayAsIndexOfWeek);
-        });
+class TestCanDetermineWorkingDaysFromDaysOff:
+    def test_saturday_is_not_a_service_day_when_excluded(self, weekends_excluded):
+        assert AdvanceNoticeDemo.is_service_day(datetime(2026, 3, 7), weekends_excluded) is False
 
-        test('Saturday only excluded: Saturday pushed to Sunday, stays on Sunday', () => {
-            const saturdayExcludedDemo = new AdvanceNoticeDemo(3, 10, null, saturdayOnlyExcluded);
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            const result = saturdayExcludedDemo.adjustRequestForward(requestDayIsSaturday);
-            expect(result.getDay()).toBe(sundayAsIndexOfWeek);
-        });
+    def test_sunday_is_not_a_service_day_when_excluded(self, weekends_excluded):
+        assert AdvanceNoticeDemo.is_service_day(datetime(2026, 3, 8), weekends_excluded) is False
 
-        test('null exclusions: Saturday stays as Saturday', () => {
-            const noExclusionsDemo = new AdvanceNoticeDemo(3, 10, null, null);
-            const requestDayIsSaturday = new Date(2026, 2, 7);
-            const result = noExclusionsDemo.adjustRequestForward(requestDayIsSaturday);
-            expect(result.getDay()).toBe(saturdayAsIndexOfWeek);
-        });
-    });
+    def test_saturday_is_a_service_day_when_not_excluded(self, no_exclusions):
+        assert AdvanceNoticeDemo.is_service_day(datetime(2026, 3, 7), no_exclusions) is True
 
-    // -------------------------------------------------------
-    // addServiceDaysExclusive fn(request, daysOfLeadtimeNeeded, exclusions) => getting the day of the month
-    // -------------------------------------------------------
+    def test_weekday_is_always_a_service_day(self, weekends_excluded):
+        monday = datetime(2026, 3, 2)
+        assert AdvanceNoticeDemo.is_service_day(monday, weekends_excluded) is True
 
-    describe('addServiceDaysExclusive', () => {
-        test('adds 3 service days skipping weekend', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2); // March 2 Monday
-            const result = AdvanceNoticeDemo.addServiceDaysExclusive(requestDayIsMonday, 3, weekendsExcluded);
-            expect(result.getDate()).toBe(5); // Thursday March 5
-        });
+    def test_saturday_excluded_but_sunday_not_sunday_is_still_a_service_day(self, saturday_only_excluded):
+        assert AdvanceNoticeDemo.is_service_day(datetime(2026, 3, 8), saturday_only_excluded) is True
 
-        test('adds 5 service days crossing a weekend', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2); // March 2 Monday
-            const result = AdvanceNoticeDemo.addServiceDaysExclusive(requestDayIsMonday, 5, weekendsExcluded);
-            expect(result.getDate()).toBe(9); // Monday March 9
-        });
+    def test_none_exclusions_all_days_are_service_days(self):
+        assert AdvanceNoticeDemo.is_service_day(datetime(2026, 3, 7), None) is True
 
-        test('adds 3 calendar days when no exclusions', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2);
-            const result = AdvanceNoticeDemo.addServiceDaysExclusive(requestDayIsMonday, 3, noExclusions);
-            expect(result.getDate()).toBe(5); // Thursday March 5 (no weekend in between)
-        });
 
-        test('zero count returns start date unchanged', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2);
-            const result = AdvanceNoticeDemo.addServiceDaysExclusive(requestDayIsMonday, 0, weekendsExcluded);
-            expect(result.getDate()).toBe(2);
-        });
+# -------------------------------------------------------
+# adjust_request_forward fn(date) => getting the day index
+# -------------------------------------------------------
 
-        test('negative count returns start date unchanged', () => {
-            const requestDayIsMonday = new Date(2026, 2, 2);
-            const result = AdvanceNoticeDemo.addServiceDaysExclusive(requestDayIsMonday, -5, weekendsExcluded);
-            expect(result.getDate()).toBe(2);
-        });
-    });
 
-    // -------------------------------------------------------
-    // CUT-OFF TIME LOGIC fn(request) => getting the day of the month
-    // -------------------------------------------------------
+class TestAdjustRequestForward:
+    def test_weekday_no_adjustment_needed(self, weekends_excluded):
+        demo = AdvanceNoticeDemo(3, 10, None, weekends_excluded)
+        result = demo.adjust_request_forward(datetime(2026, 3, 4))
+        assert result.weekday() == calendar.WEDNESDAY
 
-    describe('calculate - cut-off time', () => {
-        test('request before cut-off: baseline stays same day', () => {
-            const cutOffTime2pm3DayLeadDemo = new AdvanceNoticeDemo(3, 10, CUT_OFF, noExclusions);
-            const requestIsMondayAt10AM = new Date(2026, 2, 2, 10, 0); // Monday 10am
-            const { minDateTime } = cutOffTime2pm3DayLeadDemo.calculate(requestIsMondayAt10AM);
-            expect(minDateTime.getDate()).toBe(5); // Thursday March 5
-        });
+    def test_saturday_excluded_pushed_to_monday(self, weekends_excluded):
+        demo = AdvanceNoticeDemo(3, 10, None, weekends_excluded)
+        result = demo.adjust_request_forward(datetime(2026, 3, 7))
+        assert result.weekday() == calendar.MONDAY
 
-        test('request after cut-off: baseline pushed to next day', () => {
-            const cutOffTime2pm3DayLeadDemo = new AdvanceNoticeDemo(3, 10, CUT_OFF, noExclusions);
-            const requestIsMondayAt3PM = new Date(2026, 2, 2, 15, 0); // Monday 3pm
-            const { minDateTime } = cutOffTime2pm3DayLeadDemo.calculate(requestIsMondayAt3PM);
-            expect(minDateTime.getDate()).toBe(6); // Friday March 6
-        });
+    def test_sunday_excluded_pushed_to_monday(self, weekends_excluded):
+        demo = AdvanceNoticeDemo(3, 10, None, weekends_excluded)
+        result = demo.adjust_request_forward(datetime(2026, 3, 8))
+        assert result.weekday() == calendar.MONDAY
 
-        test('request exactly at cut-off: baseline NOT pushed (isAfter is strict)', () => {
-            const cutOffTime2pm3DayLeadDemo = new AdvanceNoticeDemo(3, 10, CUT_OFF, noExclusions);
-            const requestIsMondayAt2PM = new Date(2026, 2, 2, 14, 0); // Monday exactly 2pm
-            const { minDateTime } = cutOffTime2pm3DayLeadDemo.calculate(requestIsMondayAt2PM);
-            expect(minDateTime.getDate()).toBe(5); // Thursday March 5
-        });
+    def test_saturday_only_excluded_saturday_pushed_to_sunday_stays_on_sunday(self, saturday_only_excluded):
+        demo = AdvanceNoticeDemo(3, 10, None, saturday_only_excluded)
+        result = demo.adjust_request_forward(datetime(2026, 3, 7))
+        assert result.weekday() == calendar.SUNDAY
 
-        test('null cut-off: baseline never pushed regardless of time', () => {
-            const noCutOffTime3DayLeadDemo = new AdvanceNoticeDemo(3, 10, null, noExclusions);
-            const requestIsMondayAt11PM = new Date(2026, 2, 2, 23, 0); // Monday 11pm
-            const { minDateTime } = noCutOffTime3DayLeadDemo.calculate(requestIsMondayAt11PM);
-            expect(minDateTime.getDate()).toBe(5); // Thursday March 5
-        });
-    });
+    def test_none_exclusions_saturday_stays_as_saturday(self):
+        demo = AdvanceNoticeDemo(3, 10, None, None)
+        result = demo.adjust_request_forward(datetime(2026, 3, 7))
+        assert result.weekday() == calendar.SATURDAY
 
-    // -------------------------------------------------------
-    // MIN / MAX & DELTA GUARD
-    // -------------------------------------------------------
 
-    describe('calculate - min/max and delta guard', () => {
-        test('maxDateTime is requestDate + maxDays at 5pm', () => {
-            const noCutOffTime3DayLeadDemo = new AdvanceNoticeDemo(3, 10, null, noExclusions);
-            const requestIsMondayThe2ndAt9AM = new Date(2026, 2, 2, 9, 0); // Monday
-            const { maxDateTime } = noCutOffTime3DayLeadDemo.calculate(requestIsMondayThe2ndAt9AM);
-            expect(maxDateTime.getDate()).toBe(12); // March 12
-            expect(maxDateTime.getHours()).toBe(17); // 5pm
-        });
+# -------------------------------------------------------
+# add_service_days_exclusive fn(request, days_of_leadtime_needed, exclusions) => getting the day of the month
+# -------------------------------------------------------
 
-        test('minDateTime is always at 8am', () => {
-            const noCutOffTime3DayLeadDemo = new AdvanceNoticeDemo(3, 10, null, noExclusions);
-            const requestIsMondayThe2ndAt9AM = new Date(2026, 2, 2, 9, 0);
-            const { minDateTime } = noCutOffTime3DayLeadDemo.calculate(requestIsMondayThe2ndAt9AM);
-            expect(minDateTime.getHours()).toBe(8);
-        });
 
-        test('minDateTime is never after maxDateTime', () => {
-            const cutOffTime2pm5DayLeadDemo = new AdvanceNoticeDemo(5, 7, CUT_OFF, weekendsExcluded);
-            const requestIsFridayAtCutoff = new Date(2026, 1, 27, 15, 0); // Friday after cut-off
-            const { minDateTime, maxDateTime } = cutOffTime2pm5DayLeadDemo.calculate(requestIsFridayAtCutoff);
-            expect(minDateTime.getTime()).toBeLessThanOrEqual(maxDateTime.getTime());
-        });
+class TestAddServiceDaysExclusive:
+    def test_adds_3_service_days_skipping_weekend(self, weekends_excluded):
+        request_day_is_monday = datetime(2026, 3, 2)  # March 2 Monday
+        result = AdvanceNoticeDemo.add_service_days_exclusive(request_day_is_monday, 3, weekends_excluded)
+        assert result.day == 5  # Thursday March 5
 
-        test('delta guard: equal minDays and maxDays lands on same date', () => {
-            const noCutOffTimeMinAndMaxEqual = new AdvanceNoticeDemo(5, 5, null, noExclusions);
-            const requestIsMondayThe2ndAt9AM = new Date(2026, 2, 2, 9, 0);
-            const { minDateTime, maxDateTime } = noCutOffTimeMinAndMaxEqual.calculate(requestIsMondayThe2ndAt9AM);
-            expect(minDateTime.toDateString()).toBe(maxDateTime.toDateString());
-        });
+    def test_adds_5_service_days_crossing_a_weekend(self, weekends_excluded):
+        request_day_is_monday = datetime(2026, 3, 2)  # March 2 Monday
+        result = AdvanceNoticeDemo.add_service_days_exclusive(request_day_is_monday, 5, weekends_excluded)
+        assert result.day == 9  # Monday March 9
 
-        test('delta guard: maxDateTime recalculated when it falls before minDateTime', () => {
-            const noCutOffTimeMinAndMaxEqual = new AdvanceNoticeDemo(10, 10, null, weekendsExcluded);
-            const requestIsMondayThe2ndAt9AM = new Date(2026, 2, 2, 9, 0);
-            const { minDateTime, maxDateTime } = noCutOffTimeMinAndMaxEqual.calculate(requestIsMondayThe2ndAt9AM);
-            expect(minDateTime.getTime()).toBeLessThanOrEqual(maxDateTime.getTime());
-            expect(maxDateTime.getHours()).toBe(17); // still at 5pm
-        });
-    });
-});
+    def test_adds_3_calendar_days_when_no_exclusions(self, no_exclusions):
+        result = AdvanceNoticeDemo.add_service_days_exclusive(datetime(2026, 3, 2), 3, no_exclusions)
+        assert result.day == 5  # Thursday March 5 (no weekend in between)
 
-"""
+    def test_zero_count_returns_start_date_unchanged(self, weekends_excluded):
+        result = AdvanceNoticeDemo.add_service_days_exclusive(datetime(2026, 3, 2), 0, weekends_excluded)
+        assert result.day == 2
+
+    def test_negative_count_returns_start_date_unchanged(self, weekends_excluded):
+        result = AdvanceNoticeDemo.add_service_days_exclusive(datetime(2026, 3, 2), -5, weekends_excluded)
+        assert result.day == 2
+
+
+# -------------------------------------------------------
+# CUT-OFF TIME LOGIC fn(request) => getting the day of the month
+# -------------------------------------------------------
+
+
+class TestCalculateCutOffTime:
+    def test_request_before_cut_off_baseline_stays_same_day(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, CUT_OFF, no_exclusions)
+        request_is_monday_at_10am = datetime(2026, 3, 2, 10, 0)  # Monday 10am
+        assert demo.calculate(request_is_monday_at_10am)['min_date_time'].day == 5  # Thursday March 5
+
+    def test_request_after_cut_off_baseline_pushed_to_next_day(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, CUT_OFF, no_exclusions)
+        request_is_monday_at_3pm = datetime(2026, 3, 2, 15, 0)  # Monday 3pm
+        assert demo.calculate(request_is_monday_at_3pm)['min_date_time'].day == 6  # Friday March 6
+
+    def test_request_exactly_at_cut_off_baseline_not_pushed_is_after_is_strict(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, CUT_OFF, no_exclusions)
+        request_is_monday_at_2pm = datetime(2026, 3, 2, 14, 0)  # Monday exactly 2pm
+        assert demo.calculate(request_is_monday_at_2pm)['min_date_time'].day == 5  # Thursday March 5
+
+    def test_none_cut_off_baseline_never_pushed_regardless_of_time(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, None, no_exclusions)
+        request_is_monday_at_11pm = datetime(2026, 3, 2, 23, 0)  # Monday 11pm
+        assert demo.calculate(request_is_monday_at_11pm)['min_date_time'].day == 5  # Thursday March 5
+
+
+# -------------------------------------------------------
+# MIN / MAX & DELTA GUARD
+# -------------------------------------------------------
+
+
+class TestCalculateMinMaxAndDeltaGuard:
+    def test_max_date_time_is_request_date_plus_max_days_at_5pm(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, None, no_exclusions)
+        max_date_time = demo.calculate(datetime(2026, 3, 2, 9, 0))['max_date_time']  # Monday
+        assert max_date_time.day == 12  # March 12
+        assert max_date_time.hour == 17  # 5pm
+
+    def test_min_date_time_is_always_at_8am(self, no_exclusions):
+        demo = AdvanceNoticeDemo(3, 10, None, no_exclusions)
+        assert demo.calculate(datetime(2026, 3, 2, 9, 0))['min_date_time'].hour == 8
+
+    def test_min_date_time_is_never_after_max_date_time(self, weekends_excluded):
+        demo = AdvanceNoticeDemo(5, 7, CUT_OFF, weekends_excluded)
+        request_is_friday_after_cutoff = datetime(2026, 2, 27, 15, 0)  # Friday after cut-off
+        result = demo.calculate(request_is_friday_after_cutoff)
+        assert result['min_date_time'] <= result['max_date_time']
+
+    def test_delta_guard_equal_min_days_and_max_days_lands_on_same_date(self, no_exclusions):
+        demo = AdvanceNoticeDemo(5, 5, None, no_exclusions)
+        result = demo.calculate(datetime(2026, 3, 2, 9, 0))
+        assert result['min_date_time'].date() == result['max_date_time'].date()
+
+    def test_delta_guard_max_date_time_recalculated_when_it_falls_before_min_date_time(self, weekends_excluded):
+        demo = AdvanceNoticeDemo(10, 10, None, weekends_excluded)
+        result = demo.calculate(datetime(2026, 3, 2, 9, 0))
+        assert result['min_date_time'] <= result['max_date_time']
+        assert result['max_date_time'].hour == 17  # still at 5pm

@@ -1,22 +1,10 @@
-r"""TODO: port to Python.
+def get_least_number_of_coins(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
 
-Original JavaScript (code/dynamic-programming/get-least-number-of-coins.js):
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
 
-const getLeastNumberOfCoins = (coins, amount) => {
-    const dp = new Array(amount + 1).fill(Infinity);
-    dp[0] = 0;
-
-    for (let i = 1; i <= amount; i++) {
-        for (const coin of coins) {
-            if (coin <= i) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-
-    return dp[amount] === Infinity ? -1 : dp[amount];
-};
-
-module.exports = getLeastNumberOfCoins;
-
-"""
+    return -1 if dp[amount] == float('inf') else dp[amount]

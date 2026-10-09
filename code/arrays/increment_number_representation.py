@@ -1,26 +1,15 @@
-r"""TODO: port to Python.
+def increment_number_representation(digits):
+    result = list(digits)
 
-Original JavaScript (code/arrays/increment-number-representation.js):
+    # LAST DIGIT IN ARRAY FIRST
+    # MOVING LEFT TO RIGHT
+    # WHILE INDEX IS GREATER THAN OR EQUAL TO ZERO
 
-const incrementNumberRepresentation = digits => {
-    const result = [...digits];
+    for i in range(len(result) - 1, -1, -1):
+        if result[i] < 9:
+            result[i] += 1
+            return result
+        result[i] = 0
 
-    // LAST DIGIT IN ARRAY FIRST
-    // MOVING LEFT TO RIGHT
-    // WHILE INDEX IS GREATER THAN OR EQUAL TO ZERO
-
-    for (let i = result.length - 1; i >= 0; i--) {
-        if (result[i] < 9) {
-            result[i]++;
-            return result;
-        }
-        result[i] = 0;
-    }
-
-    // All digits were 9, prepend a 1
-    return [1, ...result];
-};
-
-module.exports = incrementNumberRepresentation;
-
-"""
+    # All digits were 9, prepend a 1
+    return [1, *result]

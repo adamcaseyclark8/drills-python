@@ -1,53 +1,31 @@
-r"""TODO: port to Python.
+def change_starting_index(numbers, change):
+    if not isinstance(change, int) or isinstance(change, bool) or change < 0:
+        raise ValueError('change must be an positive integer')
 
-Original JavaScript (code/two-pointers/change-starting-index.js):
+    if change == 0:
+        return numbers
 
-const changeStartingIndex = (numbers, change) => {
-    if (!Number.isInteger(change) || change < 0) {
-        throw new Error('change must be an positive integer');
-    }
+    if len(numbers) == 0:
+        return []
 
-    if (change === 0) {
-        return numbers;
-    }
+    last = len(numbers) - 1
+    left_adjusted_index = len(numbers) - change
+    new_start_location = left_adjusted_index % len(numbers)
+    new_end_location = new_start_location - 1
 
-    if (numbers.length === 0) {
-        return [];
-    }
+    def reverse_array_in_place(start, end, array):
+        while start < end:
+            array[start], array[end] = array[end], array[start]
+            start += 1
+            end -= 1
+        return array
 
-    const first = 0;
-    const last = numbers.length - 1;
-    const leftAdjustedIndex = numbers.length - change;
-    const newStartLocation = leftAdjustedIndex % numbers.length;
-    const newEndLocation = newStartLocation - 1;
+    # entire array, beginning to new end location, new start to end
+    reverse_array_in_place(0, len(numbers) - 1, numbers)
+    reverse_array_in_place(0, new_end_location, numbers)
+    reverse_array_in_place(new_start_location, last, numbers)
 
-    // console.log(
-    //     'first =>', first,
-    //     'last =>', last,
-    //     'leftAdjustedIndex =>', leftAdjustedIndex,
-    //     'newStartLocation =>', newStartLocation,
-    //     'newEndLocation =>', newEndLocation
-    // )
+    return numbers
 
-    const reverseArrayInPlace = (start, end, array) => {
-        while (start < end) {
-            [array[start], array[end]] = [array[end], array[start]];
-            start++;
-            end--;
-        }
-        return array;
-    };
 
-    // entire array, beginning to new end location, new start to end
-    reverseArrayInPlace(0, numbers.length - 1, numbers);
-    reverseArrayInPlace(0, newEndLocation, numbers);
-    reverseArrayInPlace(newStartLocation, last, numbers);
-
-    return numbers;
-};
-
-module.exports = changeStartingIndex;
-
-// console.log(changeStartingIndex([1,2,3,4,5,6,7,8,9,10], 3))
-
-"""
+# print(change_starting_index([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3))

@@ -1,58 +1,45 @@
-r"""TODO: port to Python.
+import asyncio
+import time
+from unittest.mock import AsyncMock
 
-Original JavaScript (test/reimplementation/implement-promise.test.js):
+import pytest
 
-const { delay, fetchWithRetry } = require('../../code/reimplementation/implement-promise.js');
+from code.reimplementation.implement_promise import delay, fetch_with_retry
 
-describe('delay', () => {
-    test('resolves with value after ms', async () => {
-        const result = await delay(50, 'hello');
-        expect(result).toBe('hello');
-    });
 
-    test('resolves after the specified time', async () => {
-        const start = Date.now();
-        await delay(100, null);
-        expect(Date.now() - start).toBeGreaterThanOrEqual(100);
-    });
-});
+class TestDelay:
+    def test_resolves_with_value_after_ms(self):
+        assert asyncio.run(delay(50, 'hello')) == 'hello'
 
-describe('fetchWithRetry', () => {
-    test('resolves immediately on first success', async () => {
-        const fn = jest.fn().mockResolvedValue('ok');
-        const result = await fetchWithRetry(fn, 3);
-        expect(result).toBe('ok');
-        expect(fn).toHaveBeenCalledTimes(1);
-    });
+    def test_resolves_after_the_specified_time(self):
+        start = time.monotonic()
+        asyncio.run(delay(100, None))
+        assert time.monotonic() - start >= 0.1
 
-    test('retries on failure and eventually resolves', async () => {
-        const fn = jest
-            .fn()
-            .mockRejectedValueOnce(new Error('fail'))
-            .mockRejectedValueOnce(new Error('fail'))
-            .mockResolvedValue('ok');
-        const result = await fetchWithRetry(fn, 3);
-        expect(result).toBe('ok');
-        expect(fn).toHaveBeenCalledTimes(3);
-    });
 
-    test('rejects after all retries exhausted', async () => {
-        const fn = jest.fn().mockRejectedValue(new Error('always fails'));
-        await expect(fetchWithRetry(fn, 2)).rejects.toThrow('always fails');
-        expect(fn).toHaveBeenCalledTimes(3);
-    });
+class TestFetchWithRetry:
+    def test_resolves_immediately_on_first_success(self):
+        fn = AsyncMock(return_value='ok')
+        assert asyncio.run(fetch_with_retry(fn, 3)) == 'ok'
+        assert fn.call_count == 1
 
-    test('resolves with 0 retries if first call succeeds', async () => {
-        const fn = jest.fn().mockResolvedValue('done');
-        const result = await fetchWithRetry(fn, 0);
-        expect(result).toBe('done');
-    });
+    def test_retries_on_failure_and_eventually_resolves(self):
+        fn = AsyncMock(side_effect=[Exception('fail'), Exception('fail'), 'ok'])
+        assert asyncio.run(fetch_with_retry(fn, 3)) == 'ok'
+        assert fn.call_count == 3
 
-    test('rejects immediately with 0 retries on failure', async () => {
-        const fn = jest.fn().mockRejectedValue(new Error('nope'));
-        await expect(fetchWithRetry(fn, 0)).rejects.toThrow('nope');
-        expect(fn).toHaveBeenCalledTimes(1);
-    });
-});
+    def test_rejects_after_all_retries_exhausted(self):
+        fn = AsyncMock(side_effect=Exception('always fails'))
+        with pytest.raises(Exception, match='always fails'):
+            asyncio.run(fetch_with_retry(fn, 2))
+        assert fn.call_count == 3
 
-"""
+    def test_resolves_with_0_retries_if_first_call_succeeds(self):
+        fn = AsyncMock(return_value='done')
+        assert asyncio.run(fetch_with_retry(fn, 0)) == 'done'
+
+    def test_rejects_immediately_with_0_retries_on_failure(self):
+        fn = AsyncMock(side_effect=Exception('nope'))
+        with pytest.raises(Exception, match='nope'):
+            asyncio.run(fetch_with_retry(fn, 0))
+        assert fn.call_count == 1

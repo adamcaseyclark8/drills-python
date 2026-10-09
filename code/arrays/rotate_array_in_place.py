@@ -1,47 +1,26 @@
-r"""TODO: port to Python.
+def rotate_array_in_place(numbers, change):
+    if not isinstance(change, int) or isinstance(change, bool) or change < 0:
+        raise ValueError('change must be an positive integer')
 
-Original JavaScript (code/arrays/rotate-array-in-place.js):
+    if change == 0:
+        return numbers
 
-const rotateArrayInPlace = (numbers, change) => {
-    let k = change % numbers.length;
+    if len(numbers) == 0:
+        return []
 
-    if (!Number.isInteger(change) || change < 0) {
-        throw new Error('change must be an positive integer');
-    }
+    k = change % len(numbers)
 
-    if (change === 0) {
-        return numbers;
-    }
+    def reverse(left, right, array):
+        while left < right:
+            array[left], array[right] = array[right], array[left]
+            left += 1
+            right -= 1
 
-    if (numbers.length === 0) {
-        return [];
-    }
+    reverse(0, len(numbers) - 1, numbers)
+    reverse(0, k - 1, numbers)
+    reverse(k, len(numbers) - 1, numbers)
 
-    const reverse = (left, right, array) => {
-        while (left < right) {
-            [array[left], array[right]] = [array[right], array[left]];
-            left++;
-            right--;
-        }
-    };
+    return numbers
 
-    // console.log(
-    //     'first =>', 0,
-    //     'last =>', numbers.length - 1,
-    //     'leftAdjustedIndex =>', change % numbers.length,
-    //     'newStartLocation =>', k,
-    //     'newEndLocation =>', k - 1
-    // )
 
-    reverse(0, numbers.length - 1, numbers);
-    reverse(0, k - 1, numbers);
-    reverse(k, numbers.length - 1, numbers);
-
-    return numbers;
-};
-
-module.exports = rotateArrayInPlace;
-
-// console.log(rotateArrayInPlace([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 3))
-
-"""
+# print(rotate_array_in_place([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 3))

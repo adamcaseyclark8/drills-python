@@ -1,17 +1,8 @@
-r"""TODO: port to Python.
+# from claude
 
-Original JavaScript (code/strings/code-signal-pyramid-exercise.js):
 
-// from claude
-
-const buildAsciiPyramid = n => {
-    for (let i = 1; i <= n; i++) {
-        const spaces = ' '.repeat(n - i);
-        const asterisks = '*'.repeat(2 * i - 1);
-        console.log(spaces + asterisks);
-    }
-};
-
-module.exports = buildAsciiPyramid;
-
-"""
+def build_ascii_pyramid(n):
+    for i in range(1, n + 1):
+        spaces = ' ' * (n - i)
+        asterisks = '*' * (2 * i - 1)
+        print(spaces + asterisks)

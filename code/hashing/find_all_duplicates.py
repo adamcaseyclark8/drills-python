@@ -1,22 +1,11 @@
-r"""TODO: port to Python.
+def find_all_duplicates(nums):
+    seen = set()
+    duplicates = []
 
-Original JavaScript (code/hashing/find-all-duplicates.js):
+    for num in nums:
+        if num in seen:
+            duplicates.append(num)
+        else:
+            seen.add(num)
 
-const findAllDuplicates = nums => {
-    const seen = new Set();
-    const duplicates = [];
-
-    for (const num of nums) {
-        if (seen.has(num)) {
-            duplicates.push(num);
-        } else {
-            seen.add(num);
-        }
-    }
-
-    return duplicates;
-};
-
-module.exports = findAllDuplicates;
-
-"""
+    return duplicates

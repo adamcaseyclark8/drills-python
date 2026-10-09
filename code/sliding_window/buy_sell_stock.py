@@ -1,26 +1,17 @@
-r"""TODO: port to Python.
+def best_time_to_buy_or_sell_stock(prices):
+    if not prices:
+        return 0
 
-Original JavaScript (code/sliding-window/buy-sell-stock.js):
+    profit = 0
+    stock_to_buy = prices[0]
 
-const bestTimeToBuyOrSellStock = prices => {
-    let profit = 0;
-    let stockToBuy = prices[0];
+    for price in prices[1:]:
+        if stock_to_buy > price:
+            stock_to_buy = price
 
-    for (let i = 1; i < prices.length; i++) {
-        if (stockToBuy > prices[i]) {
-            stockToBuy = prices[i];
-        }
+        current_profit = price - stock_to_buy
 
-        const currentProfit = prices[i] - stockToBuy;
+        if current_profit > profit:
+            profit = current_profit
 
-        if (currentProfit > profit) {
-            profit = currentProfit;
-        }
-    }
-
-    return profit;
-};
-
-module.exports = bestTimeToBuyOrSellStock;
-
-"""
+    return profit

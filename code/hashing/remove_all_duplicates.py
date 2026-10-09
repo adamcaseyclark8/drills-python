@@ -1,22 +1,10 @@
-r"""TODO: port to Python.
+def remove_all_duplicates(array):
+    seen = {}
+    result = []
 
-Original JavaScript (code/hashing/remove-all-duplicates.js):
+    for item in array:
+        if not seen.get(item):
+            seen[item] = True
+            result.append(item)
 
-function removeAllDuplicates(array) {
-    const seen = {};
-    const result = [];
-
-    for (let i = 0; i < array.length; i++) {
-        const item = array[i];
-        if (!seen[item]) {
-            seen[item] = true;
-            result.push(item);
-        }
-    }
-
-    return result;
-}
-
-module.exports = removeAllDuplicates;
-
-"""
+    return result

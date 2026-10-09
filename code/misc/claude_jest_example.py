@@ -1,62 +1,51 @@
-r"""TODO: port to Python.
+import json
+import urllib.request
 
-Original JavaScript (code/misc/claude-jest-example.js):
 
-class ApiClient {
-    async fetchUser(userId) {
-        // Simulates API call
-        const response = await fetch(`https://api.example.com/users/${userId}`);
-        return response.json();
-    }
+class ApiClient:
+    def fetch_user(self, user_id):
+        # Simulates API call
+        with urllib.request.urlopen(f'https://api.example.com/users/{user_id}') as response:
+            return json.load(response)
 
-    async saveUser(userData) {
-        // Simulates saving to API
-        const response = await fetch('https://api.example.com/users', {
-            method: 'POST',
-            body: JSON.stringify(userData)
-        });
-        return response.json();
-    }
-}
+    def save_user(self, user_data):
+        # Simulates saving to API
+        request = urllib.request.Request(
+            'https://api.example.com/users',
+            data=json.dumps(user_data).encode(),
+            method='POST',
+        )
+        with urllib.request.urlopen(request) as response:
+            return json.load(response)
 
-class UserService {
-    constructor(apiClient) {
-        this.apiClient = apiClient;
-        this.cache = new Map();
-    }
 
-    async getUserWithCache(userId) {
-        // Check cache first
-        if (this.cache.has(userId)) {
-            return this.cache.get(userId);
-        }
+class UserService:
+    def __init__(self, api_client):
+        self.api_client = api_client
+        self.cache = {}
 
-        // Fetch from API if not cached
-        const user = await this.apiClient.fetchUser(userId);
-        this.cache.set(userId, user);
-        return user;
-    }
+    def get_user_with_cache(self, user_id):
+        # Check cache first
+        if user_id in self.cache:
+            return self.cache[user_id]
 
-    async updateUserAge(userId, newAge) {
-        const user = await this.getUserWithCache(userId);
+        # Fetch from API if not cached
+        user = self.api_client.fetch_user(user_id)
+        self.cache[user_id] = user
+        return user
 
-        if (newAge < 0 || newAge > 150) {
-            throw new Error('Invalid age');
-        }
+    def update_user_age(self, user_id, new_age):
+        user = self.get_user_with_cache(user_id)
 
-        const updatedUser = { ...user, age: newAge };
-        await this.apiClient.saveUser(updatedUser);
+        if new_age < 0 or new_age > 150:
+            raise ValueError('Invalid age')
 
-        // Update cache
-        this.cache.set(userId, updatedUser);
-        return updatedUser;
-    }
+        updated_user = {**user, 'age': new_age}
+        self.api_client.save_user(updated_user)
 
-    clearCache() {
-        this.cache.clear();
-    }
-}
+        # Update cache
+        self.cache[user_id] = updated_user
+        return updated_user
 
-module.exports = { ApiClient, UserService };
-
-"""
+    def clear_cache(self):
+        self.cache.clear()

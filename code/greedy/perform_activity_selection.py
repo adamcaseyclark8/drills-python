@@ -1,22 +1,11 @@
-r"""TODO: port to Python.
+def perform_activity_selection(activities):
+    ordered = sorted(activities, key=lambda activity: activity['end'])
+    selected = [ordered[0]]
+    last_end = ordered[0]['end']
 
-Original JavaScript (code/greedy/perform-activity-selection.js):
+    for i in range(1, len(ordered)):
+        if ordered[i]['start'] >= last_end:
+            selected.append(ordered[i])
+            last_end = ordered[i]['end']
 
-const performActivitySelection = activities => {
-    const sorted = [...activities].sort((a, b) => a.end - b.end);
-    const selected = [sorted[0]];
-    let lastEnd = sorted[0].end;
-
-    for (let i = 1; i < sorted.length; i++) {
-        if (sorted[i].start >= lastEnd) {
-            selected.push(sorted[i]);
-            lastEnd = sorted[i].end;
-        }
-    }
-
-    return selected;
-};
-
-module.exports = performActivitySelection;
-
-"""
+    return selected

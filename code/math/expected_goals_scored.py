@@ -1,33 +1,34 @@
-r"""TODO: port to Python.
+import math
 
-Original JavaScript (code/math/expected-goals-scored.js):
 
-const expectedGoalsRange = (scoredNumbers, allowedNumbers, attemptsTakenNumbers, attemptsAllowedNumbers, decay = 0.8, attemptsWeight = 0.5) => {
-    const weightedStats = (numbers) => {
-        const weights = numbers.map((_, index) => decay ** (numbers.length - 1 - index));
-        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-        const mean = numbers.reduce((sum, value, index) => sum + value * weights[index], 0) / totalWeight;
-        const variance = numbers.reduce((sum, value, index) => sum + weights[index] * (value - mean) ** 2, 0) / totalWeight;
-        return { mean, variance };
-    };
-    const scored = weightedStats(scoredNumbers);
-    const allowed = weightedStats(allowedNumbers);
-    const taken = weightedStats(attemptsTakenNumbers);
-    const conceded = weightedStats(attemptsAllowedNumbers);
-    const goalsExpected = (scored.mean + allowed.mean) / 2;
-    const attemptsExpected = (taken.mean + conceded.mean) / 2;
-    const scoringRate = taken.mean > 0 ? scored.mean / taken.mean : 0;
-    const concedingRate = conceded.mean > 0 ? allowed.mean / conceded.mean : 0;
-    const conversionExpected = (scoringRate + concedingRate) / 2;
-    const attemptsBasedExpected = attemptsExpected * conversionExpected;
-    const expected = goalsExpected * (1 - attemptsWeight) + attemptsBasedExpected * attemptsWeight;
-    const spread = Math.sqrt((scored.variance + allowed.variance) / 4);
-    const results = {
-        low: Math.max(0, Math.floor(expected - spread)),
-        high: Math.ceil(expected + spread)
-    };
-    return results;
-};
+def expected_goals_range(
+    scored_numbers,
+    allowed_numbers,
+    attempts_taken_numbers,
+    attempts_allowed_numbers,
+    decay=0.8,
+    attempts_weight=0.5,
+):
+    def weighted_stats(numbers):
+        weights = [decay ** (len(numbers) - 1 - index) for index in range(len(numbers))]
+        total_weight = sum(weights)
+        mean = sum(value * weight for value, weight in zip(numbers, weights)) / total_weight
+        variance = sum(weight * (value - mean) ** 2 for value, weight in zip(numbers, weights)) / total_weight
+        return {'mean': mean, 'variance': variance}
 
-module.exports = expectedGoalsRange;
-"""
+    scored = weighted_stats(scored_numbers)
+    allowed = weighted_stats(allowed_numbers)
+    taken = weighted_stats(attempts_taken_numbers)
+    conceded = weighted_stats(attempts_allowed_numbers)
+    goals_expected = (scored['mean'] + allowed['mean']) / 2
+    attempts_expected = (taken['mean'] + conceded['mean']) / 2
+    scoring_rate = scored['mean'] / taken['mean'] if taken['mean'] > 0 else 0
+    conceding_rate = allowed['mean'] / conceded['mean'] if conceded['mean'] > 0 else 0
+    conversion_expected = (scoring_rate + conceding_rate) / 2
+    attempts_based_expected = attempts_expected * conversion_expected
+    expected = goals_expected * (1 - attempts_weight) + attempts_based_expected * attempts_weight
+    spread = math.sqrt((scored['variance'] + allowed['variance']) / 4)
+    return {
+        'low': max(0, math.floor(expected - spread)),
+        'high': math.ceil(expected + spread),
+    }

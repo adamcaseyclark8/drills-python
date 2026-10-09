@@ -1,42 +1,34 @@
-r"""TODO: port to Python.
+from code.greedy.vail_stock_problem import vail_stock_problem
 
-Original JavaScript (test/greedy/vail-stock-problem.test.js):
 
-const vailStockProblem = require('../../code/greedy/vail-stock-problem.js');
+def test_i():
+    assert vail_stock_problem([500, 750, 1000, 200, 1200, 300, 500]) == 1700
+    # 250, 250, 200,
 
-describe('vail stock problem', () => {
-    test('I', () => {
-        expect(vailStockProblem([500, 750, 1000, 200, 1200, 300, 500])).toStrictEqual(1700);
-        // 250, 250, 200,
-    });
 
-    test('II', () => {
-        expect(vailStockProblem([500, 300, 1000, 100, 1200, 400, 500])).toStrictEqual(1900);
-    });
+def test_ii():
+    assert vail_stock_problem([500, 300, 1000, 100, 1200, 400, 500]) == 1900
 
-    test('III: first element is highest value', () => {
-        expect(vailStockProblem([500, 400, 300, 200, 100])).toStrictEqual(0);
-    });
 
-    test('IV', () => {
-        expect(vailStockProblem([500, 'two', 300, 200, 100])).toStrictEqual('all values must be numeric');
-    });
+def test_iii_first_element_is_highest_value():
+    assert vail_stock_problem([500, 400, 300, 200, 100]) == 0
 
-    test('V', () => {
-        expect(vailStockProblem([500, -750, 1000, 200, 1200, 300, 500])).toStrictEqual('all values must be positive');
-    });
 
-    test('VI', () => {
-        expect(vailStockProblem([])).toStrictEqual(0);
-    });
+def test_iv():
+    assert vail_stock_problem([500, 'two', 300, 200, 100]) == 'all values must be numeric'
 
-    test('VII', () => {
-        expect(vailStockProblem([500])).toStrictEqual(0);
-    });
 
-    test('VIII', () => {
-        expect(vailStockProblem([500, 1300])).toStrictEqual(800);
-    });
-});
+def test_v():
+    assert vail_stock_problem([500, -750, 1000, 200, 1200, 300, 500]) == 'all values must be positive'
 
-"""
+
+def test_vi():
+    assert vail_stock_problem([]) == 0
+
+
+def test_vii():
+    assert vail_stock_problem([500]) == 0
+
+
+def test_viii():
+    assert vail_stock_problem([500, 1300]) == 800

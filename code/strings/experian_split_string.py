@@ -1,21 +1,11 @@
-r"""TODO: port to Python.
+# from chatgpt
 
-Original JavaScript (code/strings/experian-split-string.js):
 
-// from chatgpt
+def experian_split_string_function(string, interval):
+    if len(string) % interval != 0:
+        return f'string is not divisible by {interval}'
 
-const experianSplitStringFunction = (string, interval) => {
-    if (string.length % interval !== 0) {
-        return `string is not divisible by ${interval}`;
-    }
-
-    const result = [];
-    for (let i = 0; i < string.length; i += interval) {
-        result.push(string.slice(i, i + interval));
-    }
-    return result;
-};
-
-module.exports = experianSplitStringFunction;
-
-"""
+    result = []
+    for i in range(0, len(string), interval):
+        result.append(string[i:i + interval])
+    return result

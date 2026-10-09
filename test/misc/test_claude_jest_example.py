@@ -1,176 +1,126 @@
-r"""TODO: port to Python.
+from unittest.mock import call, patch
 
-Original JavaScript (test/misc/claude-jest-example.test.js):
+import pytest
 
-const { ApiClient, UserService } = require('../../code/misc/claude-jest-example.js');
+from code.misc.claude_jest_example import ApiClient, UserService
 
-describe('UserService', () => {
-    let apiClient;
-    let userService;
-    let fetchUserSpy;
-    let saveUserSpy;
 
-    beforeEach(() => {
-        apiClient = new ApiClient();
-        userService = new UserService(apiClient);
+@pytest.fixture
+def api_client():
+    return ApiClient()
 
-        // Spy on API methods and mock their implementations
-        fetchUserSpy = jest.spyOn(apiClient, 'fetchUser').mockImplementation(userId => {
-            return Promise.resolve({
-                id: userId,
-                name: 'John Doe',
-                age: 30,
-                email: 'john@example.com'
-            });
-        });
 
-        saveUserSpy = jest.spyOn(apiClient, 'saveUser').mockImplementation(userData => {
-            return Promise.resolve({ ...userData, saved: true });
-        });
-    });
+@pytest.fixture
+def user_service(api_client):
+    return UserService(api_client)
 
-    afterEach(() => {
-        fetchUserSpy.mockRestore();
-        saveUserSpy.mockRestore();
-    });
 
-    describe('getUserWithCache', () => {
-        test('fetches user from API on first call', async () => {
-            const user = await userService.getUserWithCache(1);
+@pytest.fixture
+def fetch_user_spy(api_client):
+    # Spy on API methods and mock their implementations
+    def fake_fetch_user(user_id):
+        return {'id': user_id, 'name': 'John Doe', 'age': 30, 'email': 'john@example.com'}
 
-            expect(fetchUserSpy).toHaveBeenCalledTimes(1);
-            expect(fetchUserSpy).toHaveBeenCalledWith(1);
-            expect(user).toEqual({
-                id: 1,
-                name: 'John Doe',
-                age: 30,
-                email: 'john@example.com'
-            });
-        });
+    with patch.object(api_client, 'fetch_user', side_effect=fake_fetch_user) as spy:
+        yield spy
 
-        test('returns cached user on second call without fetching', async () => {
-            // First call
-            await userService.getUserWithCache(1);
 
-            // Second call
-            const user = await userService.getUserWithCache(1);
+@pytest.fixture
+def save_user_spy(api_client):
+    with patch.object(api_client, 'save_user', side_effect=lambda user_data: {**user_data, 'saved': True}) as spy:
+        yield spy
 
-            // API should only be called once
-            expect(fetchUserSpy).toHaveBeenCalledTimes(1);
-            expect(user.name).toBe('John Doe');
-        });
 
-        test('fetches different users separately', async () => {
-            await userService.getUserWithCache(1);
-            await userService.getUserWithCache(2);
+class TestGetUserWithCache:
+    def test_fetches_user_from_api_on_first_call(self, user_service, fetch_user_spy):
+        user = user_service.get_user_with_cache(1)
 
-            expect(fetchUserSpy).toHaveBeenCalledTimes(2);
-            expect(fetchUserSpy).toHaveBeenNthCalledWith(1, 1);
-            expect(fetchUserSpy).toHaveBeenNthCalledWith(2, 2);
-        });
+        fetch_user_spy.assert_called_once_with(1)
+        assert user == {'id': 1, 'name': 'John Doe', 'age': 30, 'email': 'john@example.com'}
 
-        test('clears cache properly', async () => {
-            await userService.getUserWithCache(1);
-            userService.clearCache();
-            await userService.getUserWithCache(1);
+    def test_returns_cached_user_on_second_call_without_fetching(self, user_service, fetch_user_spy):
+        # First call
+        user_service.get_user_with_cache(1)
 
-            // Should fetch twice since cache was cleared
-            expect(fetchUserSpy).toHaveBeenCalledTimes(2);
-        });
-    });
+        # Second call
+        user = user_service.get_user_with_cache(1)
 
-    describe('updateUserAge', () => {
-        test('fetches user, updates age, and saves', async () => {
-            const updatedUser = await userService.updateUserAge(1, 35);
+        # API should only be called once
+        assert fetch_user_spy.call_count == 1
+        assert user['name'] == 'John Doe'
 
-            expect(fetchUserSpy).toHaveBeenCalledWith(1);
-            expect(saveUserSpy).toHaveBeenCalledWith({
-                id: 1,
-                name: 'John Doe',
-                age: 35,
-                email: 'john@example.com'
-            });
-            expect(updatedUser.age).toBe(35);
-        });
+    def test_fetches_different_users_separately(self, user_service, fetch_user_spy):
+        user_service.get_user_with_cache(1)
+        user_service.get_user_with_cache(2)
 
-        test('throws error for negative age', async () => {
-            await expect(userService.updateUserAge(1, -5)).rejects.toThrow('Invalid age');
+        assert fetch_user_spy.call_args_list == [call(1), call(2)]
 
-            expect(saveUserSpy).not.toHaveBeenCalled();
-        });
+    def test_clears_cache_properly(self, user_service, fetch_user_spy):
+        user_service.get_user_with_cache(1)
+        user_service.clear_cache()
+        user_service.get_user_with_cache(1)
 
-        test('throws error for age over 150', async () => {
-            await expect(userService.updateUserAge(1, 200)).rejects.toThrow('Invalid age');
+        # Should fetch twice since cache was cleared
+        assert fetch_user_spy.call_count == 2
 
-            expect(saveUserSpy).not.toHaveBeenCalled();
-        });
 
-        test('updates cache after saving', async () => {
-            await userService.updateUserAge(1, 40);
+class TestUpdateUserAge:
+    def test_fetches_user_updates_age_and_saves(self, user_service, fetch_user_spy, save_user_spy):
+        updated_user = user_service.update_user_age(1, 35)
 
-            // Get user again - should use cached updated value
-            const user = await userService.getUserWithCache(1);
+        fetch_user_spy.assert_called_with(1)
+        save_user_spy.assert_called_with({'id': 1, 'name': 'John Doe', 'age': 35, 'email': 'john@example.com'})
+        assert updated_user['age'] == 35
 
-            // fetchUser should only be called once (during update)
-            expect(fetchUserSpy).toHaveBeenCalledTimes(1);
-            expect(user.age).toBe(40);
-        });
+    def test_raises_error_for_negative_age(self, user_service, fetch_user_spy, save_user_spy):
+        with pytest.raises(ValueError, match='Invalid age'):
+            user_service.update_user_age(1, -5)
 
-        test('uses cached user if available', async () => {
-            // Pre-populate cache
-            await userService.getUserWithCache(1);
+        save_user_spy.assert_not_called()
 
-            // Update age
-            await userService.updateUserAge(1, 45);
+    def test_raises_error_for_age_over_150(self, user_service, fetch_user_spy, save_user_spy):
+        with pytest.raises(ValueError, match='Invalid age'):
+            user_service.update_user_age(1, 200)
 
-            // Should still only fetch once (from first call)
-            expect(fetchUserSpy).toHaveBeenCalledTimes(1);
-            expect(saveUserSpy).toHaveBeenCalledTimes(1);
-        });
-    });
+        save_user_spy.assert_not_called()
 
-    describe('spy with different mock return values', () => {
-        test('handles API errors gracefully', async () => {
-            fetchUserSpy.mockRejectedValueOnce(new Error('Network error'));
+    def test_updates_cache_after_saving(self, user_service, fetch_user_spy, save_user_spy):
+        user_service.update_user_age(1, 40)
 
-            await expect(userService.getUserWithCache(1)).rejects.toThrow('Network error');
-        });
+        # Get user again - should use cached updated value
+        user = user_service.get_user_with_cache(1)
 
-        test('can mock different users for different IDs', async () => {
-            fetchUserSpy
-                .mockResolvedValueOnce({ id: 1, name: 'Alice', age: 25 })
-                .mockResolvedValueOnce({ id: 2, name: 'Bob', age: 30 });
+        # fetch_user should only be called once (during update)
+        assert fetch_user_spy.call_count == 1
+        assert user['age'] == 40
 
-            const user1 = await userService.getUserWithCache(1);
-            const user2 = await userService.getUserWithCache(2);
+    def test_uses_cached_user_if_available(self, user_service, fetch_user_spy, save_user_spy):
+        # Pre-populate cache
+        user_service.get_user_with_cache(1)
 
-            expect(user1.name).toBe('Alice');
-            expect(user2.name).toBe('Bob');
-        });
-    });
+        # Update age
+        user_service.update_user_age(1, 45)
 
-    // EXAMPLE EXPLAINING SPIES AND MOCKS AND SPIES + MOCKS
-    //
-    // describe('UserService - Using Mocked Spies', () => {
-    //     // Setup: Create spies and add mock implementations
-    //     fetchUserSpy = jest
-    //         .spyOn(apiClient, 'fetchUser')           // SPY: Watch the method
-    //         .mockImplementation((userId) => {        // MOCK: Fake the behavior
-    //             return Promise.resolve({ id: userId });
-    //         });
-    //
-    //     // Use SPY capabilities to verify behavior
-    //     test('verifies API call count', async () => {
-    //         await userService.getUserWithCache(1);
-    //         expect(fetchUserSpy).toHaveBeenCalledTimes(1);  // Using spy tracking
-    //     });
-    //
-    //     // Use MOCK capabilities to control output
-    //     test('returns controlled fake data', async () => {
-    //         const user = await userService.getUserWithCache(1);
-    //         expect(user.id).toBe(1);  // Got our mocked data, not real API
-    //     });
-    // });
-});
+        # Should still only fetch once (from first call)
+        assert fetch_user_spy.call_count == 1
+        assert save_user_spy.call_count == 1
 
-"""
+
+class TestSpyWithDifferentMockReturnValues:
+    def test_handles_api_errors_gracefully(self, user_service, fetch_user_spy):
+        fetch_user_spy.side_effect = ConnectionError('Network error')
+
+        with pytest.raises(ConnectionError, match='Network error'):
+            user_service.get_user_with_cache(1)
+
+    def test_can_mock_different_users_for_different_ids(self, user_service, fetch_user_spy):
+        fetch_user_spy.side_effect = [
+            {'id': 1, 'name': 'Alice', 'age': 25},
+            {'id': 2, 'name': 'Bob', 'age': 30},
+        ]
+
+        user1 = user_service.get_user_with_cache(1)
+        user2 = user_service.get_user_with_cache(2)
+
+        assert user1['name'] == 'Alice'
+        assert user2['name'] == 'Bob'

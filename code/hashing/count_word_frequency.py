@@ -1,20 +1,11 @@
-r"""TODO: port to Python.
+def count_word_frequency(sentence):
+    if not sentence or len(sentence.strip()) == 0:
+        return {}
 
-Original JavaScript (code/hashing/count-word-frequency.js):
+    counts = {}
+    words = sentence.lower().split()
 
-const countWordFrequency = sentence => {
-    if (!sentence || sentence.trim().length === 0) return {};
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
 
-    const map = {};
-    const words = sentence.toLowerCase().trim().split(/\s+/);
-
-    for (const word of words) {
-        map[word] = (map[word] || 0) + 1;
-    }
-
-    return map;
-};
-
-module.exports = countWordFrequency;
-
-"""
+    return counts

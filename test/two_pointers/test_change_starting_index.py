@@ -1,59 +1,54 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/two-pointers/change-starting-index.test.js):
+from code.two_pointers.change_starting_index import change_starting_index
 
-const changeStartingIndex = require('../../code/two-pointers/change-starting-index.js');
+# MOVE START OF INDEX FORWARDS IN ARRAY
+# CHANGE IS 3 => START GOES FROM INDEX 0 TO INDEX len(ARRAY) - 3
+#
+# RULES:
+# 1.) CHANGE HAS TO BE NUMBER
+# 2.) CHANGE HAS TO BE GREATER THAN ZERO
+# 3.) MUST HANDLE NULL AND EMPTY ARRAY
 
-// MOVE START OF INDEX FORWARDS IN ARRAY
-// CHANGE IS 3 => START GOES FROM INDEX 0 TO INDEX ARRAY.LENGTH - 3
-//
-// RULES:
-// 1.) CHANGE HAS TO BE NUMBER
-// 2.) CHANGE HAS TO BE GREATER THAN ZERO
-// 3.) MUST HANDLE NULL AND EMPTY ARRAY
 
-describe('verify change starting index function', () => {
-    test('given test case', () => {
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 2)).toStrictEqual([3, 4, 5, 6, 7, 1, 2]);
-    });
+def test_given_test_case():
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 2) == [3, 4, 5, 6, 7, 1, 2]
 
-    test('another test case', () => {
-        expect(changeStartingIndex([7, 1, 2, 3, 4, 5, 6], 6)).toStrictEqual([6, 7, 1, 2, 3, 4, 5]);
-    });
 
-    test('when array is unordered', () => {
-        expect(changeStartingIndex([3, 4, 5, 6, 7, 1, 2], 2)).toStrictEqual([5, 6, 7, 1, 2, 3, 4]);
-    });
+def test_another_test_case():
+    assert change_starting_index([7, 1, 2, 3, 4, 5, 6], 6) == [6, 7, 1, 2, 3, 4, 5]
 
-    test('with small array', () => {
-        expect(changeStartingIndex([1, 2], 1)).toStrictEqual([2, 1]);
-    });
 
-    test('when starting index loops array many times', () => {
-        expect(changeStartingIndex([1, 2], 8)).toStrictEqual([1, 2]);
-    });
+def test_when_array_is_unordered():
+    assert change_starting_index([3, 4, 5, 6, 7, 1, 2], 2) == [5, 6, 7, 1, 2, 3, 4]
 
-    test('when the starting index is zero', () => {
-        expect(changeStartingIndex([1, 2], 0)).toStrictEqual([1, 2]);
-    });
 
-    test('when the array is empty', () => {
-        expect(changeStartingIndex([], 3)).toStrictEqual([]);
-    });
+def test_with_small_array():
+    assert change_starting_index([1, 2], 1) == [2, 1]
 
-    test('should throw an error when negative integer used', () => {
-        expect(() => changeStartingIndex([1, 2, 3, 4, 5, 6, 7], -1)).toThrow('change must be an positive integer');
-    });
 
-    test('every iteration', () => {
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 1)).toStrictEqual([2, 3, 4, 5, 6, 7, 1]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 2)).toStrictEqual([3, 4, 5, 6, 7, 1, 2]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 3)).toStrictEqual([4, 5, 6, 7, 1, 2, 3]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 4)).toStrictEqual([5, 6, 7, 1, 2, 3, 4]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 5)).toStrictEqual([6, 7, 1, 2, 3, 4, 5]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 6)).toStrictEqual([7, 1, 2, 3, 4, 5, 6]);
-        expect(changeStartingIndex([1, 2, 3, 4, 5, 6, 7], 7)).toStrictEqual([1, 2, 3, 4, 5, 6, 7]);
-    });
-});
+def test_when_starting_index_loops_array_many_times():
+    assert change_starting_index([1, 2], 8) == [1, 2]
 
-"""
+
+def test_when_the_starting_index_is_zero():
+    assert change_starting_index([1, 2], 0) == [1, 2]
+
+
+def test_when_the_array_is_empty():
+    assert change_starting_index([], 3) == []
+
+
+def test_should_raise_an_error_when_negative_integer_used():
+    with pytest.raises(ValueError, match='change must be an positive integer'):
+        change_starting_index([1, 2, 3, 4, 5, 6, 7], -1)
+
+
+def test_every_iteration():
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 1) == [2, 3, 4, 5, 6, 7, 1]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 2) == [3, 4, 5, 6, 7, 1, 2]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 3) == [4, 5, 6, 7, 1, 2, 3]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 4) == [5, 6, 7, 1, 2, 3, 4]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 5) == [6, 7, 1, 2, 3, 4, 5]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 6) == [7, 1, 2, 3, 4, 5, 6]
+    assert change_starting_index([1, 2, 3, 4, 5, 6, 7], 7) == [1, 2, 3, 4, 5, 6, 7]

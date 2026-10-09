@@ -1,22 +1,11 @@
-r"""TODO: port to Python.
+def two_number_sum_using_set(numbers, target_sum):
+    seen = set()
+    results = []
 
-Original JavaScript (code/hashing/two-number-sum-set.js):
+    for number in numbers:
+        match = target_sum - number
+        if match in seen:
+            results.append([match, number])
+        seen.add(number)
 
-function twoNumberSumUsingSet(numbers, targetSum) {
-    const seen = new Set();
-    const results = [];
-
-    for (const number of numbers) {
-        const match = targetSum - number;
-        if (seen.has(match)) {
-            results.push([match, number]);
-        }
-        seen.add(number);
-    }
-
-    return results;
-}
-
-module.exports = twoNumberSumUsingSet;
-
-"""
+    return results

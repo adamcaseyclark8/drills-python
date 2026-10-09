@@ -1,58 +1,47 @@
-r"""TODO: port to Python.
+from code.hashing.find_grouped_anagrams import find_grouped_anagrams
 
-Original JavaScript (test/hashing/find-grouped-anagrams.test.js):
 
-const findGroupedAnagrams = require('../../code/hashing/find-grouped-anagrams.js');
+def sort_grouped_anagrams(output):
+    # Helper to normalize output for test comparison
+    return sorted((sorted(group) for group in output), key=lambda group: group[0])
 
-function sortGroupedAnagrams(output) {
-    // Helper to normalize output for test comparison
-    return output.map(group => group.sort()).sort((a, b) => a[0].localeCompare(b[0]));
-}
 
-describe('find grouped anagrams tests', () => {
-    test('groups basic anagrams together', () => {
-        const expected = [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']];
+def test_groups_basic_anagrams_together():
+    expected = [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']]
+    result = find_grouped_anagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat'])
+    assert sort_grouped_anagrams(result) == sort_grouped_anagrams(expected)
 
-        const result = findGroupedAnagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat']);
-        expect(sortGroupedAnagrams(result)).toEqual(sortGroupedAnagrams(expected));
-    });
 
-    test('returns empty array when input is empty', () => {
-        expect(findGroupedAnagrams([])).toEqual([]);
-    });
+def test_returns_empty_array_when_input_is_empty():
+    assert find_grouped_anagrams([]) == []
 
-    test('no anagrams', () => {
-        const result = findGroupedAnagrams(['cat', 'dog', 'bird']);
-        expect(result).toEqual(expect.arrayContaining([['cat'], ['dog'], ['bird']]));
-    });
 
-    test('handles single word input', () => {
-        expect(findGroupedAnagrams(['abc'])).toEqual([['abc']]);
-    });
+def test_no_anagrams():
+    result = find_grouped_anagrams(['cat', 'dog', 'bird'])
+    for group in [['cat'], ['dog'], ['bird']]:
+        assert group in result
 
-    test('handles all identical strings', () => {
-        const input = ['aaa', 'aaa', 'aaa'];
-        const expected = [['aaa', 'aaa', 'aaa']];
-        expect(findGroupedAnagrams(input)).toEqual(expected);
-    });
 
-    test('all same anagram group', () => {
-        const result = findGroupedAnagrams(['abc', 'bca', 'cab']);
-        expect(result).toHaveLength(1);
-        expect(result[0]).toEqual(expect.arrayContaining(['abc', 'bca', 'cab']));
-    });
+def test_handles_single_word_input():
+    assert find_grouped_anagrams(['abc']) == [['abc']]
 
-    test('treats words with different lengths as non-anagrams', () => {
-        const input = ['ab', 'abc', 'a'];
-        const expected = [['ab'], ['abc'], ['a']];
-        expect(sortGroupedAnagrams(findGroupedAnagrams(input))).toEqual(sortGroupedAnagrams(expected));
-    });
 
-    test('handles mix of anagrams and non-anagrams', () => {
-        const input = ['listen', 'silent', 'enlist', 'google', 'gooegl', 'abc'];
-        const expected = [['abc'], ['enlist', 'listen', 'silent'], ['google', 'gooegl']];
-        expect(sortGroupedAnagrams(findGroupedAnagrams(input))).toEqual(sortGroupedAnagrams(expected));
-    });
-});
+def test_handles_all_identical_strings():
+    assert find_grouped_anagrams(['aaa', 'aaa', 'aaa']) == [['aaa', 'aaa', 'aaa']]
 
-"""
+
+def test_all_same_anagram_group():
+    result = find_grouped_anagrams(['abc', 'bca', 'cab'])
+    assert len(result) == 1
+    assert sorted(result[0]) == ['abc', 'bca', 'cab']
+
+
+def test_treats_words_with_different_lengths_as_non_anagrams():
+    expected = [['ab'], ['abc'], ['a']]
+    assert sort_grouped_anagrams(find_grouped_anagrams(['ab', 'abc', 'a'])) == sort_grouped_anagrams(expected)
+
+
+def test_handles_mix_of_anagrams_and_non_anagrams():
+    words = ['listen', 'silent', 'enlist', 'google', 'gooegl', 'abc']
+    expected = [['abc'], ['enlist', 'listen', 'silent'], ['google', 'gooegl']]
+    assert sort_grouped_anagrams(find_grouped_anagrams(words)) == sort_grouped_anagrams(expected)

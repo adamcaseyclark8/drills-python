@@ -1,23 +1,12 @@
-r"""TODO: port to Python.
+def find_two_highest_values(numbers):
+    highest = float('-inf')
+    second = float('-inf')
 
-Original JavaScript (code/arrays/find-two-highest-values.js):
+    for number in numbers:
+        if number > highest:
+            second = highest
+            highest = number
+        elif number > second:
+            second = number
 
-const findTwoHighestValues = numbers => {
-    let highest = -Infinity;
-    let second = -Infinity;
-
-    for (let number of numbers) {
-        if (number > highest) {
-            second = highest;
-            highest = number;
-        } else if (number > second) {
-            second = number;
-        }
-    }
-
-    return [highest, second];
-};
-
-module.exports = findTwoHighestValues;
-
-"""
+    return [highest, second]

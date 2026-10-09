@@ -1,69 +1,42 @@
-r"""TODO: port to Python.
+from code.hashing.count_word_frequency import count_word_frequency
 
-Original JavaScript (test/hashing/count-word-frequency.test.js):
 
-const countWordFrequency = require('../../code/hashing/count-word-frequency.js');
+class TestBasicCounting:
+    def test_counts_single_word_occurrences(self):
+        assert count_word_frequency('the cat sat on the mat the cat') == {
+            'the': 3,
+            'cat': 2,
+            'sat': 1,
+            'on': 1,
+            'mat': 1,
+        }
 
-describe('countWordFrequency', () => {
-    describe('basic counting', () => {
-        test('counts single word occurrences', () => {
-            expect(countWordFrequency('the cat sat on the mat the cat')).toEqual({
-                the: 3,
-                cat: 2,
-                sat: 1,
-                on: 1,
-                mat: 1
-            });
-        });
+    def test_counts_single_word(self):
+        assert count_word_frequency('hello') == {'hello': 1}
 
-        test('counts single word', () => {
-            expect(countWordFrequency('hello')).toEqual({ hello: 1 });
-        });
+    def test_counts_all_unique_words(self):
+        assert count_word_frequency('one two three') == {'one': 1, 'two': 1, 'three': 1}
 
-        test('counts all unique words', () => {
-            expect(countWordFrequency('one two three')).toEqual({
-                one: 1,
-                two: 1,
-                three: 1
-            });
-        });
-    });
 
-    describe('case insensitivity', () => {
-        test('treats uppercase and lowercase as the same word', () => {
-            expect(countWordFrequency('The the THE')).toEqual({ the: 3 });
-        });
-    });
+class TestCaseInsensitivity:
+    def test_treats_uppercase_and_lowercase_as_the_same_word(self):
+        assert count_word_frequency('The the THE') == {'the': 3}
 
-    describe('whitespace handling', () => {
-        test('handles multiple spaces between words', () => {
-            expect(countWordFrequency('hello   world')).toEqual({
-                hello: 1,
-                world: 1
-            });
-        });
 
-        test('handles leading and trailing spaces', () => {
-            expect(countWordFrequency('  hello world  ')).toEqual({
-                hello: 1,
-                world: 1
-            });
-        });
-    });
+class TestWhitespaceHandling:
+    def test_handles_multiple_spaces_between_words(self):
+        assert count_word_frequency('hello   world') == {'hello': 1, 'world': 1}
 
-    describe('edge cases', () => {
-        test('returns empty object for empty string', () => {
-            expect(countWordFrequency('')).toEqual({});
-        });
+    def test_handles_leading_and_trailing_spaces(self):
+        assert count_word_frequency('  hello world  ') == {'hello': 1, 'world': 1}
 
-        test('returns empty object for null', () => {
-            expect(countWordFrequency(null)).toEqual({});
-        });
 
-        test('returns empty object for whitespace only', () => {
-            expect(countWordFrequency('   ')).toEqual({});
-        });
-    });
-});
+class TestEdgeCases:
+    def test_returns_empty_dict_for_empty_string(self):
+        assert count_word_frequency('') == {}
 
-"""
+    def test_returns_empty_dict_for_none(self):
+        assert count_word_frequency(None) == {}
+
+    def test_returns_empty_dict_for_whitespace_only(self):
+        assert count_word_frequency('   ') == {}

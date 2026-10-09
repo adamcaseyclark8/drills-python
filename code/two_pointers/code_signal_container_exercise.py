@@ -1,71 +1,38 @@
-r"""TODO: port to Python.
+def code_signal_container_exercise(queries):
+    value_set = set()
+    values = []
+    results = []
 
-Original JavaScript (code/two-pointers/code-signal-container-exercise.js):
+    for operation, value_str in queries:
+        value = int(value_str)
 
-const codeSignalContainerExercise = queries => {
-    const valueSet = new Set();
-    const values = [];
-    const results = [];
-
-    for (let i = 0; i < queries.length; i++) {
-        const [operation, valueStr] = queries[i];
-        const value = parseInt(valueStr);
-
-        switch (operation) {
-            case 'ADD': {
-                if (!valueSet.has(value)) {
-                    valueSet.add(value);
-                    let inserted = false;
-                    for (let j = 0; j < values.length; j++) {
-                        if (values[j] > value) {
-                            values.splice(j, 0, value);
-                            inserted = true;
-                            break;
-                        }
-                    }
-                    if (!inserted) {
-                        values.push(value);
-                    }
-                }
-                results.push('');
-                break;
-            }
-            case 'REMOVE': {
-                const existed = valueSet.has(value);
-                if (existed) {
-                    valueSet.delete(value);
-                    const index = values.indexOf(value);
-                    if (index !== -1) {
-                        values.splice(index, 1);
-                    }
-                }
-                results.push(existed.toString());
-                break;
-            }
-            case 'EXISTS': {
-                results.push(valueSet.has(value).toString());
-                break;
-            }
-            case 'NEXT_UP': {
-                let nextValue = '';
-                for (let j = 0; j < values.length; j++) {
-                    if (values[j] > value) {
-                        nextValue = values[j].toString();
-                        break;
-                    }
-                }
-                results.push(nextValue);
-                break;
-            }
-            default: {
-                results.push('');
-                break;
-            }
-        }
-    }
-    return results;
-};
-
-module.exports = codeSignalContainerExercise;
-
-"""
+        if operation == 'ADD':
+            if value not in value_set:
+                value_set.add(value)
+                inserted = False
+                for j in range(len(values)):
+                    if values[j] > value:
+                        values.insert(j, value)
+                        inserted = True
+                        break
+                if not inserted:
+                    values.append(value)
+            results.append('')
+        elif operation == 'REMOVE':
+            existed = value in value_set
+            if existed:
+                value_set.remove(value)
+                values.remove(value)
+            results.append(str(existed).lower())
+        elif operation == 'EXISTS':
+            results.append(str(value in value_set).lower())
+        elif operation == 'NEXT_UP':
+            next_value = ''
+            for candidate in values:
+                if candidate > value:
+                    next_value = str(candidate)
+                    break
+            results.append(next_value)
+        else:
+            results.append('')
+    return results

@@ -1,97 +1,79 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/reimplementation/assertion-utils.test.js):
+from code.reimplementation.assertion_utils import AssertionUtils
 
-const { AssertionUtils } = require('../../code/reimplementation/assertion-utils.js');
 
-describe('Assertion Utils Tests', () => {
-    describe('assertEquals', () => {
-        test('passes when values are equal', () => {
-            expect(() => AssertionUtils.assertEquals('Adam', 'Adam', 'Names match')).not.toThrow();
-        });
+class TestAssertEquals:
+    def test_passes_when_values_are_equal(self):
+        AssertionUtils.assert_equals('Adam', 'Adam', 'Names match')
 
-        test('throws when values are not equal', () => {
-            expect(() => AssertionUtils.assertEquals('cat', 'dog', 'Should fail')).toThrow('FAIL');
-        });
-    });
+    def test_raises_when_values_are_not_equal(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_equals('cat', 'dog', 'Should fail')
 
-    describe('assertTrue', () => {
-        test('passes when condition is true', () => {
-            expect(() => AssertionUtils.assertTrue(5 > 3, '5 is greater than 3')).not.toThrow();
-        });
 
-        test('throws when condition is false', () => {
-            expect(() => AssertionUtils.assertTrue(2 > 10, 'Should fail')).toThrow('FAIL');
-        });
-    });
+class TestAssertTrue:
+    def test_passes_when_condition_is_true(self):
+        AssertionUtils.assert_true(5 > 3, '5 is greater than 3')
 
-    describe('assertFalse', () => {
-        test('passes when condition is false', () => {
-            expect(() => AssertionUtils.assertFalse(2 > 10, '2 is not greater than 10')).not.toThrow();
-        });
+    def test_raises_when_condition_is_false(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_true(2 > 10, 'Should fail')
 
-        test('throws when condition is true', () => {
-            expect(() => AssertionUtils.assertFalse(5 > 3, 'Should fail')).toThrow('FAIL');
-        });
-    });
 
-    describe('assertNull', () => {
-        test('passes when value is null', () => {
-            expect(() => AssertionUtils.assertIsNull(null, 'Value is null')).not.toThrow();
-        });
+class TestAssertFalse:
+    def test_passes_when_condition_is_false(self):
+        AssertionUtils.assert_false(2 > 10, '2 is not greater than 10')
 
-        test('passes when value is undefined', () => {
-            expect(() => AssertionUtils.assertIsNull(undefined, 'Value is undefined')).not.toThrow();
-        });
+    def test_raises_when_condition_is_true(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_false(5 > 3, 'Should fail')
 
-        test('throws when value is not null', () => {
-            expect(() => AssertionUtils.assertIsNull('hello', 'Should fail')).toThrow('FAIL');
-        });
-    });
 
-    describe('assertNotNull', () => {
-        test('passes when value is not null', () => {
-            expect(() => AssertionUtils.assertIsNotNull('hello', 'Value is not null')).not.toThrow();
-        });
+class TestAssertIsNone:
+    def test_passes_when_value_is_none(self):
+        AssertionUtils.assert_is_none(None, 'Value is None')
 
-        test('throws when value is null', () => {
-            expect(() => AssertionUtils.assertIsNotNull(null, 'Should fail')).toThrow('FAIL');
-        });
-    });
+    def test_raises_when_value_is_not_none(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_is_none('hello', 'Should fail')
 
-    describe('assertNotEquals', () => {
-        test('passes when values are not equal', () => {
-            expect(() => AssertionUtils.assertNotEquals('cat', 'dog', 'Values differ')).not.toThrow();
-        });
 
-        test('throws when values are equal', () => {
-            expect(() => AssertionUtils.assertNotEquals('cat', 'cat', 'Should fail')).toThrow('FAIL');
-        });
-    });
+class TestAssertIsNotNone:
+    def test_passes_when_value_is_not_none(self):
+        AssertionUtils.assert_is_not_none('hello', 'Value is not None')
 
-    describe('assertContains', () => {
-        test('passes when string contains substring', () => {
-            expect(() => AssertionUtils.assertContains('hello world', 'world', 'Contains world')).not.toThrow();
-        });
+    def test_raises_when_value_is_none(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_is_not_none(None, 'Should fail')
 
-        test('throws when string does not contain substring', () => {
-            expect(() => AssertionUtils.assertContains('hello world', 'cats', 'Should fail')).toThrow('FAIL');
-        });
-    });
 
-    describe('assertArrayEquals', () => {
-        test('passes when arrays are equal', () => {
-            expect(() => AssertionUtils.assertArrayEquals([1, 2, 3], [1, 2, 3], 'Arrays match')).not.toThrow();
-        });
+class TestAssertNotEquals:
+    def test_passes_when_values_are_not_equal(self):
+        AssertionUtils.assert_not_equals('cat', 'dog', 'Values differ')
 
-        test('throws when array lengths differ', () => {
-            expect(() => AssertionUtils.assertArrayEquals([1, 2], [1, 2, 3], 'Should fail')).toThrow('FAIL');
-        });
+    def test_raises_when_values_are_equal(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_not_equals('cat', 'cat', 'Should fail')
 
-        test('throws when array values differ', () => {
-            expect(() => AssertionUtils.assertArrayEquals([1, 2, 3], [1, 2, 9], 'Should fail')).toThrow('FAIL');
-        });
-    });
-});
 
-"""
+class TestAssertContains:
+    def test_passes_when_string_contains_substring(self):
+        AssertionUtils.assert_contains('hello world', 'world', 'Contains world')
+
+    def test_raises_when_string_does_not_contain_substring(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_contains('hello world', 'cats', 'Should fail')
+
+
+class TestAssertArrayEquals:
+    def test_passes_when_arrays_are_equal(self):
+        AssertionUtils.assert_array_equals([1, 2, 3], [1, 2, 3], 'Arrays match')
+
+    def test_raises_when_array_lengths_differ(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_array_equals([1, 2], [1, 2, 3], 'Should fail')
+
+    def test_raises_when_array_values_differ(self):
+        with pytest.raises(AssertionError, match='FAIL'):
+            AssertionUtils.assert_array_equals([1, 2, 3], [1, 2, 9], 'Should fail')

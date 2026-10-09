@@ -1,91 +1,32 @@
-r"""TODO: port to Python.
+from code.heap.k_closest_points_to_origin import find_k_closest_points_to_origin
 
-Original JavaScript (test/heap/k-closest-points-to-origin.test.js):
 
-const findKClosestPointsToOrigin = require('../../code/heap/k-closest-points-to-origin');
+def test_basic_case_k_1():
+    assert find_k_closest_points_to_origin([[1, 3], [-2, 2]], 1) == [[-2, 2]]
 
-describe('find k closest points to origin', () => {
-    test('basic case - k=1', () => {
-        expect(
-            findKClosestPointsToOrigin(
-                [
-                    [1, 3],
-                    [-2, 2]
-                ],
-                1
-            )
-        ).toEqual([[-2, 2]]);
-    });
 
-    test('basic case - k=2', () => {
-        const result = findKClosestPointsToOrigin(
-            [
-                [3, 3],
-                [5, -1],
-                [-2, 4]
-            ],
-            2
-        );
-        expect(result).toHaveLength(2);
-        expect(result).toContainEqual([3, 3]);
-        expect(result).toContainEqual([-2, 4]);
-    });
+def test_basic_case_k_2():
+    result = find_k_closest_points_to_origin([[3, 3], [5, -1], [-2, 4]], 2)
+    assert len(result) == 2
+    assert [3, 3] in result
+    assert [-2, 4] in result
 
-    test('k equals total number of points', () => {
-        const points = [
-            [1, 1],
-            [2, 2],
-            [3, 3]
-        ];
-        expect(findKClosestPointsToOrigin(points, 3)).toHaveLength(3);
-    });
 
-    test('point at origin is always closest', () => {
-        const result = findKClosestPointsToOrigin(
-            [
-                [0, 0],
-                [1, 1],
-                [2, 2]
-            ],
-            1
-        );
-        expect(result).toEqual([[0, 0]]);
-    });
+def test_k_equals_total_number_of_points():
+    assert len(find_k_closest_points_to_origin([[1, 1], [2, 2], [3, 3]], 3)) == 3
 
-    test('negative coordinates', () => {
-        const result = findKClosestPointsToOrigin(
-            [
-                [-1, -1],
-                [-5, -5],
-                [0, 1]
-            ],
-            1
-        );
-        expect(result).toContainEqual([0, 1]);
-    });
 
-    test('points equidistant - returns k of them', () => {
-        const result = findKClosestPointsToOrigin(
-            [
-                [1, 0],
-                [0, 1],
-                [-1, 0],
-                [0, -1]
-            ],
-            2
-        );
-        expect(result).toHaveLength(2);
-    });
+def test_point_at_origin_is_always_closest():
+    assert find_k_closest_points_to_origin([[0, 0], [1, 1], [2, 2]], 1) == [[0, 0]]
 
-    test('large k', () => {
-        const points = [
-            [1, 2],
-            [3, 4],
-            [5, 6],
-            [0, 1]
-        ];
-        expect(findKClosestPointsToOrigin(points, 4)).toHaveLength(4);
-    });
-});
 
-"""
+def test_negative_coordinates():
+    assert [0, 1] in find_k_closest_points_to_origin([[-1, -1], [-5, -5], [0, 1]], 1)
+
+
+def test_points_equidistant_returns_k_of_them():
+    assert len(find_k_closest_points_to_origin([[1, 0], [0, 1], [-1, 0], [0, -1]], 2)) == 2
+
+
+def test_large_k():
+    assert len(find_k_closest_points_to_origin([[1, 2], [3, 4], [5, 6], [0, 1]], 4)) == 4

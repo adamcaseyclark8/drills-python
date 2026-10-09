@@ -1,53 +1,41 @@
-r"""TODO: port to Python.
+from code.sliding_window.buy_sell_stock import best_time_to_buy_or_sell_stock
 
-Original JavaScript (test/sliding-window/buy-sell-stock.test.js):
 
-const bestTimeToBuyOrSellStock = require('../../code/sliding-window/buy-sell-stock.js');
+def test_misc_scenario():
+    assert best_time_to_buy_or_sell_stock([7, 1, 5, 3, 6, 4]) == 5  # Buy at 1, sell at 6
 
-describe('verify best time to buy sell stock', () => {
-    test('misc scenario', () => {
-        expect(bestTimeToBuyOrSellStock([7, 1, 5, 3, 6, 4])).toBe(5);
-    });
 
-    test('Example case: increasing prices', () => {
-        expect(bestTimeToBuyOrSellStock([7, 1, 5, 3, 6, 4])).toBe(5); // Buy at 1, sell at 6
-    });
+def test_decreasing_prices():
+    assert best_time_to_buy_or_sell_stock([7, 6, 4, 3, 1]) == 0  # No profit possible
 
-    test('Example case: decreasing prices', () => {
-        expect(bestTimeToBuyOrSellStock([7, 6, 4, 3, 1])).toBe(0); // No profit possible
-    });
 
-    test('Empty array', () => {
-        expect(bestTimeToBuyOrSellStock([])).toBe(0);
-    });
+def test_empty_array():
+    assert best_time_to_buy_or_sell_stock([]) == 0
 
-    test('Single day price', () => {
-        expect(bestTimeToBuyOrSellStock([5])).toBe(0); // Cannot sell
-    });
 
-    test('Prices remain constant', () => {
-        expect(bestTimeToBuyOrSellStock([3, 3, 3, 3, 3])).toBe(0);
-    });
+def test_single_day_price():
+    assert best_time_to_buy_or_sell_stock([5]) == 0  # Cannot sell
 
-    test('Large profit late in array', () => {
-        expect(bestTimeToBuyOrSellStock([10, 2, 1, 5, 6, 20])).toBe(19); // Buy at 1, sell at 20
-    });
 
-    test('Profit happens after multiple drops', () => {
-        expect(bestTimeToBuyOrSellStock([9, 7, 4, 1, 5, 8])).toBe(7); // Buy at 1, sell at 8
-    });
+def test_prices_remain_constant():
+    assert best_time_to_buy_or_sell_stock([3, 3, 3, 3, 3]) == 0
 
-    test('Two elements increasing', () => {
-        expect(bestTimeToBuyOrSellStock([2, 4])).toBe(2);
-    });
 
-    test('Two elements decreasing', () => {
-        expect(bestTimeToBuyOrSellStock([5, 3])).toBe(0);
-    });
+def test_large_profit_late_in_array():
+    assert best_time_to_buy_or_sell_stock([10, 2, 1, 5, 6, 20]) == 19  # Buy at 1, sell at 20
 
-    test('Multiple peaks and valleys', () => {
-        expect(bestTimeToBuyOrSellStock([3, 2, 6, 1, 4])).toBe(4); // Buy at 2, sell at 6
-    });
-});
 
-"""
+def test_profit_happens_after_multiple_drops():
+    assert best_time_to_buy_or_sell_stock([9, 7, 4, 1, 5, 8]) == 7  # Buy at 1, sell at 8
+
+
+def test_two_elements_increasing():
+    assert best_time_to_buy_or_sell_stock([2, 4]) == 2
+
+
+def test_two_elements_decreasing():
+    assert best_time_to_buy_or_sell_stock([5, 3]) == 0
+
+
+def test_multiple_peaks_and_valleys():
+    assert best_time_to_buy_or_sell_stock([3, 2, 6, 1, 4]) == 4  # Buy at 2, sell at 6

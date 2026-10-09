@@ -1,24 +1,15 @@
-r"""TODO: port to Python.
+def detect_loop_in_a_linked_list(head):
+    seen = set()
 
-Original JavaScript (code/linked-lists/detect-loop-in-a-linked-list.js):
+    while head is not None:
+        # if this node is already present
+        # in hashmap it means there is a cycle
+        if head in seen:
+            return True
 
-const detectLoopInALinkedList = head => {
-    const set = new Set();
+        # if we are seeing the node for
+        # the first time, insert it in hash
+        seen.add(head)
 
-    while (head !== null) {
-        // if this node is already present
-        // in hashmap it means there is a cycle
-        if (set.has(head)) return true;
-
-        // if we are seeing the node for
-        // the first time, insert it in hash
-        set.add(head);
-
-        head = head.next;
-    }
-    return false;
-};
-
-module.exports = detectLoopInALinkedList;
-
-"""
+        head = head.next
+    return False

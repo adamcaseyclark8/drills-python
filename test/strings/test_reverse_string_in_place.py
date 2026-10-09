@@ -1,29 +1,21 @@
-r"""TODO: port to Python.
+from code.strings.reverse_string_in_place import reverse_string_in_place
 
-Original JavaScript (test/strings/reverse-string-in-place.test.js):
 
-const reverseStringInPlace = require('../../code/strings/reverse-string-in-place.js');
+def test_standard_example():
+    assert reverse_string_in_place('not of this world') == 'dlrow siht fo ton'
 
-describe('verify reverse string in place', () => {
-    test('standard example ', () => {
-        expect(reverseStringInPlace('not of this world')).toBe('dlrow siht fo ton');
-    });
 
-    test('another standard example', () => {
-        expect(reverseStringInPlace('hello')).toBe('olleh');
-    });
+def test_another_standard_example():
+    assert reverse_string_in_place('hello') == 'olleh'
 
-    test('yet another standard example', () => {
-        expect(reverseStringInPlace('Howdy')).toBe('ydwoH');
-    });
 
-    test('string with spaces', () => {
-        expect(reverseStringInPlace('Greetings from Earth')).toBe('htraE morf sgniteerG');
-    });
+def test_yet_another_standard_example():
+    assert reverse_string_in_place('Howdy') == 'ydwoH'
 
-    test('string with one character', () => {
-        expect(reverseStringInPlace('b')).toBe('b');
-    });
-});
 
-"""
+def test_string_with_spaces():
+    assert reverse_string_in_place('Greetings from Earth') == 'htraE morf sgniteerG'
+
+
+def test_string_with_one_character():
+    assert reverse_string_in_place('b') == 'b'

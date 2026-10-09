@@ -1,22 +1,11 @@
-r"""TODO: port to Python.
+def best_time_to_buy_sell_stock(numbers):
+    min_price = float('inf')
+    result = 0
 
-Original JavaScript (code/greedy/best-time-to-buy-sell-stock.js):
+    for number in numbers:
+        if number < min_price:
+            min_price = number
+        elif number - min_price > result:
+            result = number - min_price
 
-const bestTimeToBuySellStock = numbers => {
-    let minPrice = Infinity;
-    let result = 0;
-
-    for (let i = 0; i < numbers.length; i++) {
-        if (numbers[i] < minPrice) {
-            minPrice = numbers[i];
-        } else if (numbers[i] - minPrice > result) {
-            result = numbers[i] - minPrice;
-        }
-    }
-
-    return result;
-};
-
-module.exports = bestTimeToBuySellStock;
-
-"""
+    return result

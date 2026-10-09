@@ -1,29 +1,20 @@
-r"""TODO: port to Python.
+import re
 
-Original JavaScript (code/two-pointers/verify-valid-palindrome.js):
 
-const verifyValidPalindrome = s => {
-    // Clean the string: remove non-alphanumeric chars and lowercase
-    if (s.length === 0 || !s) {
-        return false;
-    }
+def verify_valid_palindrome(s):
+    if not s:
+        return False
 
-    const cleaned = s.replace(/[^0-9a-zA-Z]/g, '').toLowerCase();
+    # Clean the string: remove non-alphanumeric chars and lowercase
+    cleaned = re.sub(r'[^0-9a-zA-Z]', '', s).lower()
 
-    let left = 0;
-    let right = cleaned.length - 1;
+    left = 0
+    right = len(cleaned) - 1
 
-    while (left < right) {
-        if (cleaned[left] !== cleaned[right]) {
-            return false;
-        }
-        left++;
-        right--;
-    }
+    while left < right:
+        if cleaned[left] != cleaned[right]:
+            return False
+        left += 1
+        right -= 1
 
-    return true;
-};
-
-module.exports = verifyValidPalindrome;
-
-"""
+    return True

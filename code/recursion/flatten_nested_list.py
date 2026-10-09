@@ -1,24 +1,12 @@
-r"""TODO: port to Python.
+def flatten_nested_list(arr):
+    result = []
 
-Original JavaScript (code/recursion/flatten-nested-list.js):
+    def flatten(items):
+        for item in items:
+            if isinstance(item, list):
+                flatten(item)
+            else:
+                result.append(item)
 
-const flattenNestedList = arr => {
-    const result = [];
-
-    const flatten = input => {
-        for (const item of input) {
-            if (Array.isArray(item)) {
-                flatten(item);
-            } else {
-                result.push(item);
-            }
-        }
-    };
-
-    flatten(arr);
-    return result;
-};
-
-module.exports = flattenNestedList;
-
-"""
+    flatten(arr)
+    return result

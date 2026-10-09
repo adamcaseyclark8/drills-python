@@ -1,68 +1,39 @@
-r"""TODO: port to Python.
+from code.linked_lists.find_middle_node_of_list import build_list, find_middle_node, list_to_array
 
-Original JavaScript (test/linked-lists/find-middle-node-of-list.test.js):
 
-// solution.test.js
+class TestOddLengthLists:
+    def test_1_2_3_middle_is_2(self):
+        assert find_middle_node(build_list([1, 2, 3])).val == 2
 
-const { findMiddleNode, buildList, listToArray } = require('../../code/linked-lists/find-middle-node-of-list.js');
+    def test_1_2_3_4_5_middle_is_3(self):
+        assert find_middle_node(build_list([1, 2, 3, 4, 5])).val == 3
 
-describe('findMiddleNode', () => {
-    describe('odd length lists', () => {
-        test('[1, 2, 3] → middle is 2', () => {
-            const result = findMiddleNode(buildList([1, 2, 3]));
-            expect(result.val).toBe(2);
-        });
+    def test_10_to_70_middle_is_40(self):
+        assert find_middle_node(build_list([10, 20, 30, 40, 50, 60, 70])).val == 40
 
-        test('[1, 2, 3, 4, 5] → middle is 3', () => {
-            const result = findMiddleNode(buildList([1, 2, 3, 4, 5]));
-            expect(result.val).toBe(3);
-        });
 
-        test('[10, 20, 30, 40, 50, 60, 70] → middle is 40', () => {
-            const result = findMiddleNode(buildList([10, 20, 30, 40, 50, 60, 70]));
-            expect(result.val).toBe(40);
-        });
-    });
+class TestEvenLengthListsReturnsSecondMiddleNode:
+    def test_1_2_middle_is_2(self):
+        assert find_middle_node(build_list([1, 2])).val == 2
 
-    describe('even length lists — returns second middle node', () => {
-        test('[1, 2] → middle is 2', () => {
-            const result = findMiddleNode(buildList([1, 2]));
-            expect(result.val).toBe(2);
-        });
+    def test_1_2_3_4_middle_is_3(self):
+        assert find_middle_node(build_list([1, 2, 3, 4])).val == 3
 
-        test('[1, 2, 3, 4] → middle is 3', () => {
-            const result = findMiddleNode(buildList([1, 2, 3, 4]));
-            expect(result.val).toBe(3);
-        });
+    def test_1_2_3_4_5_6_middle_is_4(self):
+        assert find_middle_node(build_list([1, 2, 3, 4, 5, 6])).val == 4
 
-        test('[1, 2, 3, 4, 5, 6] → middle is 4', () => {
-            const result = findMiddleNode(buildList([1, 2, 3, 4, 5, 6]));
-            expect(result.val).toBe(4);
-        });
-    });
 
-    describe('the returned node still points to the rest of the list', () => {
-        test('[1, 2, 3, 4, 5] → middle node tail is [3, 4, 5]', () => {
-            const result = findMiddleNode(buildList([1, 2, 3, 4, 5]));
-            expect(listToArray(result)).toEqual([3, 4, 5]);
-        });
+class TestTheReturnedNodeStillPointsToTheRestOfTheList:
+    def test_1_2_3_4_5_middle_node_tail_is_3_4_5(self):
+        assert list_to_array(find_middle_node(build_list([1, 2, 3, 4, 5]))) == [3, 4, 5]
 
-        test('[1, 2, 3, 4] → middle node tail is [3, 4]', () => {
-            const result = findMiddleNode(buildList([1, 2, 3, 4]));
-            expect(listToArray(result)).toEqual([3, 4]);
-        });
-    });
+    def test_1_2_3_4_middle_node_tail_is_3_4(self):
+        assert list_to_array(find_middle_node(build_list([1, 2, 3, 4]))) == [3, 4]
 
-    describe('edge cases', () => {
-        test('single node [1] → middle is 1', () => {
-            const result = findMiddleNode(buildList([1]));
-            expect(result.val).toBe(1);
-        });
 
-        test('null head → returns null', () => {
-            expect(findMiddleNode(null)).toBeNull();
-        });
-    });
-});
+class TestEdgeCases:
+    def test_single_node_middle_is_1(self):
+        assert find_middle_node(build_list([1])).val == 1
 
-"""
+    def test_none_head_returns_none(self):
+        assert find_middle_node(None) is None

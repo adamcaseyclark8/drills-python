@@ -1,43 +1,32 @@
-r"""TODO: port to Python.
+from collections import deque
 
-Original JavaScript (code/structures/implement-stack-using-queues.js):
 
-class StackUsingQueues {
-    constructor() {
-        this.queue1 = [];
-        this.queue2 = [];
-    }
+class StackUsingQueues:
+    def __init__(self):
+        self.queue1 = deque()
+        self.queue2 = deque()
 
-    // push: enqueue to queue1, then rotate so newest element is always at the front
-    push(val) {
-        this.queue2.push(val);
-        while (this.queue1.length) {
-            this.queue2.push(this.queue1.shift());
-        }
-        [this.queue1, this.queue2] = [this.queue2, this.queue1];
-    }
+    # push: enqueue to queue2, then rotate so newest element is always at the front
+    def push(self, val):
+        self.queue2.append(val)
+        while self.queue1:
+            self.queue2.append(self.queue1.popleft())
+        self.queue1, self.queue2 = self.queue2, self.queue1
 
-    // pop: dequeue from the front of queue1 (which holds the top of stack)
-    pop() {
-        if (this.isEmpty()) return null;
-        return this.queue1.shift();
-    }
+    # pop: dequeue from the front of queue1 (which holds the top of stack)
+    def pop(self):
+        if self.is_empty():
+            return None
+        return self.queue1.popleft()
 
-    // peek: look at the front of queue1 without removing
-    peek() {
-        if (this.isEmpty()) return null;
-        return this.queue1[0];
-    }
+    # peek: look at the front of queue1 without removing
+    def peek(self):
+        if self.is_empty():
+            return None
+        return self.queue1[0]
 
-    isEmpty() {
-        return this.queue1.length === 0;
-    }
+    def is_empty(self):
+        return len(self.queue1) == 0
 
-    size() {
-        return this.queue1.length;
-    }
-}
-
-module.exports = StackUsingQueues;
-
-"""
+    def size(self):
+        return len(self.queue1)

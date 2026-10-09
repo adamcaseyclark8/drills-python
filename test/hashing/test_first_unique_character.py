@@ -1,52 +1,44 @@
-r"""TODO: port to Python.
+from code.hashing.first_unique_character import find_first_unique_character
 
-Original JavaScript (test/hashing/first-unique-character.test.js):
 
-const findFirstUniqueCharacter = require('../../code/hashing/first-unique-character.js');
+def test_finds_first_unique_in_basic_string():
+    assert find_first_unique_character('leetcode') == 0
 
-describe('findFirstUniqueCharacter', () => {
-    test('finds first unique in basic string', () => {
-        expect(findFirstUniqueCharacter('leetcode')).toBe(0);
-    });
 
-    test('finds unique not at start', () => {
-        expect(findFirstUniqueCharacter('loveleetcode')).toBe(2);
-    });
+def test_finds_unique_not_at_start():
+    assert find_first_unique_character('loveleetcode') == 2
 
-    test('returns -1 if no unique char', () => {
-        expect(findFirstUniqueCharacter('aabb')).toBe(-1);
-    });
 
-    test('handles single character', () => {
-        expect(findFirstUniqueCharacter('z')).toBe(0);
-    });
+def test_returns_minus_1_if_no_unique_char():
+    assert find_first_unique_character('aabb') == -1
 
-    test('handles repeated single character', () => {
-        expect(findFirstUniqueCharacter('zzzz')).toBe(-1);
-    });
 
-    test('works with mixed case (case-sensitive)', () => {
-        expect(findFirstUniqueCharacter('aA')).toBe(0); // 'a' !== 'A'
-    });
+def test_handles_single_character():
+    assert find_first_unique_character('z') == 0
 
-    test('works with spaces and symbols', () => {
-        // string: [space, space, !, !, a, b, a, c]
-        // indices: 0,1,2,3,4,5,6,7  => 'b' at index 5 is first unique
-        expect(findFirstUniqueCharacter('  !!abac')).toBe(5);
-    });
 
-    test('returns -1 for empty string', () => {
-        expect(findFirstUniqueCharacter('')).toBe(-1);
-    });
+def test_handles_repeated_single_character():
+    assert find_first_unique_character('zzzz') == -1
 
-    test('handles all unique chars', () => {
-        expect(findFirstUniqueCharacter('abcdef')).toBe(0);
-    });
 
-    test('first unique in long string', () => {
-        // 'aabbccddeefggh' -> f at index 10 is first unique
-        expect(findFirstUniqueCharacter('aabbccddeefggh')).toBe(10);
-    });
-});
+def test_works_with_mixed_case_case_sensitive():
+    assert find_first_unique_character('aA') == 0  # 'a' != 'A'
 
-"""
+
+def test_works_with_spaces_and_symbols():
+    # string: [space, space, !, !, a, b, a, c]
+    # indices: 0,1,2,3,4,5,6,7  => 'b' at index 5 is first unique
+    assert find_first_unique_character('  !!abac') == 5
+
+
+def test_returns_minus_1_for_empty_string():
+    assert find_first_unique_character('') == -1
+
+
+def test_handles_all_unique_chars():
+    assert find_first_unique_character('abcdef') == 0
+
+
+def test_first_unique_in_long_string():
+    # 'aabbccddeefggh' -> f at index 10 is first unique
+    assert find_first_unique_character('aabbccddeefggh') == 10

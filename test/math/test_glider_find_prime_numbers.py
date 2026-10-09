@@ -1,47 +1,31 @@
-r"""TODO: port to Python.
+from code.math.glider_find_prime_numbers import is_number_prime
 
-Original JavaScript (test/math/glider-find-prime-numbers.test.js):
+# 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 
-const isNumberPrime = require('../../code/math/glider-find-prime-numbers.js');
 
-// 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+def test_i():
+    assert is_number_prime(13) == 'Yes'
 
-describe('verify name of gilder find prime numbers', () => {
-    test('I', () => {
-        expect(isNumberPrime(13)).toBe('Yes');
-    });
 
-    test('II', () => {
-        expect(isNumberPrime(11)).toBe('Yes');
-    });
+def test_ii():
+    assert is_number_prime(11) == 'Yes'
 
-    test('III', () => {
-        expect(isNumberPrime(2)).toBe('Yes');
-    });
 
-    test('IV', () => {
-        expect(isNumberPrime(97)).toBe('Yes');
-    });
+def test_iii():
+    assert is_number_prime(2) == 'Yes'
 
-    test('VI', () => {
-        expect(isNumberPrime(10)).toBe('No');
-    });
 
-    test('VII', () => {
-        expect(isNumberPrime(100)).toBe('No');
-    });
+def test_iv():
+    assert is_number_prime(97) == 'Yes'
 
-    test('VIII', () => {
-        expect(isNumberPrime(55)).toBe('No');
-    });
 
-    // test('IX', () => {
-    //     expect(isNumberPrime()).toBe('Yes')
-    // });
-    //
-    // test('X', () => {
-    //     expect(isNumberPrime()).toBe('Yes')
-    // });
-});
+def test_vi():
+    assert is_number_prime(10) == 'No'
 
-"""
+
+def test_vii():
+    assert is_number_prime(100) == 'No'
+
+
+def test_viii():
+    assert is_number_prime(55) == 'No'

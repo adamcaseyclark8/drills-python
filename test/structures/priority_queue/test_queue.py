@@ -1,71 +1,64 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/structures/priority-queue/queue.test.js):
+from code.structures.priority_queue.queue import Queue
 
-const Queue = require('../../../code/structures/priority-queue/queue');
+# IMPLEMENT QUEUE METHODS:
+# ENQUEUE, DEQUEUE, PEEK, TO ARRAY
 
-// IMPLEMENT QUEUE METHODS:
-// ENQUEUE, DEQUEUE, PEEK, TO ARRAY
 
-describe('queue test cases', () => {
-    let queue;
+@pytest.fixture
+def queue():
+    return Queue()
 
-    beforeEach(() => {
-        queue = new Queue();
-    });
 
-    test('enqueue adds elements to the end', () => {
-        queue.enqueue('a');
-        queue.enqueue('b');
-        queue.enqueue('c');
-        expect(queue.toArray()).toEqual(['a', 'b', 'c']);
-    });
+def test_enqueue_adds_elements_to_the_end(queue):
+    queue.enqueue('a')
+    queue.enqueue('b')
+    queue.enqueue('c')
+    assert queue.to_array() == ['a', 'b', 'c']
 
-    test('dequeue removes and returns elements in FIFO order', () => {
-        queue.enqueue('first');
-        queue.enqueue('second');
-        queue.enqueue('third');
-        expect(queue.dequeue()).toBe('first');
-        expect(queue.dequeue()).toBe('second');
-        expect(queue.dequeue()).toBe('third');
-        expect(queue.dequeue()).toBeUndefined();
-    });
 
-    test('peek returns the front element without removing it', () => {
-        queue.enqueue(1);
-        queue.enqueue(2);
-        expect(queue.peek()).toBe(1);
-        expect(queue.size()).toBe(2);
-    });
+def test_dequeue_removes_and_returns_elements_in_fifo_order(queue):
+    queue.enqueue('first')
+    queue.enqueue('second')
+    queue.enqueue('third')
+    assert queue.dequeue() == 'first'
+    assert queue.dequeue() == 'second'
+    assert queue.dequeue() == 'third'
+    assert queue.dequeue() is None
 
-    test('is empty works correctly', () => {
-        expect(queue.isEmpty()).toBe(true);
-        queue.enqueue(5);
-        expect(queue.isEmpty()).toBe(false);
-    });
 
-    test('size returns correct number of elements', () => {
-        expect(queue.size()).toBe(0);
-        queue.enqueue('x');
-        queue.enqueue('y');
-        expect(queue.size()).toBe(2);
-        queue.dequeue();
-        expect(queue.size()).toBe(1);
-    });
+def test_peek_returns_the_front_element_without_removing_it(queue):
+    queue.enqueue(1)
+    queue.enqueue(2)
+    assert queue.peek() == 1
+    assert queue.size() == 2
 
-    test('dequeue on empty queue returns undefined', () => {
-        expect(queue.dequeue()).toBeUndefined();
-    });
 
-    test('peek on empty queue returns undefined', () => {
-        expect(queue.peek()).toBeUndefined();
-    });
+def test_is_empty_works_correctly(queue):
+    assert queue.is_empty() is True
+    queue.enqueue(5)
+    assert queue.is_empty() is False
 
-    test('to array fn() returns correct array representation', () => {
-        queue.enqueue('alpha');
-        queue.enqueue('beta');
-        expect(queue.toArray()).toEqual(['alpha', 'beta']);
-    });
-});
 
-"""
+def test_size_returns_correct_number_of_elements(queue):
+    assert queue.size() == 0
+    queue.enqueue('x')
+    queue.enqueue('y')
+    assert queue.size() == 2
+    queue.dequeue()
+    assert queue.size() == 1
+
+
+def test_dequeue_on_empty_queue_returns_none(queue):
+    assert queue.dequeue() is None
+
+
+def test_peek_on_empty_queue_returns_none(queue):
+    assert queue.peek() is None
+
+
+def test_to_array_returns_correct_array_representation(queue):
+    queue.enqueue('alpha')
+    queue.enqueue('beta')
+    assert queue.to_array() == ['alpha', 'beta']

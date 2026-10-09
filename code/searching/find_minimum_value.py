@@ -1,19 +1,8 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/searching/find-minimum-value.js):
-
-const findMinimumValue = array => {
-    // Assume the first element is the minimum
-    let min = array[0];
-    for (let i = 1; i < array.length; i++) {
-        if (array[i] < min) {
-            // Update min if a smaller value is found
-            min = array[i];
-        }
-    }
-    return min;
-};
-
-module.exports = findMinimumValue;
-
-"""
+def find_minimum_value(array):
+    # Assume the first element is the minimum
+    minimum = array[0]
+    for value in array[1:]:
+        if value < minimum:
+            # Update minimum if a smaller value is found
+            minimum = value
+    return minimum

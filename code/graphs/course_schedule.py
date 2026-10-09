@@ -1,39 +1,28 @@
-r"""TODO: port to Python.
+from collections import deque
 
-Original JavaScript (code/graphs/course-schedule.js):
 
-const canFinishCourses = (courses, reqs) => {
-    const indegree = new Array(courses).fill(0);
-    const graph = Array.from({ length: courses }, () => []);
+def can_finish_courses(courses, reqs):
+    indegree = [0] * courses
+    graph = [[] for _ in range(courses)]
 
-    // Build graph and indegree array
-    for (const [course, pre] of reqs) {
-        graph[pre].push(course);
-        indegree[course]++;
-    }
+    # Build graph and indegree array
+    for course, pre in reqs:
+        graph[pre].append(course)
+        indegree[course] += 1
 
-    // Start with all courses that have no prerequisites
-    const queue = [];
-    for (let i = 0; i < courses; i++) {
-        if (indegree[i] === 0) queue.push(i);
-    }
+    # Start with all courses that have no prerequisites
+    queue = deque(i for i in range(courses) if indegree[i] == 0)
 
-    let finished = 0;
+    finished = 0
 
-    while (queue.length > 0) {
-        const course = queue.shift();
-        finished++;
+    while queue:
+        course = queue.popleft()
+        finished += 1
 
-        for (const next of graph[course]) {
-            indegree[next]--;
-            if (indegree[next] === 0) queue.push(next);
-        }
-    }
+        for nxt in graph[course]:
+            indegree[nxt] -= 1
+            if indegree[nxt] == 0:
+                queue.append(nxt)
 
-    // If we’ve processed all courses, there’s no cycle
-    return finished === courses;
-};
-
-module.exports = canFinishCourses;
-
-"""
+    # If we've processed all courses, there's no cycle
+    return finished == courses

@@ -1,18 +1,13 @@
-r"""TODO: port to Python.
+import math
 
-Original JavaScript (code/arrays/filter-all-prime-numbers.js):
 
-const filterAllPrimeNumbers = array => {
-    const isPrimeNumber = number => {
-        if (number < 2) return false;
-        for (let i = 2; i <= Math.sqrt(number); i++) {
-            if (number % i === 0) return false;
-        }
-        return true;
-    };
-    return array.filter(isPrimeNumber);
-};
+def filter_all_prime_numbers(array):
+    def is_prime_number(number):
+        if number < 2:
+            return False
+        for i in range(2, math.isqrt(number) + 1):
+            if number % i == 0:
+                return False
+        return True
 
-module.exports = filterAllPrimeNumbers;
-
-"""
+    return [number for number in array if is_prime_number(number)]

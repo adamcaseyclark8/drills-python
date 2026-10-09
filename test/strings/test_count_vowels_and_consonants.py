@@ -1,69 +1,48 @@
-r"""TODO: port to Python.
+from code.strings.count_vowels_and_consonants import count_vowels_and_consonants
 
-Original JavaScript (test/strings/count-vowels-and-consonants.test.js):
 
-const countVowelsAndConsonants = require('../../code/strings/count-vowels-and-consonants.js');
+class TestBasicCases:
+    def test_hello(self):
+        assert count_vowels_and_consonants('hello') == {'vowels': 2, 'consonants': 3}
 
-describe('countVowelsAndConsonants', () => {
-    describe('basic cases', () => {
-        test('"hello" → 2 vowels, 3 consonants', () => {
-            expect(countVowelsAndConsonants('hello')).toEqual({ vowels: 2, consonants: 3 });
-        });
+    def test_javascript(self):
+        assert count_vowels_and_consonants('javascript') == {'vowels': 3, 'consonants': 7}
 
-        test('"javascript" → 3 vowels, 7 consonants', () => {
-            expect(countVowelsAndConsonants('javascript')).toEqual({ vowels: 3, consonants: 7 });
-        });
+    def test_aeiou(self):
+        assert count_vowels_and_consonants('aeiou') == {'vowels': 5, 'consonants': 0}
 
-        test('"aeiou" → 5 vowels, 0 consonants', () => {
-            expect(countVowelsAndConsonants('aeiou')).toEqual({ vowels: 5, consonants: 0 });
-        });
+    def test_rhythm(self):
+        assert count_vowels_and_consonants('rhythm') == {'vowels': 0, 'consonants': 6}
 
-        test('"rhythm" → 0 vowels, 6 consonants', () => {
-            expect(countVowelsAndConsonants('rhythm')).toEqual({ vowels: 0, consonants: 6 });
-        });
-    });
 
-    describe('case insensitivity', () => {
-        test('"HELLO" → 2 vowels, 3 consonants', () => {
-            expect(countVowelsAndConsonants('HELLO')).toEqual({ vowels: 2, consonants: 3 });
-        });
+class TestCaseInsensitivity:
+    def test_upper_hello(self):
+        assert count_vowels_and_consonants('HELLO') == {'vowels': 2, 'consonants': 3}
 
-        test('"JavaScript" → 3 vowels, 7 consonants', () => {
-            expect(countVowelsAndConsonants('JavaScript')).toEqual({ vowels: 3, consonants: 7 });
-        });
-    });
+    def test_mixed_case_javascript(self):
+        assert count_vowels_and_consonants('JavaScript') == {'vowels': 3, 'consonants': 7}
 
-    describe('non-letter characters are ignored', () => {
-        test('"hello world" → spaces ignored', () => {
-            expect(countVowelsAndConsonants('hello world')).toEqual({ vowels: 3, consonants: 7 });
-        });
 
-        test('"h3ll0!" → numbers and symbols ignored', () => {
-            expect(countVowelsAndConsonants('h3ll0!')).toEqual({ vowels: 0, consonants: 3 });
-        });
+class TestNonLetterCharactersAreIgnored:
+    def test_spaces_ignored(self):
+        assert count_vowels_and_consonants('hello world') == {'vowels': 3, 'consonants': 7}
 
-        test('"a1b2c3" → only letters counted', () => {
-            expect(countVowelsAndConsonants('a1b2c3')).toEqual({ vowels: 1, consonants: 2 });
-        });
-    });
+    def test_numbers_and_symbols_ignored(self):
+        assert count_vowels_and_consonants('h3ll0!') == {'vowels': 0, 'consonants': 3}
 
-    describe('edge cases', () => {
-        test('empty string → 0 vowels, 0 consonants', () => {
-            expect(countVowelsAndConsonants('')).toEqual({ vowels: 0, consonants: 0 });
-        });
+    def test_only_letters_counted(self):
+        assert count_vowels_and_consonants('a1b2c3') == {'vowels': 1, 'consonants': 2}
 
-        test('string with only spaces → 0 vowels, 0 consonants', () => {
-            expect(countVowelsAndConsonants('   ')).toEqual({ vowels: 0, consonants: 0 });
-        });
 
-        test('single vowel "a" → 1 vowel, 0 consonants', () => {
-            expect(countVowelsAndConsonants('a')).toEqual({ vowels: 1, consonants: 0 });
-        });
+class TestEdgeCases:
+    def test_empty_string(self):
+        assert count_vowels_and_consonants('') == {'vowels': 0, 'consonants': 0}
 
-        test('single consonant "b" → 0 vowels, 1 consonant', () => {
-            expect(countVowelsAndConsonants('b')).toEqual({ vowels: 0, consonants: 1 });
-        });
-    });
-});
+    def test_string_with_only_spaces(self):
+        assert count_vowels_and_consonants('   ') == {'vowels': 0, 'consonants': 0}
 
-"""
+    def test_single_vowel(self):
+        assert count_vowels_and_consonants('a') == {'vowels': 1, 'consonants': 0}
+
+    def test_single_consonant(self):
+        assert count_vowels_and_consonants('b') == {'vowels': 0, 'consonants': 1}

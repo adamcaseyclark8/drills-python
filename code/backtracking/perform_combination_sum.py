@@ -1,28 +1,17 @@
-r"""TODO: port to Python.
+def perform_combination_sum(candidates, target):
+    results = []
 
-Original JavaScript (code/backtracking/perform-combination-sum.js):
+    def backtrack(remaining, path, start):
+        if remaining == 0:
+            results.append(list(path))
+            return
 
-const performCombinationSum = (candidates, target) => {
-    const results = [];
+        for i in range(start, len(candidates)):
+            if candidates[i] > remaining:
+                continue
+            path.append(candidates[i])
+            backtrack(remaining - candidates[i], path, i)
+            path.pop()
 
-    const backtrack = (remaining, path, start) => {
-        if (remaining === 0) {
-            results.push([...path]);
-            return;
-        }
-
-        for (let i = start; i < candidates.length; i++) {
-            if (candidates[i] > remaining) continue;
-            path.push(candidates[i]);
-            backtrack(remaining - candidates[i], path, i);
-            path.pop();
-        }
-    };
-
-    backtrack(target, [], 0);
-    return results;
-};
-
-module.exports = performCombinationSum;
-
-"""
+    backtrack(target, [], 0)
+    return results

@@ -1,25 +1,13 @@
-r"""TODO: port to Python.
+def longest_unique_substring(string):
+    seen = set()
+    left = 0
+    longest = ''
 
-Original JavaScript (code/sliding-window/longest-unique-substring.js):
-
-const longestUniqueSubstring = string => {
-    const seen = new Set();
-    let left = 0;
-    let longest = '';
-
-    for (let right = 0; right < string.length; right++) {
-        while (seen.has(string[right])) {
-            seen.delete(string[left]);
-            left++;
-        }
-        seen.add(string[right]);
-        if (right - left + 1 > longest.length) {
-            longest = string.slice(left, right + 1);
-        }
-    }
-    return longest;
-};
-
-module.exports = longestUniqueSubstring;
-
-"""
+    for right in range(len(string)):
+        while string[right] in seen:
+            seen.remove(string[left])
+            left += 1
+        seen.add(string[right])
+        if right - left + 1 > len(longest):
+            longest = string[left:right + 1]
+    return longest

@@ -1,50 +1,38 @@
-r"""TODO: port to Python.
+class ListNode:
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
 
-Original JavaScript (code/linked-lists/find-middle-node-of-list.js):
 
-class ListNode {
-    constructor(val, next = null) {
-        this.val = val;
-        this.next = next;
-    }
-}
+# helper to build a linked list from an array
+def build_list(arr):
+    if not arr:
+        return None
+    head = ListNode(arr[0])
+    current = head
+    for value in arr[1:]:
+        current.next = ListNode(value)
+        current = current.next
+    return head
 
-// helper to build a linked list from an array
-const buildList = arr => {
-    if (!arr.length) return null;
-    const head = new ListNode(arr[0]);
-    let current = head;
-    for (let i = 1; i < arr.length; i++) {
-        current.next = new ListNode(arr[i]);
-        current = current.next;
-    }
-    return head;
-};
 
-// helper to convert a linked list back to an array (for easy test assertions)
-const listToArray = head => {
-    const result = [];
-    let current = head;
-    while (current) {
-        result.push(current.val);
-        current = current.next;
-    }
-    return result;
-};
+# helper to convert a linked list back to an array (for easy test assertions)
+def list_to_array(head):
+    result = []
+    current = head
+    while current:
+        result.append(current.val)
+        current = current.next
+    return result
 
-// slow/fast pointer technique — when fast reaches the end, slow is at the middle
-const findMiddleNode = head => {
-    let slow = head;
-    let fast = head;
 
-    while (fast !== null && fast.next !== null) {
-        slow = slow.next;
-        fast = fast.next.next;
-    }
+# slow/fast pointer technique — when fast reaches the end, slow is at the middle
+def find_middle_node(head):
+    slow = head
+    fast = head
 
-    return slow;
-};
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
 
-module.exports = { findMiddleNode, buildList, listToArray };
-
-"""
+    return slow

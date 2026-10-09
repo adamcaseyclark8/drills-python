@@ -1,25 +1,17 @@
-r"""TODO: port to Python.
+from code.hashing.verify_valid_anagram import verify_valid_anagram
 
-Original JavaScript (test/hashing/verify-valid-anagram.test.js):
 
-const verifyValidAnagram = require('../../code/hashing/verify-valid-anagram.js');
+def test_scenario_with_valid_anagram():
+    assert verify_valid_anagram('cinema', 'iceman') is True
 
-describe('valid anagrams=', () => {
-    test('scenario with valid anagram', () => {
-        expect(verifyValidAnagram('cinema', 'iceman')).toBe(true);
-    });
 
-    test('not a valid anagram', () => {
-        expect(verifyValidAnagram('cinema', 'icemen')).toBe(false);
-    });
+def test_not_a_valid_anagram():
+    assert verify_valid_anagram('cinema', 'icemen') is False
 
-    test('unequal strings', () => {
-        expect(verifyValidAnagram('cinema', 'icemann')).toBe(false);
-    });
 
-    test('another variation of false', () => {
-        expect(verifyValidAnagram('cinemaa', 'icemann')).toBe(false);
-    });
-});
+def test_unequal_strings():
+    assert verify_valid_anagram('cinema', 'icemann') is False
 
-"""
+
+def test_another_variation_of_false():
+    assert verify_valid_anagram('cinemaa', 'icemann') is False

@@ -1,53 +1,31 @@
-r"""TODO: port to Python.
+def implement_deep_equals_comparison(a, b):
+    # 1. Identity check for same object references
+    if a is b:
+        return True
 
-Original JavaScript (code/reimplementation/implement-deep-equal.js):
+    # 2. Handle primitives (and None): same type and same value
+    if not isinstance(a, (list, dict)) or not isinstance(b, (list, dict)):
+        return type(a) is type(b) and a == b
 
-const implementDeepEqualsComparison = (a, b) => {
-    // 1. Strict equality check for primitive values and same object references
-    if (a === b) {
-        return true;
-    }
+    # 3. Handle lists
+    if isinstance(a, list) and isinstance(b, list):
+        if len(a) != len(b):
+            return False
+        for i in range(len(a)):
+            if not implement_deep_equals_comparison(a[i], b[i]):
+                return False
+        return True
 
-    // 2. Handle null and non-object types
-    if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') {
-        return false;
-    }
+    # 4. Handle dicts
+    if isinstance(a, list) != isinstance(b, list):
+        # One is a list, other is not
+        return False
 
-    // 3. Handle Arrays
-    if (Array.isArray(a) && Array.isArray(b)) {
-        if (a.length !== b.length) {
-            return false;
-        }
-        for (let i = 0; i < a.length; i++) {
-            if (!implementDeepEqualsComparison(a[i], b[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
+    if len(a) != len(b):
+        return False
 
-    // 4. Handle Objects (non-arrays)
-    if (Array.isArray(a) !== Array.isArray(b)) {
-        // One is array, other is not
-        return false;
-    }
+    for key in a:
+        if key not in b or not implement_deep_equals_comparison(a[key], b[key]):
+            return False
 
-    const keysA = Object.keys(a);
-    const keysB = Object.keys(b);
-
-    if (keysA.length !== keysB.length) {
-        return false;
-    }
-
-    for (const key of keysA) {
-        if (!keysB.includes(key) || !implementDeepEqualsComparison(a[key], b[key])) {
-            return false;
-        }
-    }
-
-    return true;
-};
-
-module.exports = implementDeepEqualsComparison;
-
-"""
+    return True

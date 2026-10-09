@@ -1,56 +1,43 @@
-r"""TODO: port to Python.
+from code.hashing.contains_duplicates import array_contains_duplicates
 
-Original JavaScript (test/hashing/contains-duplicates.test.js):
 
-const arrayContainsDuplicates = require('../../code/hashing/contains-duplicates.js');
+def test_i_numbers():
+    assert array_contains_duplicates([1, 2, 2, 3, 4, 4, 5]) is True
 
-describe('array contains duplicates algorithm', () => {
-    test('I: numbers', () => {
-        const result = arrayContainsDuplicates([1, 2, 2, 3, 4, 4, 5]);
-        expect(arrayContainsDuplicates([1, 2, 2, 3, 4, 4, 5])).toEqual(true);
-    });
 
-    test('II: strings', () => {
-        expect(arrayContainsDuplicates(['a', 'b', 'a', 'c', 'b'])).toEqual(true);
-    });
+def test_ii_strings():
+    assert array_contains_duplicates(['a', 'b', 'a', 'c', 'b']) is True
 
-    test('III: false', () => {
-        expect(arrayContainsDuplicates([10, 20, 30])).toEqual(false);
-    });
 
-    test('returns false array when input is empty', () => {
-        expect(arrayContainsDuplicates([])).toEqual(false);
-    });
+def test_iii_false():
+    assert array_contains_duplicates([10, 20, 30]) is False
 
-    test('returns false array when only one element', () => {
-        expect(arrayContainsDuplicates([1])).toEqual(false);
-    });
 
-    // my test cases above - chatgpt below
-    test('returns false for empty array', () => {
-        expect(arrayContainsDuplicates([])).toBe(false);
-    });
+def test_returns_false_when_input_is_empty():
+    assert array_contains_duplicates([]) is False
 
-    test('returns false when all elements are unique', () => {
-        expect(arrayContainsDuplicates([1, 2, 3, 4])).toBe(false);
-    });
 
-    test('returns true when duplicates exist', () => {
-        expect(arrayContainsDuplicates([1, 2, 3, 2])).toBe(true);
-    });
+def test_returns_false_when_only_one_element():
+    assert array_contains_duplicates([1]) is False
 
-    test('returns true when all elements are the same', () => {
-        expect(arrayContainsDuplicates([5, 5, 5, 5])).toBe(true);
-    });
 
-    test('works with strings', () => {
-        expect(arrayContainsDuplicates(['a', 'b', 'c', 'a'])).toBe(true);
-        expect(arrayContainsDuplicates(['x', 'y', 'z'])).toBe(false);
-    });
+# my test cases above - chatgpt below
+def test_returns_false_when_all_elements_are_unique():
+    assert array_contains_duplicates([1, 2, 3, 4]) is False
 
-    // test('works with mixed types (number vs string)', () => {
-    //     expect(arrayContainsDuplicates([1, '1'])).toBe(false); // different types
-    // });
-});
 
-"""
+def test_returns_true_when_duplicates_exist():
+    assert array_contains_duplicates([1, 2, 3, 2]) is True
+
+
+def test_returns_true_when_all_elements_are_the_same():
+    assert array_contains_duplicates([5, 5, 5, 5]) is True
+
+
+def test_works_with_strings():
+    assert array_contains_duplicates(['a', 'b', 'c', 'a']) is True
+    assert array_contains_duplicates(['x', 'y', 'z']) is False
+
+
+def test_works_with_mixed_types_number_vs_string():
+    assert array_contains_duplicates([1, '1']) is False  # different types

@@ -1,157 +1,97 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/structures/coder-byte-tetris.js):
-
-const SHAPES = {
-    I: [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [0, 3]
-    ],
-    O: [
-        [0, 0],
-        [0, 1],
-        [1, 0],
-        [1, 1]
-    ],
-    T: [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [1, 1]
-    ],
-    S: [
-        [0, 0],
-        [0, 1],
-        [1, 1],
-        [1, 2]
-    ],
-    Z: [
-        [0, 1],
-        [0, 2],
-        [1, 0],
-        [1, 1]
-    ],
-    J: [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [1, 0]
-    ],
-    L: [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [1, 2]
-    ]
-};
-
-function rotateShape(shape) {
-    const rotated = shape.map(([row, col]) => [col, -row]);
-    const minRow = Math.min(...rotated.map(([r, c]) => r));
-    const minCol = Math.min(...rotated.map(([r, c]) => c));
-    return rotated.map(([r, c]) => [r - minRow, c - minCol]);
+SHAPES = {
+    'I': [[0, 0], [0, 1], [0, 2], [0, 3]],
+    'O': [[0, 0], [0, 1], [1, 0], [1, 1]],
+    'T': [[0, 0], [0, 1], [0, 2], [1, 1]],
+    'S': [[0, 0], [0, 1], [1, 1], [1, 2]],
+    'Z': [[0, 1], [0, 2], [1, 0], [1, 1]],
+    'J': [[0, 0], [0, 1], [0, 2], [1, 0]],
+    'L': [[0, 0], [0, 1], [0, 2], [1, 2]],
 }
 
-function getAllRotations(shape) {
-    const rotations = [];
-    const seen = new Set();
-    let current = shape;
 
-    for (let i = 0; i < 4; i++) {
-        const key = JSON.stringify(current.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]));
-        if (!seen.has(key)) {
-            rotations.push(JSON.parse(JSON.stringify(current)));
-            seen.add(key);
-        }
-        current = rotateShape(current);
-    }
+def rotate_shape(shape):
+    rotated = [[col, -row] for row, col in shape]
+    min_row = min(r for r, c in rotated)
+    min_col = min(c for r, c in rotated)
+    return [[r - min_row, c - min_col] for r, c in rotated]
 
-    return rotations;
-}
 
-function placeShapeOnHeights(heights, shape, startCol) {
-    const maxShapeCol = Math.max(...shape.map(([r, c]) => c));
+def get_all_rotations(shape):
+    rotations = []
+    seen = set()
+    current = shape
 
-    if (startCol < 0 || startCol + maxShapeCol >= heights.length) {
-        return null;
-    }
+    for _ in range(4):
+        key = tuple(sorted(tuple(cell) for cell in current))
+        if key not in seen:
+            rotations.append([list(cell) for cell in current])
+            seen.add(key)
+        current = rotate_shape(current)
 
-    // Find drop height
-    let dropHeight = -Infinity;
-    for (const [row, col] of shape) {
-        const targetCol = startCol + col;
-        dropHeight = Math.max(dropHeight, heights[targetCol] - row);
-    }
+    return rotations
 
-    // Place blocks
-    const newHeights = [...heights];
-    for (const [row, col] of shape) {
-        const targetCol = startCol + col;
-        const blockTop = dropHeight + row + 1;
-        newHeights[targetCol] = Math.max(newHeights[targetCol], blockTop);
-    }
 
-    return newHeights;
-}
+def place_shape_on_heights(heights, shape, start_col):
+    max_shape_col = max(c for r, c in shape)
 
-function countCompleteRows(heights) {
-    if (heights.length === 0 || Math.min(...heights) === 0) {
-        return 0;
-    }
+    if start_col < 0 or start_col + max_shape_col >= len(heights):
+        return None
 
-    let rowsCleared = 0;
-    let currentHeights = [...heights];
+    # Find drop height
+    drop_height = float('-inf')
+    for row, col in shape:
+        target_col = start_col + col
+        drop_height = max(drop_height, heights[target_col] - row)
 
-    while (true) {
-        const minHeight = Math.min(...currentHeights);
-        if (minHeight === 0) break;
+    # Place blocks
+    new_heights = list(heights)
+    for row, col in shape:
+        target_col = start_col + col
+        block_top = drop_height + row + 1
+        new_heights[target_col] = max(new_heights[target_col], block_top)
 
-        // Check if bottom-most row is complete
-        const rowComplete = currentHeights.every(h => h >= minHeight);
+    return new_heights
 
-        if (rowComplete) {
-            // Clear this row
-            rowsCleared++;
-            currentHeights = currentHeights.map(h => h - 1);
-        } else {
-            break;
-        }
-    }
 
-    return rowsCleared;
-}
+def count_complete_rows(heights):
+    if len(heights) == 0 or min(heights) == 0:
+        return 0
 
-function getMaxNumberOfRowsCleared(heights, shapeName) {
-    const shape = SHAPES[shapeName];
-    if (!shape) {
-        throw new Error(`Invalid shape: ${shapeName}`);
-    }
+    rows_cleared = 0
+    current_heights = list(heights)
 
-    let maxCleared = 0;
-    const rotations = getAllRotations(shape);
+    while True:
+        min_height = min(current_heights)
+        if min_height == 0:
+            break
 
-    for (const rotation of rotations) {
-        for (let col = 0; col < heights.length; col++) {
-            const newHeights = placeShapeOnHeights(heights, rotation, col);
+        # Check if bottom-most row is complete
+        row_complete = all(h >= min_height for h in current_heights)
 
-            if (newHeights !== null) {
-                const cleared = countCompleteRows(newHeights);
-                maxCleared = Math.max(maxCleared, cleared);
-            }
-        }
-    }
+        if row_complete:
+            # Clear this row
+            rows_cleared += 1
+            current_heights = [h - 1 for h in current_heights]
+        else:
+            break
 
-    return maxCleared;
-}
+    return rows_cleared
 
-module.exports = {
-    getMaxNumberOfRowsCleared,
-    placeShapeOnHeights,
-    countCompleteRows,
-    getAllRotations,
-    SHAPES
-};
 
-"""
+def get_max_number_of_rows_cleared(heights, shape_name):
+    shape = SHAPES.get(shape_name)
+    if not shape:
+        raise ValueError(f'Invalid shape: {shape_name}')
+
+    max_cleared = 0
+    rotations = get_all_rotations(shape)
+
+    for rotation in rotations:
+        for col in range(len(heights)):
+            new_heights = place_shape_on_heights(heights, rotation, col)
+
+            if new_heights is not None:
+                cleared = count_complete_rows(new_heights)
+                max_cleared = max(max_cleared, cleared)
+
+    return max_cleared
