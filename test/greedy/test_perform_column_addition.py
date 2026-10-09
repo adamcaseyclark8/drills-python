@@ -1,41 +1,33 @@
-r"""TODO: port to Python.
+from code.greedy.perform_column_addition import perform_column_addition
 
-Original JavaScript (test/greedy/perform-column-addition.test.js):
 
-const performColumnAddition = require('../../code/greedy/perform-column-addition');
+def test_456_plus_77_returns_533():
+    assert perform_column_addition('456', '77') == '533'
 
-describe('perform column addition tests', () => {
-    test('456 + 77 returns 533', () => {
-        expect(performColumnAddition('456', '77')).toBe('533');
-    });
 
-    test('11 + 123 returns 134', () => {
-        expect(performColumnAddition('11', '123')).toBe('134');
-    });
+def test_11_plus_123_returns_134():
+    assert perform_column_addition('11', '123') == '134'
 
-    test('999 + 1 returns 1000', () => {
-        expect(performColumnAddition('999', '1')).toBe('1000');
-    });
 
-    test('0 + 0 returns 0', () => {
-        expect(performColumnAddition('0', '0')).toBe('0');
-    });
+def test_999_plus_1_returns_1000():
+    assert perform_column_addition('999', '1') == '1000'
 
-    test('same length no carry', () => {
-        expect(performColumnAddition('123', '456')).toBe('579');
-    });
 
-    test('large numbers', () => {
-        expect(performColumnAddition('9999999999', '1')).toBe('10000000000');
-    });
+def test_0_plus_0_returns_0():
+    assert perform_column_addition('0', '0') == '0'
 
-    test('single digits with carry', () => {
-        expect(performColumnAddition('9', '9')).toBe('18');
-    });
 
-    test('one number is zero', () => {
-        expect(performColumnAddition('500', '0')).toBe('500');
-    });
-});
+def test_same_length_no_carry():
+    assert perform_column_addition('123', '456') == '579'
 
-"""
+
+def test_large_numbers():
+    assert perform_column_addition('9999999999', '1') == '10000000000'
+
+
+def test_single_digits_with_carry():
+    assert perform_column_addition('9', '9') == '18'
+
+
+def test_one_number_is_zero():
+    assert perform_column_addition('500', '0') == '500'
