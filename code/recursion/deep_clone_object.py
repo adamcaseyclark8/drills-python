@@ -1,16 +1,6 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/recursion/deep-clone-object.js):
-
-const deepCloneObject = object => {
-    if (object === null || typeof object !== 'object') return object;
-    if (Array.isArray(object)) return object.map(item => deepCloneObject(item));
-    return Object.keys(object).reduce((acc, key) => {
-        acc[key] = deepCloneObject(object[key]);
-        return acc;
-    }, {});
-};
-
-module.exports = deepCloneObject;
-
-"""
+def deep_clone_object(obj):
+    if isinstance(obj, list):
+        return [deep_clone_object(item) for item in obj]
+    if isinstance(obj, dict):
+        return {key: deep_clone_object(value) for key, value in obj.items()}
+    return obj

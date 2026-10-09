@@ -1,86 +1,58 @@
-r"""TODO: port to Python.
+from code.strings.code_signal_pyramid_exercise import build_ascii_pyramid
 
-Original JavaScript (test/strings/code-signal-pyramid-exercise.test.js):
 
-const buildAsciiPyramid = require('../../code/strings/code-signal-pyramid-exercise.js');
+def printed_rows(capsys):
+    return capsys.readouterr().out.splitlines()
 
-describe('buildAsciiPyramid', () => {
-    let consoleSpy;
 
-    beforeEach(() => {
-        consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-    });
+def test_creates_a_pyramid_with_n_1(capsys):
+    build_ascii_pyramid(1)
+    assert printed_rows(capsys) == ['*']
 
-    afterEach(() => {
-        consoleSpy.mockRestore();
-    });
 
-    test('creates a buildAsciiPyramid with n=1', () => {
-        buildAsciiPyramid(1);
-        expect(consoleSpy).toHaveBeenCalledTimes(1);
-        expect(consoleSpy).toHaveBeenCalledWith('*');
-    });
+def test_creates_a_pyramid_with_n_3(capsys):
+    build_ascii_pyramid(3)
+    assert printed_rows(capsys) == ['  *', ' ***', '*****']
 
-    test('creates a buildAsciiPyramid with n=3', () => {
-        buildAsciiPyramid(3);
-        expect(consoleSpy).toHaveBeenCalledTimes(3);
-        expect(consoleSpy.mock.calls[0][0]).toBe('  *');
-        expect(consoleSpy.mock.calls[1][0]).toBe(' ***');
-        expect(consoleSpy.mock.calls[2][0]).toBe('*****');
-    });
 
-    test('creates a buildAsciiPyramid with n=5', () => {
-        buildAsciiPyramid(5);
-        expect(consoleSpy).toHaveBeenCalledTimes(5);
-        expect(consoleSpy.mock.calls[0][0]).toBe('    *');
-        expect(consoleSpy.mock.calls[1][0]).toBe('   ***');
-        expect(consoleSpy.mock.calls[2][0]).toBe('  *****');
-        expect(consoleSpy.mock.calls[3][0]).toBe(' *******');
-        expect(consoleSpy.mock.calls[4][0]).toBe('*********');
-    });
+def test_creates_a_pyramid_with_n_5(capsys):
+    build_ascii_pyramid(5)
+    assert printed_rows(capsys) == ['    *', '   ***', '  *****', ' *******', '*********']
 
-    test('creates a buildAsciiPyramid with n=10', () => {
-        buildAsciiPyramid(10);
-        expect(consoleSpy).toHaveBeenCalledTimes(10);
-        expect(consoleSpy.mock.calls[0][0]).toBe('         *');
-        expect(consoleSpy.mock.calls[9][0]).toBe('*******************');
-    });
 
-    test('each row has correct number of leading spaces and asterisks', () => {
-        const n = 7;
-        buildAsciiPyramid(n);
+def test_creates_a_pyramid_with_n_10(capsys):
+    build_ascii_pyramid(10)
+    rows = printed_rows(capsys)
+    assert len(rows) == 10
+    assert rows[0] == '         *'
+    assert rows[9] == '*******************'
 
-        for (let i = 0; i < n; i++) {
-            const row = consoleSpy.mock.calls[i][0];
-            const spaces = n - (i + 1);
-            const asterisks = 2 * (i + 1) - 1;
 
-            expect(row).toBe(' '.repeat(spaces) + '*'.repeat(asterisks));
-        }
-    });
+def test_each_row_has_correct_number_of_leading_spaces_and_asterisks(capsys):
+    n = 7
+    build_ascii_pyramid(n)
+    rows = printed_rows(capsys)
 
-    test('each row has correct number of asterisks', () => {
-        const n = 5;
-        buildAsciiPyramid(n);
+    for i in range(n):
+        spaces = n - (i + 1)
+        asterisks = 2 * (i + 1) - 1
+        assert rows[i] == ' ' * spaces + '*' * asterisks
 
-        for (let i = 0; i < n; i++) {
-            const row = consoleSpy.mock.calls[i][0];
-            const asteriskCount = (row.match(/\*/g) || []).length;
-            expect(asteriskCount).toBe(2 * (i + 1) - 1);
-        }
-    });
 
-    test('first row has only one asterisk', () => {
-        buildAsciiPyramid(4);
-        const firstRow = consoleSpy.mock.calls[0][0];
-        expect(firstRow.trim()).toBe('*');
-    });
+def test_each_row_has_correct_number_of_asterisks(capsys):
+    n = 5
+    build_ascii_pyramid(n)
+    rows = printed_rows(capsys)
 
-    test('last row has no leading spaces', () => {
-        buildAsciiPyramid(6);
-        const lastRow = consoleSpy.mock.calls[5][0];
-        expect(lastRow[0]).toBe('*');
-    });
-});
+    for i in range(n):
+        assert rows[i].count('*') == 2 * (i + 1) - 1
 
-"""
+
+def test_first_row_has_only_one_asterisk(capsys):
+    build_ascii_pyramid(4)
+    assert printed_rows(capsys)[0].strip() == '*'
+
+
+def test_last_row_has_no_leading_spaces(capsys):
+    build_ascii_pyramid(6)
+    assert printed_rows(capsys)[5][0] == '*'

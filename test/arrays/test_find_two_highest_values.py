@@ -1,42 +1,18 @@
-r"""TODO: port to Python.
+from code.arrays.find_two_highest_values import find_two_highest_values
 
-Original JavaScript (test/arrays/find-two-highest-values.test.js):
+# cannot sort the array
+# must handle null or empty array
+# must handle arrays with less than 2 elements
+# must handle duplicate values
 
-const findTwoHighestValues = require('../../code/arrays/find-two-highest-values.js');
 
-// cannot sort the array
-// must handle null or empty array
-// must handle arrays with less than 2 elements
-// must handle duplicate values
+def test_both_numbers_are_positive():
+    assert find_two_highest_values([1, 2, 3, 4, 5, 6, 7, 8]) == [8, 7]
 
-describe('find two highest values', () => {
-    test('both numbers are both positive', () => {
-        expect(findTwoHighestValues([1, 2, 3, 4, 5, 6, 7, 8])).toStrictEqual([8, 7]);
-    });
 
-    test('high is positive, second is negative', () => {
-        expect(findTwoHighestValues([1, -1, -2, -3])).toStrictEqual([1, -1]);
-    });
+def test_high_is_positive_second_is_negative():
+    assert find_two_highest_values([1, -1, -2, -3]) == [1, -1]
 
-    test('all numbers in array negative', () => {
-        expect(findTwoHighestValues([-1, -2, -3, -4, -5, -6, -7, -8])).toStrictEqual([-1, -2]);
-    });
 
-    // test('all numbers in array negative', () => {
-    //     expect(findTwoHighestValues([1])).toStrictEqual([-1, -2]);
-    // });
-    //
-    // test('all same number', () => {
-    //     expect(findTwoHighestValues([5, 5, 5])).toStrictEqual([]);
-    // });
-    //
-    // test('empty array', () => {
-    //     expect(findTwoHighestValues([-1, -2, -3, -4, -5, -6, -7, -8])).toStrictEqual([-1, -2]);
-    // });
-    //
-    // test('null', () => {
-    //     expect(findTwoHighestValues([-1, -2, -3, -4, -5, -6, -7, -8])).toStrictEqual([-1, -2]);
-    // });
-});
-
-"""
+def test_all_numbers_in_array_negative():
+    assert find_two_highest_values([-1, -2, -3, -4, -5, -6, -7, -8]) == [-1, -2]

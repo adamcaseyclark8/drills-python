@@ -1,31 +1,17 @@
-r"""TODO: port to Python.
+def selection_sort(array):
+    start_idx = 0
 
-Original JavaScript (misc/algo-experts/sorting/selection-sort/code/index.js):
+    while start_idx < len(array) - 1:
+        smallest_idx = start_idx
 
-function selectionSort(array) {
-    let startIdx = 0;
+        for i in range(start_idx + 1, len(array)):
+            if array[smallest_idx] > array[i]:
+                smallest_idx = i
 
-    while (startIdx < array.length - 1) {
-        let smallestIdx = startIdx;
+        swap(start_idx, smallest_idx, array)
+        start_idx += 1
+    return array
 
-        for (let i = startIdx + 1; i < array.length; i++) {
-            if (array[smallestIdx] > array[i]) {
-                smallestIdx = i;
-            }
-        }
 
-        swap(startIdx, smallestIdx, array);
-        startIdx++;
-    }
-    return array;
-}
-
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
-
-exports.selectionSort = selectionSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

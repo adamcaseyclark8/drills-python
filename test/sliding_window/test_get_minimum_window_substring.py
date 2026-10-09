@@ -1,45 +1,37 @@
-r"""TODO: port to Python.
+from code.sliding_window.get_minimum_window_substring import get_minimum_window_substring
 
-Original JavaScript (test/sliding-window/get-minimum-window-substring.test.js):
 
-const getMinimumWindowSubstring = require('../../code/sliding-window/get-minimum-window-substring.js');
+def test_adobecodebanc_and_abc_returns_banc():
+    assert get_minimum_window_substring('ADOBECODEBANC', 'ABC') == 'BANC'
 
-describe('getMinimumWindowSubstring', () => {
-    test('ADOBECODEBANC and ABC returns BANC', () => {
-        expect(getMinimumWindowSubstring('ADOBECODEBANC', 'ABC')).toBe('BANC');
-    });
 
-    test('a and a returns a', () => {
-        expect(getMinimumWindowSubstring('a', 'a')).toBe('a');
-    });
+def test_a_and_a_returns_a():
+    assert get_minimum_window_substring('a', 'a') == 'a'
 
-    test('a and b returns empty string', () => {
-        expect(getMinimumWindowSubstring('a', 'b')).toBe('');
-    });
 
-    test('empty s returns empty string', () => {
-        expect(getMinimumWindowSubstring('', 'a')).toBe('');
-    });
+def test_a_and_b_returns_empty_string():
+    assert get_minimum_window_substring('a', 'b') == ''
 
-    test('empty t returns empty string', () => {
-        expect(getMinimumWindowSubstring('abc', '')).toBe('');
-    });
 
-    test('t longer than s returns empty string', () => {
-        expect(getMinimumWindowSubstring('ab', 'abc')).toBe('');
-    });
+def test_empty_s_returns_empty_string():
+    assert get_minimum_window_substring('', 'a') == ''
 
-    test('duplicate chars in t', () => {
-        expect(getMinimumWindowSubstring('aab', 'aa')).toBe('aa');
-    });
 
-    test('exact match returns full string', () => {
-        expect(getMinimumWindowSubstring('abc', 'abc')).toBe('abc');
-    });
+def test_empty_t_returns_empty_string():
+    assert get_minimum_window_substring('abc', '') == ''
 
-    test('multiple valid windows returns smallest', () => {
-        expect(getMinimumWindowSubstring('cabwefgewcwaefgcf', 'cae')).toBe('cwae');
-    });
-});
 
-"""
+def test_t_longer_than_s_returns_empty_string():
+    assert get_minimum_window_substring('ab', 'abc') == ''
+
+
+def test_duplicate_chars_in_t():
+    assert get_minimum_window_substring('aab', 'aa') == 'aa'
+
+
+def test_exact_match_returns_full_string():
+    assert get_minimum_window_substring('abc', 'abc') == 'abc'
+
+
+def test_multiple_valid_windows_returns_smallest():
+    assert get_minimum_window_substring('cabwefgewcwaefgcf', 'cae') == 'cwae'

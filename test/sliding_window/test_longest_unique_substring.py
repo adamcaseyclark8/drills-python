@@ -1,49 +1,37 @@
-r"""TODO: port to Python.
+from code.sliding_window.longest_unique_substring import longest_unique_substring
 
-Original JavaScript (test/sliding-window/longest-unique-substring.test.js):
 
-const longestUniqueSubstring = require('../../code/sliding-window/longest-unique-substring.js');
+def test_standard_scenario():
+    assert longest_unique_substring('geeksforgeeks') == 'eksforg'
 
-describe('verify longest unique substring', () => {
-    test('standard scenario', () => {
-        expect(longestUniqueSubstring('geeksforgeeks')).toBe('eksforg');
-    });
 
-    test('repeating exact same twice', () => {
-        expect(longestUniqueSubstring('abcabcbb')).toBe('abc');
-    });
+def test_repeating_exact_same_twice():
+    assert longest_unique_substring('abcabcbb') == 'abc'
 
-    test('same character repeated', () => {
-        expect(longestUniqueSubstring('bbbbb')).toBe('b');
-    });
 
-    test('will not be pwke - will be wke', () => {
-        expect(longestUniqueSubstring('pwwkew')).toBe('wke');
-    });
+def test_same_character_repeated():
+    assert longest_unique_substring('bbbbb') == 'b'
 
-    test('basic case', () => {
-        expect(longestUniqueSubstring('abcabcbb')).toBe('abc');
-    });
 
-    test('all unique', () => {
-        expect(longestUniqueSubstring('abcdef')).toBe('abcdef');
-    });
+def test_will_not_be_pwke_will_be_wke():
+    assert longest_unique_substring('pwwkew') == 'wke'
 
-    test('all same characters', () => {
-        expect(longestUniqueSubstring('aaaa')).toBe('a');
-    });
 
-    test('empty string', () => {
-        expect(longestUniqueSubstring('')).toBe('');
-    });
+def test_all_unique():
+    assert longest_unique_substring('abcdef') == 'abcdef'
 
-    test('single character', () => {
-        expect(longestUniqueSubstring('a')).toBe('a');
-    });
 
-    test('unique at end', () => {
-        expect(longestUniqueSubstring('aabcd')).toBe('abcd');
-    });
-});
+def test_all_same_characters():
+    assert longest_unique_substring('aaaa') == 'a'
 
-"""
+
+def test_empty_string():
+    assert longest_unique_substring('') == ''
+
+
+def test_single_character():
+    assert longest_unique_substring('a') == 'a'
+
+
+def test_unique_at_end():
+    assert longest_unique_substring('aabcd') == 'abcd'

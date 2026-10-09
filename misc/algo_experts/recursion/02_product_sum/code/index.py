@@ -1,20 +1,9 @@
-r"""TODO: port to Python.
+def product_sum(array, multiplier=1):
+    total = 0
 
-Original JavaScript (misc/algo-experts/recursion/02-product-sum/code/index.js):
-
-function productSum(array, multiplier = 1) {
-    let sum = 0;
-
-    for (const element of array) {
-        if (Array.isArray(element)) {
-            sum += productSum(element, multiplier + 1);
-        } else {
-            sum += element;
-        }
-    }
-    return sum * multiplier;
-}
-
-exports.productSum = productSum;
-
-"""
+    for element in array:
+        if isinstance(element, list):
+            total += product_sum(element, multiplier + 1)
+        else:
+            total += element
+    return total * multiplier

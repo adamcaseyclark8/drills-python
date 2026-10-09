@@ -1,35 +1,21 @@
-r"""TODO: port to Python.
+from code.hashing.get_all_sum_to_zero import get_all_pairs_that_sum_to_zero
 
-Original JavaScript (test/hashing/get-all-sum-to-zero.test.js):
 
-const getAllPairsThatSumToZero = require('../../code/hashing/get-all-sum-to-zero.js');
+def test_returns_pairs_that_sum_to_zero():
+    assert get_all_pairs_that_sum_to_zero([-3, -1, 0, 1, 2, 3]) == [[-1, 1], [-3, 3]]
 
-describe('get all pairs that sum to zero', () => {
-    test('returns pairs that sum to zero', () => {
-        expect(getAllPairsThatSumToZero([-3, -1, 0, 1, 2, 3])).toEqual([
-            [-1, 1],
-            [-3, 3]
-        ]);
-    });
 
-    test('returns empty array when no pairs sum to zero', () => {
-        expect(getAllPairsThatSumToZero([1, 2, 3])).toEqual([]);
-    });
+def test_returns_empty_array_when_no_pairs_sum_to_zero():
+    assert get_all_pairs_that_sum_to_zero([1, 2, 3]) == []
 
-    test('returns empty array for empty input', () => {
-        expect(getAllPairsThatSumToZero([])).toEqual([]);
-    });
 
-    test('handles multiple pairs', () => {
-        expect(getAllPairsThatSumToZero([-2, -1, 1, 2])).toEqual([
-            [-1, 1],
-            [-2, 2]
-        ]);
-    });
+def test_returns_empty_array_for_empty_input():
+    assert get_all_pairs_that_sum_to_zero([]) == []
 
-    test('returns empty when no negatives present', () => {
-        expect(getAllPairsThatSumToZero([1, 2, 3, 4])).toEqual([]);
-    });
-});
 
-"""
+def test_handles_multiple_pairs():
+    assert get_all_pairs_that_sum_to_zero([-2, -1, 1, 2]) == [[-1, 1], [-2, 2]]
+
+
+def test_returns_empty_when_no_negatives_present():
+    assert get_all_pairs_that_sum_to_zero([1, 2, 3, 4]) == []

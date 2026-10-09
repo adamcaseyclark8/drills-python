@@ -1,62 +1,37 @@
-r"""TODO: port to Python.
+from code.graphs.word_ladder import word_ladder_length
 
-Original JavaScript (test/graphs/word-ladder.test.js):
 
-const wordLadderLength = require('../../code/graphs/word-ladder.js');
+def test_returns_correct_steps_for_a_typical_transformation():
+    word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog']
+    assert word_ladder_length('hit', 'cog', word_list) == 5
+    # hit → hot → dot → dog → cog
 
-describe('word ladder length problem', () => {
-    test('returns correct steps for a typical transformation', () => {
-        const beginWord = 'hit';
-        const endWord = 'cog';
-        const wordList = ['hot', 'dot', 'dog', 'lot', 'log', 'cog'];
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(5);
-        // hit → hot → dot → dog → cog
-    });
 
-    test('returns 0 if end is not in list', () => {
-        const beginWord = 'hit';
-        const endWord = 'cog';
-        const wordList = ['hot', 'dot', 'dog', 'lot', 'log']; // no 'cog'
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(0);
-    });
+def test_returns_0_if_end_is_not_in_list():
+    word_list = ['hot', 'dot', 'dog', 'lot', 'log']  # no 'cog'
+    assert word_ladder_length('hit', 'cog', word_list) == 0
 
-    test('returns 0 if no path exists', () => {
-        const beginWord = 'hit';
-        const endWord = 'cog';
-        const wordList = ['hot', 'dot', 'dog', 'lot', 'log', 'xyz']; // 'cog' disconnected
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(0);
-    });
 
-    test('handles single letter words', () => {
-        const beginWord = 'a';
-        const endWord = 'c';
-        const wordList = ['a', 'b', 'c'];
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(2);
-        // a → c
-    });
+def test_returns_0_if_no_path_exists():
+    word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'xyz']  # 'cog' disconnected
+    assert word_ladder_length('hit', 'cog', word_list) == 0
 
-    test('begin equals end', () => {
-        const beginWord = 'same';
-        const endWord = 'same';
-        const wordList = ['same', 'came', 'lame'];
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(1);
-    });
 
-    test('large transformation path', () => {
-        const beginWord = 'hit';
-        const endWord = 'cog';
-        const wordList = ['hot', 'dot', 'dog', 'lot', 'log', 'cog', 'hog', 'cot'];
-        // multiple paths exist, shortest path length = 4
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(4);
-        // hit → hot → hog → cog
-    });
+def test_handles_single_letter_words():
+    assert word_ladder_length('a', 'c', ['a', 'b', 'c']) == 2
+    # a → c
 
-    test('empty word list', () => {
-        const beginWord = 'hit';
-        const endWord = 'cog';
-        const wordList = [];
-        expect(wordLadderLength(beginWord, endWord, wordList)).toBe(0);
-    });
-});
 
-"""
+def test_begin_equals_end():
+    assert word_ladder_length('same', 'same', ['same', 'came', 'lame']) == 1
+
+
+def test_large_transformation_path():
+    word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog', 'hog', 'cot']
+    # multiple paths exist, shortest path length = 4
+    assert word_ladder_length('hit', 'cog', word_list) == 4
+    # hit → hot → hog → cog
+
+
+def test_empty_word_list():
+    assert word_ladder_length('hit', 'cog', []) == 0

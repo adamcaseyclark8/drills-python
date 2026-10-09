@@ -1,15 +1,15 @@
-r"""TODO: port to Python.
+import asyncio
 
-Original JavaScript (code/reimplementation/implement-promise.js):
 
-const delay = (ms, value) => new Promise(resolve => setTimeout(() => resolve(value), ms));
+async def delay(ms, value):
+    await asyncio.sleep(ms / 1000)
+    return value
 
-const fetchWithRetry = (fn, retries) =>
-    fn().catch(err => {
-        if (retries <= 0) return Promise.reject(err);
-        return fetchWithRetry(fn, retries - 1);
-    });
 
-module.exports = { delay, fetchWithRetry };
-
-"""
+async def fetch_with_retry(fn, retries):
+    try:
+        return await fn()
+    except Exception:
+        if retries <= 0:
+            raise
+        return await fetch_with_retry(fn, retries - 1)

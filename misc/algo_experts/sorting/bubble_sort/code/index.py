@@ -1,31 +1,17 @@
-r"""TODO: port to Python.
+def bubble_sort(array):
+    is_sorted = False
+    counter = 0
 
-Original JavaScript (misc/algo-experts/sorting/bubble-sort/code/index.js):
+    while not is_sorted:
+        is_sorted = True
 
-function bubbleSort(array) {
-    let isSorted = false;
-    let counter = 0;
+        for i in range(len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                swap(i, i + 1, array)
+                is_sorted = False
+        counter += 1
+    return array
 
-    while (!isSorted) {
-        isSorted = true;
 
-        for (let i = 0; i < array.length - 1 - counter; i++) {
-            if (array[i] > array[i + 1]) {
-                swap(i, i + 1, array);
-                isSorted = false;
-            }
-        }
-        counter++;
-    }
-    return array;
-}
-
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
-
-exports.bubbleSort = bubbleSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

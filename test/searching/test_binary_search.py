@@ -1,53 +1,37 @@
-r"""TODO: port to Python.
+from code.searching.binary_search import perform_binary_search
 
-Original JavaScript (test/searching/binary-search.test.js):
 
-const performBinarySearch = require('../../code/searching/binary-search.js');
+def test_case_1():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73], 33) == 3
 
-describe('test binary search', () => {
-    test('test case #1', () => {
-        expect(performBinarySearch([0, 1, 21, 33, 45, 45, 61, 71, 72, 73], 33)).toBe(3);
-    });
 
-    test('test case #2', () => {
-        const array = [1, 5, 23, 111];
-        expect(performBinarySearch(array, 5)).toBe(1);
-    });
+def test_case_2():
+    assert perform_binary_search([1, 5, 23, 111], 5) == 1
 
-    test('test case #3', () => {
-        const array = [1, 5, 23, 111];
-        expect(performBinarySearch(array, 35)).toBe(-1);
-    });
 
-    test('test case #1', () => {
-        const array = [1, 5, 23, 111];
-        expect(performBinarySearch(array, 111)).toBe(3);
-    });
+def test_case_3():
+    assert perform_binary_search([1, 5, 23, 111], 35) == -1
 
-    test('test case #5', () => {
-        const array = [0, 1, 21, 33, 45, 45, 61, 71, 72, 73];
-        expect(performBinarySearch(array, 72)).toBe(8);
-    });
 
-    test('test case #6', () => {
-        const array = [0, 1, 21, 33, 45, 45, 61, 71, 72, 73];
-        expect(performBinarySearch(array, 73)).toBe(9);
-    });
+def test_case_4():
+    assert perform_binary_search([1, 5, 23, 111], 111) == 3
 
-    test('test case #7', () => {
-        const array = [0, 1, 21, 33, 45, 45, 61, 71, 72, 73];
-        expect(performBinarySearch(array, 70)).toBe(-1);
-    });
 
-    test('test case #8', () => {
-        const array = [0, 1, 21, 33, 45, 45, 61, 71, 72, 73, 355];
-        expect(performBinarySearch(array, 355)).toBe(10);
-    });
+def test_case_5():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73], 72) == 8
 
-    test('test case #9', () => {
-        const array = [0, 1, 21, 33, 45, 45, 61, 71, 72, 73, 354];
-        expect(performBinarySearch(array, 355)).toBe(-1);
-    });
-});
 
-"""
+def test_case_6():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73], 73) == 9
+
+
+def test_case_7():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73], 70) == -1
+
+
+def test_case_8():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73, 355], 355) == 10
+
+
+def test_case_9():
+    assert perform_binary_search([0, 1, 21, 33, 45, 45, 61, 71, 72, 73, 354], 355) == -1

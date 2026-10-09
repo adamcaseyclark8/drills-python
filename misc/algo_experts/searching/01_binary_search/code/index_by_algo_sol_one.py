@@ -1,32 +1,22 @@
-r"""TODO: port to Python.
+def perform_binary_search(array, target, *_):
+    return perform_binary_search_helper(array, target, 0, len(array) - 1)
 
-Original JavaScript (misc/algo-experts/searching/01-binary-search/code/index-by-algo-sol-one.js):
 
-function performBinarySearch(array, target) {
-    return performBinarySearchHelper(array, target, 0, array.length - 1);
-}
+def perform_binary_search_helper(array, target, left, right):
+    if left > right:
+        return -1
 
-function performBinarySearchHelper(array, target, left, right) {
-    if (left > right) {
-        return -1;
-    }
+    middle = (left + right) // 2
+    potential = array[middle]
 
-    const middle = Math.floor((left + right) / 2);
-    const potential = array[middle];
+    if target == potential:
+        return middle
+    elif target > potential:
+        return perform_binary_search(array, target, left, middle - 1)
+    else:
+        return perform_binary_search(array, target, middle + 1, right)
 
-    if (target === potential) {
-        return middle;
-    } else if (target > potential) {
-        return performBinarySearch(array, target, left, middle - 1);
-    } else {
-        return performBinarySearch(array, target, middle + 1, right);
-    }
-}
 
-exports.performBinarySearch = performBinarySearch;
-
-// [1,5,23,111], 11, 0, 4
-// middle: 2, potential = 5
-//
-
-"""
+# [1,5,23,111], 11, 0, 4
+# middle: 2, potential = 5
+#

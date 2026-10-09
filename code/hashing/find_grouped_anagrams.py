@@ -1,20 +1,9 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/hashing/find-grouped-anagrams.js):
-
-const findGroupedAnagrams = arrayOfStrings => {
-    let result = {};
-    for (let word of arrayOfStrings) {
-        let cleansed = word.split('').sort().join('');
-        if (result[cleansed]) {
-            result[cleansed].push(word);
-        } else {
-            result[cleansed] = [word];
-        }
-    }
-    return Object.values(result);
-};
-
-module.exports = findGroupedAnagrams;
-
-"""
+def find_grouped_anagrams(array_of_strings):
+    result = {}
+    for word in array_of_strings:
+        cleansed = ''.join(sorted(word))
+        if cleansed in result:
+            result[cleansed].append(word)
+        else:
+            result[cleansed] = [word]
+    return list(result.values())

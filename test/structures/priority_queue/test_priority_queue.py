@@ -1,80 +1,73 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/structures/priority-queue/priority-queue.test.js):
+from code.structures.priority_queue.priority_queue import PriorityQueue
 
-const PriorityQueue = require('../../../code/structures/priority-queue/priority-queue');
 
-describe('testing priority queue', () => {
-    let pq;
+@pytest.fixture
+def pq():
+    return PriorityQueue()
 
-    beforeEach(() => {
-        pq = new PriorityQueue();
-    });
 
-    test('enqueue and dequeue single item', () => {
-        pq.enqueue('task1', 1);
-        expect(pq.dequeue()).toBe('task1');
-        expect(pq.isEmpty()).toBe(true);
-    });
+def test_enqueue_and_dequeue_single_item(pq):
+    pq.enqueue('task1', 1)
+    assert pq.dequeue() == 'task1'
+    assert pq.is_empty() is True
 
-    test('items are dequeued by priority (min-priority)', () => {
-        pq.enqueue('low', 5);
-        pq.enqueue('medium', 3);
-        pq.enqueue('high', 1);
-        expect(pq.dequeue()).toBe('high');
-        expect(pq.dequeue()).toBe('medium');
-        expect(pq.dequeue()).toBe('low');
-    });
 
-    test('peek returns item with highest priority without removing', () => {
-        pq.enqueue('A', 10);
-        pq.enqueue('B', 5);
-        expect(pq.peek()).toBe('B');
-        expect(pq.size()).toBe(2);
-    });
+def test_items_are_dequeued_by_priority_min_priority(pq):
+    pq.enqueue('low', 5)
+    pq.enqueue('medium', 3)
+    pq.enqueue('high', 1)
+    assert pq.dequeue() == 'high'
+    assert pq.dequeue() == 'medium'
+    assert pq.dequeue() == 'low'
 
-    test('isEmpty works correctly', () => {
-        expect(pq.isEmpty()).toBe(true);
-        pq.enqueue('X', 1);
-        expect(pq.isEmpty()).toBe(false);
-    });
 
-    test('size reflects correct number of elements', () => {
-        expect(pq.size()).toBe(0);
-        pq.enqueue('task1', 2);
-        pq.enqueue('task2', 3);
-        expect(pq.size()).toBe(2);
-        pq.dequeue();
-        expect(pq.size()).toBe(1);
-    });
+def test_peek_returns_item_with_highest_priority_without_removing(pq):
+    pq.enqueue('A', 10)
+    pq.enqueue('B', 5)
+    assert pq.peek() == 'B'
+    assert pq.size() == 2
 
-    test('handles dequeue on empty queue gracefully', () => {
-        expect(pq.dequeue()).toBeUndefined(); // or null depending on implementation
-    });
 
-    test('handles peek on empty queue gracefully', () => {
-        expect(pq.peek()).toBeUndefined(); // or null depending on implementation
-    });
+def test_is_empty_works_correctly(pq):
+    assert pq.is_empty() is True
+    pq.enqueue('X', 1)
+    assert pq.is_empty() is False
 
-    test('can enqueue multiple items with same priority', () => {
-        pq.enqueue('A', 2);
-        pq.enqueue('B', 2);
-        pq.enqueue('C', 1);
-        expect(pq.dequeue()).toBe('C');
-        const rest = [pq.dequeue(), pq.dequeue()];
-        expect(rest).toContain('A');
-        expect(rest).toContain('B');
-    });
 
-    test('maintains correct ordering after interleaved operations', () => {
-        pq.enqueue('task1', 4);
-        pq.enqueue('task2', 2);
-        expect(pq.dequeue()).toBe('task2');
-        pq.enqueue('task3', 1);
-        expect(pq.dequeue()).toBe('task3');
-        expect(pq.dequeue()).toBe('task1');
-        expect(pq.isEmpty()).toBe(true);
-    });
-});
+def test_size_reflects_correct_number_of_elements(pq):
+    assert pq.size() == 0
+    pq.enqueue('task1', 2)
+    pq.enqueue('task2', 3)
+    assert pq.size() == 2
+    pq.dequeue()
+    assert pq.size() == 1
 
-"""
+
+def test_handles_dequeue_on_empty_queue_gracefully(pq):
+    assert pq.dequeue() is None
+
+
+def test_handles_peek_on_empty_queue_gracefully(pq):
+    assert pq.peek() is None
+
+
+def test_can_enqueue_multiple_items_with_same_priority(pq):
+    pq.enqueue('A', 2)
+    pq.enqueue('B', 2)
+    pq.enqueue('C', 1)
+    assert pq.dequeue() == 'C'
+    rest = [pq.dequeue(), pq.dequeue()]
+    assert 'A' in rest
+    assert 'B' in rest
+
+
+def test_maintains_correct_ordering_after_interleaved_operations(pq):
+    pq.enqueue('task1', 4)
+    pq.enqueue('task2', 2)
+    assert pq.dequeue() == 'task2'
+    pq.enqueue('task3', 1)
+    assert pq.dequeue() == 'task3'
+    assert pq.dequeue() == 'task1'
+    assert pq.is_empty() is True

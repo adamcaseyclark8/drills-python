@@ -1,83 +1,56 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (misc/algo-experts/binary-search-trees/find-closet-value-in-bst/test/index.test.js):
+from ..code.index import find_closest_value_in_bst  # noqa: F401
 
-const program = require('../code/index');
-const chai = require('chai');
 
-class BST {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+class BST:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
-    insert(value) {
-        if (value < this.value) {
-            if (this.left === null) {
-                this.left = new BST(value);
-            } else {
-                this.left.insert(value);
-            }
-        } else {
-            if (this.right === null) {
-                this.right = new BST(value);
-            } else {
-                this.right.insert(value);
-            }
-        }
+    def insert(self, value):
+        if value < self.value:
+            if self.left is None:
+                self.left = BST(value)
+            else:
+                self.left.insert(value)
+        else:
+            if self.right is None:
+                self.right = BST(value)
+            else:
+                self.right.insert(value)
 
-        return this;
-    }
-}
+        return self
 
-const test = new BST(100)
-    .insert(5)
-    .insert(15)
-    .insert(5)
-    .insert(2)
-    .insert(1)
-    .insert(22)
-    .insert(1)
-    .insert(1)
-    .insert(3)
-    .insert(1)
-    .insert(1)
-    .insert(502)
-    .insert(55000)
-    .insert(204)
-    .insert(205)
-    .insert(207)
-    .insert(206)
-    .insert(208)
-    .insert(203)
-    .insert(-51)
-    .insert(-403)
-    .insert(1001)
-    .insert(57)
-    .insert(60)
-    .insert(4500);
+    def __repr__(self):
+        return f'BST(value={self.value}, left={self.left}, right={self.right})'
 
-console.log(test);
 
-test('Test Case #1', () => {
-    console.log(test);
-});
+@pytest.fixture
+def tree():
+    tree = BST(100)
+    for value in [5, 15, 5, 2, 1, 22, 1, 1, 3, 1, 1, 502, 55000, 204, 205, 207, 206, 208, 203, -51, -403, 1001, 57,
+                  60, 4500]:
+        tree.insert(value)
+    return tree
 
-// test("Test Case #1", () => {
-//   chai.expect(program.findClosestValueInBst(test, 100)).to.deep.equal(100);
-// });
-//
-// test("Test Case #2", () => {
-//   chai.expect(program.findClosestValueInBst(test, 208)).to.deep.equal(208);
-// });
-//
-// test("Test Case #3", () => {
-//   chai.expect(program.findClosestValueInBst(test, 4500)).to.deep.equal(4500);
-// });
-//
-// test("Test Case #4", () => {
-//   chai.expect(program.findClosestValueInBst(test, 4501)).to.deep.equal(4500);
-// });
 
-"""
+def test_case_1(tree):
+    print(tree)
+
+
+# def test_case_1(tree):
+#     assert find_closest_value_in_bst(tree, 100) == 100
+#
+#
+# def test_case_2(tree):
+#     assert find_closest_value_in_bst(tree, 208) == 208
+#
+#
+# def test_case_3(tree):
+#     assert find_closest_value_in_bst(tree, 4500) == 4500
+#
+#
+# def test_case_4(tree):
+#     assert find_closest_value_in_bst(tree, 4501) == 4500

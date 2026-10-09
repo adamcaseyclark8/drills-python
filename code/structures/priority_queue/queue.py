@@ -1,37 +1,21 @@
-r"""TODO: port to Python.
+class Queue:
+    def __init__(self):
+        self.items = []
 
-Original JavaScript (code/structures/priority-queue/queue.js):
+    def enqueue(self, value):
+        self.items.append(value)
 
-class Queue {
-    constructor() {
-        this.items = [];
-    }
+    def dequeue(self):
+        return self.items.pop(0) if self.items else None
 
-    enqueue(value) {
-        this.items.push(value);
-    }
+    def peek(self):
+        return self.items[0] if self.items else None
 
-    dequeue() {
-        return this.items.shift();
-    }
+    def is_empty(self):
+        return len(self.items) == 0
 
-    peek() {
-        return this.items[0];
-    }
+    def size(self):
+        return len(self.items)
 
-    isEmpty() {
-        return this.items.length === 0;
-    }
-
-    size() {
-        return this.items.length;
-    }
-
-    toArray() {
-        return [...this.items];
-    }
-}
-
-module.exports = Queue;
-
-"""
+    def to_array(self):
+        return list(self.items)

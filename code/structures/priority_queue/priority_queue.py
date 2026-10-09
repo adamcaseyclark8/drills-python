@@ -1,48 +1,29 @@
-r"""TODO: port to Python.
+from code.structures.priority_queue.queue import Queue
 
-Original JavaScript (code/structures/priority-queue/priority-queue.js):
 
-const Queue = require('./queue.js');
+class PriorityQueue(Queue):
+    def enqueue(self, value, priority):
+        new_item = {'value': value, 'priority': priority}
 
-class PriorityQueue extends Queue {
-    constructor() {
-        super();
-    }
+        if self.is_empty():
+            self.items.append(new_item)
+        else:
+            inserted = False
+            for i in range(len(self.items)):
+                if priority < self.items[i]['priority']:
+                    self.items.insert(i, new_item)
+                    inserted = True
+                    break
+            if not inserted:
+                self.items.append(new_item)
 
-    enqueue(value, priority) {
-        const newItem = { value, priority };
+    def dequeue(self):
+        item = super().dequeue()
+        return item['value'] if item else None
 
-        if (this.isEmpty()) {
-            this.items.push(newItem);
-        } else {
-            let inserted = false;
-            for (let i = 0; i < this.items.length; i++) {
-                if (priority < this.items[i].priority) {
-                    this.items.splice(i, 0, newItem);
-                    inserted = true;
-                    break;
-                }
-            }
-            if (!inserted) {
-                this.items.push(newItem);
-            }
-        }
-    }
+    def peek(self):
+        item = super().peek()
+        return item['value'] if item else None
 
-    dequeue() {
-        const item = super.dequeue();
-        return item?.value;
-    }
-
-    peek() {
-        return super.peek()?.value;
-    }
-
-    toArray() {
-        return this.items.map(item => item.value);
-    }
-}
-
-module.exports = PriorityQueue;
-
-"""
+    def to_array(self):
+        return [item['value'] for item in self.items]

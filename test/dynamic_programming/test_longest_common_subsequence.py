@@ -1,41 +1,33 @@
-r"""TODO: port to Python.
+from code.dynamic_programming.longest_common_subsequence import longest_common_subsequence
 
-Original JavaScript (test/dynamic-programming/longest-common-subsequence.test.js):
 
-const longestCommonSubsequence = require('../../code/dynamic-programming/longest-common-subsequence.js');
+def test_abcde_and_ace_returns_3():
+    assert longest_common_subsequence('abcde', 'ace') == 3
 
-describe('longestCommonSubsequence', () => {
-    test('abcde and ace returns 3', () => {
-        expect(longestCommonSubsequence('abcde', 'ace')).toBe(3);
-    });
 
-    test('abc and abc returns 3', () => {
-        expect(longestCommonSubsequence('abc', 'abc')).toBe(3);
-    });
+def test_abc_and_abc_returns_3():
+    assert longest_common_subsequence('abc', 'abc') == 3
 
-    test('abc and def returns 0', () => {
-        expect(longestCommonSubsequence('abc', 'def')).toBe(0);
-    });
 
-    test('empty strings returns 0', () => {
-        expect(longestCommonSubsequence('', '')).toBe(0);
-    });
+def test_abc_and_def_returns_0():
+    assert longest_common_subsequence('abc', 'def') == 0
 
-    test('one empty string returns 0', () => {
-        expect(longestCommonSubsequence('abc', '')).toBe(0);
-    });
 
-    test('single matching char returns 1', () => {
-        expect(longestCommonSubsequence('a', 'a')).toBe(1);
-    });
+def test_empty_strings_returns_0():
+    assert longest_common_subsequence('', '') == 0
 
-    test('single non-matching char returns 0', () => {
-        expect(longestCommonSubsequence('a', 'b')).toBe(0);
-    });
 
-    test('bsbininm and jmjkbkjkv returns 1', () => {
-        expect(longestCommonSubsequence('bsbininm', 'jmjkbkjkv')).toBe(1);
-    });
-});
+def test_one_empty_string_returns_0():
+    assert longest_common_subsequence('abc', '') == 0
 
-"""
+
+def test_single_matching_char_returns_1():
+    assert longest_common_subsequence('a', 'a') == 1
+
+
+def test_single_non_matching_char_returns_0():
+    assert longest_common_subsequence('a', 'b') == 0
+
+
+def test_bsbininm_and_jmjkbkjkv_returns_1():
+    assert longest_common_subsequence('bsbininm', 'jmjkbkjkv') == 1

@@ -1,30 +1,20 @@
-r"""TODO: port to Python.
+def three_number_sum(arr, target_sum):
+    def two_sum(smaller_target_sum, start):
+        x = {}
+        for i in range(start, len(arr)):
+            num = arr[i]
+            if num is None:
+                continue
+            if x.get(num):
+                return True
+            x[smaller_target_sum - num] = True
+        return False
 
-Original JavaScript (misc/algo-experts/arrays/three-number-sum/code/als-version.js):
+    for i in range(len(arr) - 2):
+        if arr[i] is None:
+            continue
+        # print(two_sum(target_sum - arr[i], i + 1))
 
-const threeNumberSum = (arr, targetSum) => {
-    const twoSum = (smallerTargetSum, start) => {
-        const x = {};
-        for (let i = start; i < arr.length; i += 1) {
-            const num = arr[i];
-            if (x[num]) {
-                return true;
-            }
-            x[smallerTargetSum - num] = true;
-        }
-        return false;
-    };
-
-    for (let i = 0; i < arr.length - 2; i += 1) {
-        // console.log(twoSum(targetSum - arr[i], i + 1))
-
-        if (twoSum(targetSum - arr[i], i + 1)) {
-            return true;
-        }
-    }
-    return false;
-};
-
-module.exports = threeNumberSum;
-
-"""
+        if two_sum(target_sum - arr[i], i + 1):
+            return True
+    return False

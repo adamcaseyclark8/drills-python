@@ -1,21 +1,14 @@
-r"""TODO: port to Python.
+def is_palindrome(string):
+    left_idx = 0
+    right_idx = len(string) - 1
 
-Original JavaScript (misc/algo-experts/strings/palindrome-check/code/v4.js):
+    while left_idx < right_idx:
+        if string[left_idx] != string[right_idx]:
+            return False
+        left_idx += 1
+        right_idx -= 1
+    return True
 
-function isPalindrome(string) {
-    let leftIdx = 0;
-    let rightIdx = string.length - 1;
 
-    while (leftIdx < rightIdx) {
-        if (string[leftIdx] !== string[rightIdx]) {
-            return false;
-        }
-        leftIdx++;
-        rightIdx--;
-    }
-    return true;
-}
-
-console.log(isPalindrome('hannah'));
-
-"""
+if __name__ == '__main__':
+    print(is_palindrome('hannah'))

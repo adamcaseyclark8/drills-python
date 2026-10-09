@@ -1,54 +1,34 @@
-r"""TODO: port to Python.
+from code.hashing.remove_all_duplicates import remove_all_duplicates
 
-Original JavaScript (test/hashing/remove-all-duplicates.test.js):
 
-const removeAllDuplicates = require('../../code/hashing/remove-all-duplicates.js');
+def test_removes_duplicates_from_an_array_of_numbers():
+    assert sorted(remove_all_duplicates([1, 2, 2, 3, 4, 4, 5])) == [1, 2, 3, 4, 5]
 
-describe('remove all duplicates algorithm', () => {
-    test('removes duplicates from an array of numbers', () => {
-        const result = removeAllDuplicates([1, 2, 2, 3, 4, 4, 5]);
-        expect(result.sort()).toEqual([1, 2, 3, 4, 5]);
-    });
 
-    test('removes duplicates from an array of strings', () => {
-        const result = removeAllDuplicates(['a', 'b', 'a', 'c', 'b']);
-        expect(result.sort()).toEqual(['a', 'b', 'c']);
-    });
+def test_removes_duplicates_from_an_array_of_strings():
+    assert sorted(remove_all_duplicates(['a', 'b', 'a', 'c', 'b'])) == ['a', 'b', 'c']
 
-    test('returns same array when no duplicates exist', () => {
-        const result = removeAllDuplicates([10, 20, 30]);
-        expect(result.sort()).toEqual([10, 20, 30]);
-    });
 
-    test('returns empty array when input is empty', () => {
-        expect(removeAllDuplicates([])).toEqual([]);
-    });
+def test_returns_same_array_when_no_duplicates_exist():
+    assert sorted(remove_all_duplicates([10, 20, 30])) == [10, 20, 30]
 
-    test('works with all elements being the same', () => {
-        const result = removeAllDuplicates([1, 1, 1, 1]);
-        expect(result).toEqual([1]);
-    });
 
-    // test('handles mixed types (number and string)', () => {
-    //     const result = removeAllDuplicates([1, '1', 2, '2', 1]);
-    //     expect(result.length).toEqual(2);
-    //     expect(result).toContain(1);
-    //     expect(result).toContain(2);
-    // });
+def test_returns_empty_array_when_input_is_empty():
+    assert remove_all_duplicates([]) == []
 
-    test('maintains order of first occurrence', () => {
-        const result = removeAllDuplicates(['a', 'b', 'a', 'c']);
-        expect(result).toEqual(['a', 'b', 'c']); // Set keeps first occurrence
-    });
 
-    // MY TEST CASES / ABOVE SUPPLIED BY CHATGPT
-    test('multiple element array', () => {
-        expect(removeAllDuplicates([1, 1, 2, 2, 3, 3, 3, 4])).toStrictEqual([1, 2, 3, 4]);
-    });
+def test_works_with_all_elements_being_the_same():
+    assert remove_all_duplicates([1, 1, 1, 1]) == [1]
 
-    test('one element array', () => {
-        expect(removeAllDuplicates([1])).toStrictEqual([1]);
-    });
-});
 
-"""
+def test_maintains_order_of_first_occurrence():
+    assert remove_all_duplicates(['a', 'b', 'a', 'c']) == ['a', 'b', 'c']
+
+
+# MY TEST CASES / ABOVE SUPPLIED BY CHATGPT
+def test_multiple_element_array():
+    assert remove_all_duplicates([1, 1, 2, 2, 3, 3, 3, 4]) == [1, 2, 3, 4]
+
+
+def test_one_element_array():
+    assert remove_all_duplicates([1]) == [1]

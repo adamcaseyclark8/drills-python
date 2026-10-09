@@ -1,70 +1,64 @@
-r"""TODO: port to Python.
+import copy
 
-Original JavaScript (test/graphs/count-number-of-islands.test.js):
+from code.graphs.count_number_of_islands import count_number_of_islands
 
-const countNumberOfIslands = require('../../code/graphs/count-number-of-islands.js');
 
-describe('count number of islands', () => {
-    it('should return 0 for an empty grid', () => {
-        expect(countNumberOfIslands([])).toBe(0);
-    });
+def test_should_return_0_for_an_empty_grid():
+    assert count_number_of_islands([]) == 0
 
-    it('should return 0 when there is only water', () => {
-        const grid = [
-            ['0', '0', '0'],
-            ['0', '0', '0'],
-            ['0', '0', '0']
-        ];
-        expect(countNumberOfIslands(grid)).toBe(0);
-    });
 
-    it('should return 1 when there is only one island', () => {
-        const grid = [
-            ['1', '1', '0'],
-            ['1', '1', '0'],
-            ['0', '0', '0']
-        ];
-        expect(countNumberOfIslands(grid)).toBe(1);
-    });
+def test_should_return_0_when_there_is_only_water():
+    grid = [
+        ['0', '0', '0'],
+        ['0', '0', '0'],
+        ['0', '0', '0'],
+    ]
+    assert count_number_of_islands(grid) == 0
 
-    it('should return 3 for a grid with 3 separate islands', () => {
-        const grid = [
-            ['1', '1', '0', '0', '0'],
-            ['1', '1', '0', '0', '0'],
-            ['0', '0', '1', '0', '0'],
-            ['0', '0', '0', '1', '1']
-        ];
-        expect(countNumberOfIslands(grid)).toBe(3);
-    });
 
-    it('should handle diagonals not being connected', () => {
-        const grid = [
-            ['1', '0', '1'],
-            ['0', '1', '0'],
-            ['1', '0', '1']
-        ];
-        expect(countNumberOfIslands(grid)).toBe(5); // Diagonal connections don't count
-    });
+def test_should_return_1_when_there_is_only_one_island():
+    grid = [
+        ['1', '1', '0'],
+        ['1', '1', '0'],
+        ['0', '0', '0'],
+    ]
+    assert count_number_of_islands(grid) == 1
 
-    it('should return correct count for a large single island', () => {
-        const grid = [
-            ['1', '1', '1', '1'],
-            ['1', '1', '1', '1'],
-            ['1', '1', '1', '1']
-        ];
-        expect(countNumberOfIslands(grid)).toBe(1);
-    });
 
-    it('should not mutate original grid if needed (optional)', () => {
-        const grid = [
-            ['1', '1', '0'],
-            ['1', '0', '0'],
-            ['0', '0', '1']
-        ];
-        const deepCopy = JSON.parse(JSON.stringify(grid));
-        countNumberOfIslands(grid);
-        expect(grid).not.toEqual(deepCopy); // Optional test to remind mutation
-    });
-});
+def test_should_return_3_for_a_grid_with_3_separate_islands():
+    grid = [
+        ['1', '1', '0', '0', '0'],
+        ['1', '1', '0', '0', '0'],
+        ['0', '0', '1', '0', '0'],
+        ['0', '0', '0', '1', '1'],
+    ]
+    assert count_number_of_islands(grid) == 3
 
-"""
+
+def test_should_handle_diagonals_not_being_connected():
+    grid = [
+        ['1', '0', '1'],
+        ['0', '1', '0'],
+        ['1', '0', '1'],
+    ]
+    assert count_number_of_islands(grid) == 5  # Diagonal connections don't count
+
+
+def test_should_return_correct_count_for_a_large_single_island():
+    grid = [
+        ['1', '1', '1', '1'],
+        ['1', '1', '1', '1'],
+        ['1', '1', '1', '1'],
+    ]
+    assert count_number_of_islands(grid) == 1
+
+
+def test_should_not_mutate_original_grid_if_needed_optional():
+    grid = [
+        ['1', '1', '0'],
+        ['1', '0', '0'],
+        ['0', '0', '1'],
+    ]
+    deep_copy = copy.deepcopy(grid)
+    count_number_of_islands(grid)
+    assert grid != deep_copy  # Optional test to remind mutation

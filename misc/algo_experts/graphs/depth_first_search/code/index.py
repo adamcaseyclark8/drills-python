@@ -1,32 +1,16 @@
-r"""TODO: port to Python.
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.children = []
 
-Original JavaScript (misc/algo-experts/graphs/depth-first-search/code/index.js):
+    def add_child(self, name):
+        self.children.append(Node(name))
+        return self
 
-class Node {
-    constructor(name) {
-        this.name = name;
-        this.children = [];
-    }
+    def depth_first_search(self, array):
+        array.append(self.name)
 
-    addChild(name) {
-        this.children.push(new Node(name));
-        return this;
-    }
+        for child in self.children:
+            child.depth_first_search(array)
 
-    depthFirstSearch(array) {
-        // console.log('array');
-        // console.log(array);
-
-        array.push(this.name);
-
-        for (const child of this.children) {
-            child.depthFirstSearch(array);
-        }
-
-        return array;
-    }
-}
-
-exports.Node = Node;
-
-"""
+        return array

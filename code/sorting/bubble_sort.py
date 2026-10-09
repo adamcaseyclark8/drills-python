@@ -1,33 +1,20 @@
-r"""TODO: port to Python.
+# AS EVERY COUNTER += 1,
 
-Original JavaScript (code/sorting/bubble-sort.js):
 
-// AS EVERY COUNTER++,
+def sort_via_bubble_sort(array):
+    is_sorted = False
+    counter = 0
 
-const sortViaBubbleSort = array => {
-    let isSorted = false;
-    let counter = 0;
+    while not is_sorted:
+        is_sorted = True
 
-    while (!isSorted) {
-        isSorted = true;
+        for i in range(len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                swap(i, i + 1, array)
+                is_sorted = False
+        counter += 1
+    return array
 
-        for (let i = 0; i < array.length - 1 - counter; i++) {
-            if (array[i] > array[i + 1]) {
-                swap(i, i + 1, array);
-                isSorted = false;
-            }
-        }
-        counter++;
-    }
-    return array;
-};
 
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
-
-module.exports = sortViaBubbleSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

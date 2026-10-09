@@ -1,72 +1,45 @@
-r"""TODO: port to Python.
+class AssertionUtils:
+    @staticmethod
+    def assert_equals(expected, actual, message):
+        if expected != actual:
+            raise AssertionError(f'FAIL - {message}\n  Expected: {expected}\n  Actual:   {actual}')
 
-Original JavaScript (code/reimplementation/assertion-utils.js):
+    @staticmethod
+    def assert_true(condition, message):
+        if not condition:
+            raise AssertionError(f'FAIL - {message} | Expected: true | Actual: false')
 
-class AssertionUtils {
-    static assertEquals(expected, actual, message) {
-        if (expected !== actual) {
-            throw new Error(`FAIL - ${message}\n  Expected: ${expected}\n  Actual:   ${actual}`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
+    @staticmethod
+    def assert_false(condition, message):
+        if condition:
+            raise AssertionError(f'FAIL - {message} | Expected: false | Actual: true')
 
-    static assertTrue(condition, message) {
-        if (!condition) {
-            throw new Error(`FAIL - ${message} | Expected: true | Actual: false`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
+    @staticmethod
+    def assert_is_none(actual, message):
+        if actual is not None:
+            raise AssertionError(f'FAIL - {message} | Expected: None | Actual: {actual}')
 
-    static assertFalse(condition, message) {
-        if (condition) {
-            throw new Error(`FAIL - ${message} | Expected: false | Actual: true`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
+    @staticmethod
+    def assert_is_not_none(actual, message):
+        if actual is None:
+            raise AssertionError(f'FAIL - {message} | Expected: not None | Actual: None')
 
-    static assertIsNull(actual, message) {
-        if (actual !== null && actual !== undefined) {
-            throw new Error(`FAIL - ${message} | Expected: null | Actual: ${actual}`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
+    @staticmethod
+    def assert_not_equals(expected, actual, message):
+        if expected == actual:
+            raise AssertionError(f'FAIL - {message} | Values should not be equal: {expected}')
 
-    static assertIsNotNull(actual, message) {
-        if (actual === null || actual === undefined) {
-            throw new Error(`FAIL - ${message} | Expected: not null | Actual: null`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
+    @staticmethod
+    def assert_contains(actual, substring, message):
+        if substring not in actual:
+            raise AssertionError(f'FAIL - {message}\n  String: {actual}\n  Expected to contain: {substring}')
 
-    static assertNotEquals(expected, actual, message) {
-        if (expected === actual) {
-            throw new Error(`FAIL - ${message} | Values should not be equal: ${expected}`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
-
-    static assertContains(actual, substring, message) {
-        if (!actual.includes(substring)) {
-            throw new Error(`FAIL - ${message}\n  String: ${actual}\n  Expected to contain: ${substring}`);
-        }
-        // console.log(`PASS - ${message}`);
-    }
-
-    static assertArrayEquals(expected, actual, message) {
-        if (expected.length !== actual.length) {
-            throw new Error(`FAIL - ${message} | Array lengths differ`);
-        }
-        for (let i = 0; i < expected.length; i++) {
-            if (expected[i] !== actual[i]) {
-                throw new Error(
-                    `FAIL - ${message} | Mismatch at index ${i} Expected: ${expected[i]} Actual: ${actual[i]}`
-                );
-            }
-        }
-        // console.log(`PASS - ${message}`);
-    }
-}
-
-module.exports = { AssertionUtils };
-
-"""
+    @staticmethod
+    def assert_array_equals(expected, actual, message):
+        if len(expected) != len(actual):
+            raise AssertionError(f'FAIL - {message} | Array lengths differ')
+        for i in range(len(expected)):
+            if expected[i] != actual[i]:
+                raise AssertionError(
+                    f'FAIL - {message} | Mismatch at index {i} Expected: {expected[i]} Actual: {actual[i]}'
+                )

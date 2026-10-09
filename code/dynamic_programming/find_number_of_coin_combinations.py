@@ -1,20 +1,9 @@
-r"""TODO: port to Python.
+def find_number_of_coin_combinations(amount, coins):
+    dp = [0] * (amount + 1)
+    dp[0] = 1
 
-Original JavaScript (code/dynamic-programming/find-number-of-coin-combinations.js):
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] += dp[i - coin]
 
-const findNumberOfCoinCombinations = (amount, coins) => {
-    const dp = new Array(amount + 1).fill(0);
-    dp[0] = 1;
-
-    for (const coin of coins) {
-        for (let i = coin; i <= amount; i++) {
-            dp[i] += dp[i - coin];
-        }
-    }
-
-    return dp[amount];
-};
-
-module.exports = findNumberOfCoinCombinations;
-
-"""
+    return dp[amount]

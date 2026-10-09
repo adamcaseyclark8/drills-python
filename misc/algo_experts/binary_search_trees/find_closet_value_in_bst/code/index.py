@@ -1,27 +1,17 @@
-r"""TODO: port to Python.
+def find_closest_value_in_bst(tree, target):
+    return find_closet_value_in_bst_helper(tree, target, float('inf'))
 
-Original JavaScript (misc/algo-experts/binary-search-trees/find-closet-value-in-bst/code/index.js):
 
-function findClosestValueInBst(tree, target) {
-    return findClosetValueInBstHelper(tree, target, Infinity);
-}
+def find_closet_value_in_bst_helper(tree, target, closest):
+    if tree is None:
+        return closest
 
-function findClosetValueInBstHelper(tree, target, closest) {
-    if (tree === null) return closest;
+    if abs(target - closest) > abs(target - tree.value):
+        closest = tree.value
 
-    if (Math.abs(target - closest) > Math.abs(target - tree.value)) {
-        closest = tree.value;
-    }
-
-    if (target < tree.value) {
-        return findClosetValueInBstHelper(tree.left, target, closest);
-    } else if (target > tree.value) {
-        return findClosetValueInBstHelper(tree.right, target, closest);
-    } else {
-        return closest;
-    }
-}
-
-exports.findClosestValueInBst = findClosestValueInBst;
-
-"""
+    if target < tree.value:
+        return find_closet_value_in_bst_helper(tree.left, target, closest)
+    elif target > tree.value:
+        return find_closet_value_in_bst_helper(tree.right, target, closest)
+    else:
+        return closest

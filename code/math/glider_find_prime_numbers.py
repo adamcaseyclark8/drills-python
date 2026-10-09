@@ -1,39 +1,25 @@
-r"""TODO: port to Python.
+def is_number_prime(num):
+    # Numbers less than or equal to 1 are not prime
+    if num <= 1:
+        return 'No'
 
-Original JavaScript (code/math/glider-find-prime-numbers.js):
+    # 2 is the only even prime number
+    if num == 2:
+        return 'Yes'
 
-const isNumberPrime = num => {
-    // Numbers less than or equal to 1 are not prime
-    if (num <= 1) {
-        return 'No';
-    }
+    # Even numbers greater than 2 are not prime
+    if num % 2 == 0:
+        return 'No'
 
-    // 2 is the only even prime number
-    if (num === 2) {
-        return 'Yes';
-    }
+    # Check for divisibility from 3 up to the square root of the number,
+    # incrementing by 2 to only check odd divisors
+    i = 3
+    while i * i <= num:
+        if num % i == 0:
+            return 'No'  # Found a divisor, so it's not prime
+        i += 2
 
-    // Even numbers greater than 2 are not prime
-    if (num % 2 === 0) {
-        return 'No';
-    }
+    return 'Yes'  # No divisors found, so it's prime
 
-    // Check for divisibility from 3 up to the square root of the number,
-    // incrementing by 2 to only check odd divisors
-    for (let i = 3; i * i <= num; i += 2) {
-        // console.log(i)
-        // console.log(`${i * i} <= ${num}`)
-        // console.log(`${num} / ${i}?`)
-        if (num % i === 0) {
-            return 'No'; // Found a divisor, so it's not prime
-        }
-    }
 
-    return 'Yes'; // No divisors found, so it's prime
-};
-
-module.exports = isNumberPrime;
-
-// console.log(isNumberPrime(99))
-
-"""
+# print(is_number_prime(99))

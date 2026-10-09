@@ -1,14 +1,8 @@
-r"""TODO: port to Python.
+from ..code.v1 import is_palindrome as is_palindrome_v1  # noqa: F401
+from ..code.v2 import is_palindrome as is_palindrome_v2  # noqa: F401
+from ..code.v3 import is_palindrome as is_palindrome_v3  # noqa: F401
+from ..code.v4 import is_palindrome as is_palindrome_v4  # noqa: F401
 
-Original JavaScript (misc/algo-experts/strings/palindrome-check/test/index.test.js):
 
-const { isPalindrome } = require('../code/v1.js');
-const { isPalindrome } = require('../code/v2.js');
-const { isPalindrome } = require('../code/v3.js');
-const { isPalindrome } = require('../code/v4.js');
-
-describe('Palindrome Tests', () => {
-    test('', () => {});
-});
-
-"""
+def test_palindrome():
+    pass

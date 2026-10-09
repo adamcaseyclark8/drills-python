@@ -1,51 +1,43 @@
-r"""TODO: port to Python.
+from code.two_pointers.verify_valid_palindrome import verify_valid_palindrome
 
-Original JavaScript (test/two-pointers/verify-valid-palindrome.test.js):
+# must ignore spaces, punctuation and case
+# must handle None and empty string
+# must handle single character
 
-const verifyValidPalindrome = require('../../code/two-pointers/verify-valid-palindrome.js');
 
-// must ignore spaces, punctuation and case
-// must handle null and empty string
-// must handle single character
+def test_returns_true_for_a_simple_palindrome():
+    assert verify_valid_palindrome('racecar') is True
 
-describe('verify valid palindrome', () => {
-    test('returns true for a simple palindrome', () => {
-        expect(verifyValidPalindrome('racecar')).toBe(true);
-    });
 
-    test('returns false for a non-palindrome', () => {
-        expect(verifyValidPalindrome('hello')).toBe(false);
-    });
+def test_returns_false_for_a_non_palindrome():
+    assert verify_valid_palindrome('hello') is False
 
-    test('ignores case', () => {
-        expect(verifyValidPalindrome('RaceCar')).toBe(true);
-    });
 
-    test('ignores non-alphanumeric characters', () => {
-        expect(verifyValidPalindrome('A man, a plan, a canal: Panama')).toBe(true);
-    });
+def test_ignores_case():
+    assert verify_valid_palindrome('RaceCar') is True
 
-    test('returns true for single character', () => {
-        expect(verifyValidPalindrome('x')).toBe(true);
-    });
 
-    test('returns true for empty string', () => {
-        expect(verifyValidPalindrome('')).toBe(false);
-    });
+def test_ignores_non_alphanumeric_characters():
+    assert verify_valid_palindrome('A man, a plan, a canal: Panama') is True
 
-    test('returns false for string with only non-alphanumeric characters', () => {
-        // technically empty after cleaning → palindrome
-        expect(verifyValidPalindrome('!@#$')).toBe(true);
-    });
 
-    test('handles numeric palindromes', () => {
-        expect(verifyValidPalindrome('12321')).toBe(true);
-        expect(verifyValidPalindrome('12345')).toBe(false);
-    });
+def test_returns_true_for_single_character():
+    assert verify_valid_palindrome('x') is True
 
-    test('long palindrome with spaces and punctuation', () => {
-        expect(verifyValidPalindrome('No lemon, no melon')).toBe(true);
-    });
-});
 
-"""
+def test_returns_false_for_empty_string():
+    assert verify_valid_palindrome('') is False
+
+
+def test_returns_true_for_string_with_only_non_alphanumeric_characters():
+    # technically empty after cleaning → palindrome
+    assert verify_valid_palindrome('!@#$') is True
+
+
+def test_handles_numeric_palindromes():
+    assert verify_valid_palindrome('12321') is True
+    assert verify_valid_palindrome('12345') is False
+
+
+def test_long_palindrome_with_spaces_and_punctuation():
+    assert verify_valid_palindrome('No lemon, no melon') is True

@@ -1,41 +1,33 @@
-r"""TODO: port to Python.
+from code.dynamic_programming.find_number_of_coin_combinations import find_number_of_coin_combinations
 
-Original JavaScript (test/dynamic-programming/find-number-of-coin-combinations.test.js):
 
-const findNumberOfCoinCombinations = require('../../code/dynamic-programming/find-number-of-coin-combinations');
+def test_example_case_amount_5_coins_1_2_5():
+    assert find_number_of_coin_combinations(5, [1, 2, 5]) == 4
 
-describe('find number of coin combinations tests', () => {
-    test('example case - amount 5, coins [1,2,5]', () => {
-        expect(findNumberOfCoinCombinations(5, [1, 2, 5])).toBe(4);
-    });
 
-    test('no combinations possible', () => {
-        expect(findNumberOfCoinCombinations(3, [2])).toBe(0);
-    });
+def test_no_combinations_possible():
+    assert find_number_of_coin_combinations(3, [2]) == 0
 
-    test('amount is zero - one way (use nothing)', () => {
-        expect(findNumberOfCoinCombinations(0, [1, 2, 5])).toBe(1);
-    });
 
-    test('single coin that divides evenly', () => {
-        expect(findNumberOfCoinCombinations(6, [3])).toBe(1);
-    });
+def test_amount_is_zero_one_way_use_nothing():
+    assert find_number_of_coin_combinations(0, [1, 2, 5]) == 1
 
-    test('single coin that does not divide evenly', () => {
-        expect(findNumberOfCoinCombinations(7, [3])).toBe(0);
-    });
 
-    test('all ones - only one combination', () => {
-        expect(findNumberOfCoinCombinations(4, [1])).toBe(1);
-    });
+def test_single_coin_that_divides_evenly():
+    assert find_number_of_coin_combinations(6, [3]) == 1
 
-    test('larger amount', () => {
-        expect(findNumberOfCoinCombinations(10, [1, 2, 5])).toBe(10);
-    });
 
-    test('order does not matter - combinations not permutations', () => {
-        expect(findNumberOfCoinCombinations(4, [1, 2])).toBe(3);
-    });
-});
+def test_single_coin_that_does_not_divide_evenly():
+    assert find_number_of_coin_combinations(7, [3]) == 0
 
-"""
+
+def test_all_ones_only_one_combination():
+    assert find_number_of_coin_combinations(4, [1]) == 1
+
+
+def test_larger_amount():
+    assert find_number_of_coin_combinations(10, [1, 2, 5]) == 10
+
+
+def test_order_does_not_matter_combinations_not_permutations():
+    assert find_number_of_coin_combinations(4, [1, 2]) == 3

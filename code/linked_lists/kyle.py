@@ -1,143 +1,120 @@
-r"""TODO: port to Python.
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-Original JavaScript (code/linked-lists/kyle.js):
 
-function createNode(value) {
-    return {
-        value,
-        next: null
-    };
-}
+def create_node(value):
+    return Node(value)
 
-function createLinkedList() {
-    return {
-        head: null,
-        tail: null,
-        length: 0,
 
-        push(value) {
-            const node = createNode(value);
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
 
-            if (this.head === null) {
-                this.head = node;
-                this.tail = node;
-                this.length++;
-                return node;
-            }
+    def push(self, value):
+        node = create_node(value)
 
-            this.tail.next = node;
-            this.tail = node;
-            this.length++;
+        if self.head is None:
+            self.head = node
+            self.tail = node
+            self.length += 1
+            return node
 
-            return node;
-        },
+        self.tail.next = node
+        self.tail = node
+        self.length += 1
 
-        pop() {
-            if (this.isEmpty()) {
-                return null;
-            }
+        return node
 
-            const node = this.tail;
+    def pop(self):
+        if self.is_empty():
+            return None
 
-            if (this.head === this.tail) {
-                this.head = null;
-                this.tail = null;
-                this.length--;
-                return node;
-            }
+        node = self.tail
 
-            let current = this.head;
-            let penultimate;
-            while (current) {
-                if (current.next === this.tail) {
-                    penultimate = current;
-                    break;
-                }
+        if self.head is self.tail:
+            self.head = None
+            self.tail = None
+            self.length -= 1
+            return node
 
-                current = current.next;
-            }
+        current = self.head
+        penultimate = None
+        while current:
+            if current.next is self.tail:
+                penultimate = current
+                break
 
-            penultimate.next = null;
-            this.tail = penultimate;
-            this.length--;
+            current = current.next
 
-            return node;
-        },
+        penultimate.next = None
+        self.tail = penultimate
+        self.length -= 1
 
-        get(index) {
-            if (index < 0 || index > this.length - 1) {
-                return null;
-            }
+        return node
 
-            if (index === 0) {
-                return this.head;
-            }
+    def get(self, index):
+        if index < 0 or index > self.length - 1:
+            return None
 
-            let current = this.head;
-            let i = 0;
-            while (i < index) {
-                i++;
-                current = current.next;
-            }
+        if index == 0:
+            return self.head
 
-            return current;
-        },
+        current = self.head
+        i = 0
+        while i < index:
+            i += 1
+            current = current.next
 
-        delete(index) {
-            if (index < 0 || index > this.length - 1) {
-                return null;
-            }
+        return current
 
-            if (index === 0) {
-                const deleted = this.head;
+    def delete(self, index):
+        if index < 0 or index > self.length - 1:
+            return None
 
-                this.head = this.head.next;
-                this.length--;
+        if index == 0:
+            deleted = self.head
 
-                return deleted;
-            }
+            self.head = self.head.next
+            self.length -= 1
 
-            let current = this.head;
-            let previous;
-            let i = 0;
+            return deleted
 
-            while (i < index) {
-                i++;
-                previous = current;
-                current = current.next;
-            }
+        current = self.head
+        previous = None
+        i = 0
 
-            const deleted = current;
-            previous.next = current.next;
+        while i < index:
+            i += 1
+            previous = current
+            current = current.next
 
-            if (previous.next === null) {
-                this.tail = previous;
-            }
+        deleted = current
+        previous.next = current.next
 
-            this.length--;
+        if previous.next is None:
+            self.tail = previous
 
-            return deleted;
-        },
+        self.length -= 1
 
-        isEmpty() {
-            return this.length === 0;
-        },
+        return deleted
 
-        print() {
-            const values = [];
-            let current = this.head;
+    def is_empty(self):
+        return self.length == 0
 
-            while (current) {
-                values.push(current.value);
-                current = current.next;
-            }
+    def print(self):
+        values = []
+        current = self.head
 
-            return values.join(' => ');
-        }
-    };
-}
+        while current:
+            values.append(str(current.value))
+            current = current.next
 
-exports.createNode = createNode;
-exports.createLinkedList = createLinkedList;
+        return ' => '.join(values)
 
-"""
+
+def create_linked_list():
+    return LinkedList()

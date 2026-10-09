@@ -1,13 +1,5 @@
-r"""TODO: port to Python.
+def find_k_closest_points_to_origin(points, k):
+    def dist(p):
+        return p[0] ** 2 + p[1] ** 2
 
-Original JavaScript (code/heap/k-closest-points-to-origin.js):
-
-const findKClosestPointsToOrigin = (points, k) => {
-    const dist = p => p[0] ** 2 + p[1] ** 2;
-
-    return points.sort((a, b) => dist(a) - dist(b)).slice(0, k);
-};
-
-module.exports = findKClosestPointsToOrigin;
-
-"""
+    return sorted(points, key=dist)[:k]

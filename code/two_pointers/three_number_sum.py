@@ -1,43 +1,35 @@
-r"""TODO: port to Python.
+def three_number_sum(nums, target):
+    result = []
 
-Original JavaScript (code/two-pointers/three-number-sum.js):
+    if len(nums) < 3:
+        return result
 
-const threeNumberSum = (nums, target) => {
-    const result = [];
+    nums.sort()  # Sort the array
 
-    if (nums.length < 3) return result;
+    for i in range(len(nums) - 2):
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue  # Skip duplicates
 
-    nums.sort((a, b) => a - b); // Sort the array
+        left = i + 1
+        right = len(nums) - 1
 
-    for (let i = 0; i < nums.length - 2; i++) {
-        if (i > 0 && nums[i] === nums[i - 1]) continue; // Skip duplicates
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
 
-        let left = i + 1;
-        let right = nums.length - 1;
+            if total == target:
+                result.append([nums[i], nums[left], nums[right]])
 
-        while (left < right) {
-            const sum = nums[i] + nums[left] + nums[right];
+                # Move pointers past duplicates
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
 
-            if (sum === target) {
-                result.push([nums[i], nums[left], nums[right]]);
+                left += 1
+                right -= 1
+            elif total < target:
+                left += 1
+            else:
+                right -= 1
 
-                // Move pointers past duplicates
-                while (left < right && nums[left] === nums[left + 1]) left++;
-                while (left < right && nums[right] === nums[right - 1]) right--;
-
-                left++;
-                right--;
-            } else if (sum < target) {
-                left++;
-            } else {
-                right--;
-            }
-        }
-    }
-
-    return result;
-};
-
-module.exports = threeNumberSum;
-
-"""
+    return result

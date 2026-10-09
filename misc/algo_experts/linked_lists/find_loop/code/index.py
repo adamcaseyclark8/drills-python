@@ -1,32 +1,19 @@
-r"""TODO: port to Python.
+class LinkedList:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-Original JavaScript (misc/algo-experts/linked-lists/find-loop/code/index.js):
 
-class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
-}
+def find_loop(head):
+    first = head.next
+    second = head.next.next
 
-function findLoop(head) {
-    let first = head.next;
-    let second = head.next.next;
+    while first is not second:
+        first = first.next
+        second = second.next.next
+    first = head
 
-    while (first !== second) {
-        first = first.next;
-        second = second.next.next;
-    }
-    first = head;
-
-    while (first !== second) {
-        first = first.next;
-        second = second.next;
-    }
-    return first;
-}
-
-exports.LinkedList = LinkedList;
-exports.findLoop = findLoop;
-
-"""
+    while first is not second:
+        first = first.next
+        second = second.next
+    return first

@@ -1,26 +1,14 @@
-r"""TODO: port to Python.
+def move_zeroes_right(numbers):
+    last_non_zero_found_at = 0
 
-Original JavaScript (code/two-pointers/move-zeroes-right.js):
+    # Move all non-zero elements to the beginning
+    for i in range(len(numbers)):
+        if numbers[i] != 0:
+            numbers[last_non_zero_found_at] = numbers[i]
+            last_non_zero_found_at += 1
 
-const moveZeroesRight = numbers => {
-    let lastNonZeroFoundAt = 0;
+    # Fill the rest with zeros
+    for i in range(last_non_zero_found_at, len(numbers)):
+        numbers[i] = 0
 
-    // Move all non-zero elements to the beginning
-    for (let i = 0; i < numbers.length; i++) {
-        if (numbers[i] !== 0) {
-            numbers[lastNonZeroFoundAt] = numbers[i];
-            lastNonZeroFoundAt++;
-        }
-    }
-
-    // Fill the rest with zeros
-    for (let i = lastNonZeroFoundAt; i < numbers.length; i++) {
-        numbers[i] = 0;
-    }
-
-    return numbers; // Or modify the array in-place without returning
-};
-
-module.exports = moveZeroesRight;
-
-"""
+    return numbers  # Or modify the list in-place without returning

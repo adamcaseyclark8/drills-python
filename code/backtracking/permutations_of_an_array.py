@@ -1,27 +1,15 @@
-r"""TODO: port to Python.
+def permutations_of_an_array(nums):
+    results = []
 
-Original JavaScript (code/backtracking/permutations-of-an-array.js):
+    def backtrack(path, remaining):
+        if len(remaining) == 0:
+            results.append(list(path))
+            return
 
-const permutationsOfAnArray = nums => {
-    const results = [];
+        for i in range(len(remaining)):
+            path.append(remaining[i])
+            backtrack(path, remaining[:i] + remaining[i + 1:])
+            path.pop()
 
-    const backtrack = (path, remaining) => {
-        if (remaining.length === 0) {
-            results.push([...path]);
-            return;
-        }
-
-        for (let i = 0; i < remaining.length; i++) {
-            path.push(remaining[i]);
-            backtrack(path, [...remaining.slice(0, i), ...remaining.slice(i + 1)]);
-            path.pop();
-        }
-    };
-
-    backtrack([], nums);
-    return results;
-};
-
-module.exports = permutationsOfAnArray;
-
-"""
+    backtrack([], nums)
+    return results

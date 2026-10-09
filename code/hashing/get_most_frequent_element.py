@@ -1,13 +1,6 @@
-r"""TODO: port to Python.
-
-Original JavaScript (code/hashing/get-most-frequent-element.js):
-
-const getMostFrequentElement = array => {
-    const map = new Map();
-    for (const item of array) map.set(item, (map.get(item) || 0) + 1);
-    return [...map.entries()].reduce((a, b) => (b[1] > a[1] ? b : a))[0];
-};
-
-module.exports = getMostFrequentElement;
-
-"""
+def get_most_frequent_element(array):
+    counts = {}
+    for item in array:
+        counts[item] = counts.get(item, 0) + 1
+    # max() keeps the first entry on ties, and dicts preserve insertion order
+    return max(counts.items(), key=lambda entry: entry[1])[0]

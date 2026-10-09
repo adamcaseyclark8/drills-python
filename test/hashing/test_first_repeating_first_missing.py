@@ -1,53 +1,45 @@
-r"""TODO: port to Python.
+from code.hashing.first_repeating_first_missing import first_repeating_first_missing
 
-Original JavaScript (test/hashing/first-repeating-first-missing.test.js):
+# HANDLES ARRAY WITH ONE ELEMENT
+# HANDLES NO REPEATING ELEMENT
+# HANDLES NO MISSING ELEMENT
 
-const firstRepeatingFirstMissing = require('../../code/hashing/first-repeating-first-missing.js');
 
-// HANDLES ARRAY WITH ONE ELEMENT
-// HANDLES NO REPEATING ELEMENT
-// HANDLES NO MISSING ELEMENT
+def test_finds_first_missing_and_repeating_in_a_simple_case():
+    assert first_repeating_first_missing([1, 3, 4, 5, 3]) == [3, 2]
 
-describe('first repeating and first missing algo', () => {
-    test('finds first missing and repeating in a simple case', () => {
-        expect(firstRepeatingFirstMissing([1, 3, 4, 5, 3])).toEqual([3, 2]);
-    });
 
-    test('handles array with repeating first element', () => {
-        expect(firstRepeatingFirstMissing([2, 2, 3, 4, 5])).toEqual([2, 1]);
-    });
+def test_handles_array_with_repeating_first_element():
+    assert first_repeating_first_missing([2, 2, 3, 4, 5]) == [2, 1]
 
-    test('handles missing 1', () => {
-        expect(firstRepeatingFirstMissing([2, 3, 4, 4, 5])).toEqual([4, 1]);
-    });
 
-    test('handles duplicate in middle', () => {
-        expect(firstRepeatingFirstMissing([1, 2, 2, 3, 5])).toEqual([2, 4]);
-    });
+def test_handles_missing_1():
+    assert first_repeating_first_missing([2, 3, 4, 4, 5]) == [4, 1]
 
-    test('works when last element repeats', () => {
-        expect(firstRepeatingFirstMissing([1, 2, 3, 5, 5])).toEqual([5, 4]);
-    });
 
-    test('works with negatives and zeros', () => {
-        expect(firstRepeatingFirstMissing([0, -1, 1, 3, 3, 5])).toEqual([3, 2]);
-    });
+def test_handles_duplicate_in_middle():
+    assert first_repeating_first_missing([1, 2, 2, 3, 5]) == [2, 4]
 
-    test('handles array with only one element', () => {
-        expect(firstRepeatingFirstMissing([1])).toEqual([-1, 2]);
-    });
 
-    test('handles no repeating element', () => {
-        expect(firstRepeatingFirstMissing([1, 2, 3, 4, 5])).toEqual([-1, 6]);
-    });
+def test_works_when_last_element_repeats():
+    assert first_repeating_first_missing([1, 2, 3, 5, 5]) == [5, 4]
 
-    test('handles no missing element but has repeat', () => {
-        expect(firstRepeatingFirstMissing([1, 2, 3, 4, 4, 5])).toEqual([4, 6]);
-    });
 
-    test('works with unordered input', () => {
-        expect(firstRepeatingFirstMissing([3, 1, 4, 2, 2])).toEqual([2, 5]);
-    });
-});
+def test_works_with_negatives_and_zeros():
+    assert first_repeating_first_missing([0, -1, 1, 3, 3, 5]) == [3, 2]
 
-"""
+
+def test_handles_array_with_only_one_element():
+    assert first_repeating_first_missing([1]) == [-1, 2]
+
+
+def test_handles_no_repeating_element():
+    assert first_repeating_first_missing([1, 2, 3, 4, 5]) == [-1, 6]
+
+
+def test_handles_no_missing_element_but_has_repeat():
+    assert first_repeating_first_missing([1, 2, 3, 4, 4, 5]) == [4, 6]
+
+
+def test_works_with_unordered_input():
+    assert first_repeating_first_missing([3, 1, 4, 2, 2]) == [2, 5]

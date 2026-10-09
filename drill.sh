@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Interview Drill Tool for JavaScript/Jest
+# Interview Drill Tool for Python/pytest
 #
 # Usage:
 #   ./drill.sh                        - list available problems
@@ -17,12 +17,22 @@ SOLUTIONS_DIR="$SCRIPT_DIR/.solutions"
 CODE_DIR="$SCRIPT_DIR/code"
 TEST_DIR="$SCRIPT_DIR/test"
 
+# test/<category>/test_<problem>.py
+test_path() {
+    local problem="$1"
+    echo "$TEST_DIR/$(dirname "$problem")/test_$(basename "$problem").py"
+}
+
+find_sources() {
+    find "$CODE_DIR" -mindepth 2 -maxdepth 2 -name "*.py" ! -name "__init__.py" | sort
+}
+
 list_problems() {
     echo "Available problems:"
-    find "$CODE_DIR" -maxdepth 2 -name "*.js" | sort | while read -r f; do
+    find_sources | while read -r f; do
         rel="${f#$CODE_DIR/}"
-        problem="${rel%.js}"
-        if [[ -f "$TEST_DIR/${problem}.test.js" ]]; then
+        problem="${rel%.py}"
+        if [[ -f "$(test_path "$problem")" ]]; then
             echo "  $problem"
         fi
     done
@@ -30,9 +40,10 @@ list_problems() {
 
 drill() {
     local problem="$1"
-    local src="$CODE_DIR/${problem}.js"
-    local test_file="$TEST_DIR/${problem}.test.js"
-    local backup="$SOLUTIONS_DIR/${problem}.js"
+    local src="$CODE_DIR/${problem}.py"
+    local test_file
+    test_file="$(test_path "$problem")"
+    local backup="$SOLUTIONS_DIR/${problem}.py"
 
     if [[ ! -f "$src" ]]; then
         echo "Error: source file not found: $src" >&2
@@ -63,24 +74,24 @@ drill() {
 
 run_test() {
     local problem="$1"
-    local test_file="$TEST_DIR/${problem}.test.js"
+    local test_file
+    test_file="$(test_path "$problem")"
 
     if [[ ! -f "$test_file" ]]; then
         echo "Error: test file not found: $test_file" >&2
         exit 1
     fi
 
-    if [[ ! -d "$SCRIPT_DIR/node_modules" ]]; then
-        echo "Installing dependencies..."
-        (cd "$SCRIPT_DIR" && npm install)
+    if command -v pytest >/dev/null 2>&1; then
+        (cd "$SCRIPT_DIR" && pytest "$test_file")
+    else
+        (cd "$SCRIPT_DIR" && python3 -m pytest "$test_file")
     fi
-
-    (cd "$SCRIPT_DIR" && npx jest "$test_file" --no-coverage)
 }
 
 show_solution() {
     local problem="$1"
-    local backup="$SOLUTIONS_DIR/${problem}.js"
+    local backup="$SOLUTIONS_DIR/${problem}.py"
 
     if [[ ! -f "$backup" ]]; then
         echo "Error: no saved solution for '$problem'. Have you run the drill yet?" >&2
@@ -94,11 +105,11 @@ random_drill() {
     local problems=()
     while IFS= read -r f; do
         local rel="${f#$CODE_DIR/}"
-        local problem="${rel%.js}"
-        if [[ -f "$TEST_DIR/${problem}.test.js" ]]; then
+        local problem="${rel%.py}"
+        if [[ -f "$(test_path "$problem")" ]]; then
             problems+=("$problem")
         fi
-    done < <(find "$CODE_DIR" -maxdepth 2 -name "*.js" | sort)
+    done < <(find_sources)
 
     if [[ ${#problems[@]} -eq 0 ]]; then
         echo "No problems found." >&2
@@ -114,12 +125,12 @@ reset_all() {
     local found=0
     while IFS= read -r f; do
         local rel="${f#$CODE_DIR/}"
-        local problem="${rel%.js}"
-        if [[ -f "$TEST_DIR/${problem}.test.js" ]]; then
+        local problem="${rel%.py}"
+        if [[ -f "$(test_path "$problem")" ]]; then
             reset_solution "$problem"
             found=1
         fi
-    done < <(find "$CODE_DIR" -maxdepth 2 -name "*.js" | sort)
+    done < <(find_sources)
 
     if [[ $found -eq 0 ]]; then
         echo "No problems found." >&2
@@ -129,8 +140,8 @@ reset_all() {
 
 reset_solution() {
     local problem="$1"
-    local src="$CODE_DIR/${problem}.js"
-    local rel_path="code/${problem}.js"
+    local src="$CODE_DIR/${problem}.py"
+    local rel_path="code/${problem}.py"
 
     # Prefer restoring from git (always the real committed solution)
     if git -C "$SCRIPT_DIR" show HEAD:"$rel_path" > "$src" 2>/dev/null; then
@@ -139,7 +150,7 @@ reset_solution() {
     fi
 
     # Fall back to .solutions backup
-    local backup="$SOLUTIONS_DIR/${problem}.js"
+    local backup="$SOLUTIONS_DIR/${problem}.py"
     if [[ ! -f "$backup" ]]; then
         echo "Error: no saved solution for '$problem'. Have you run the drill yet?" >&2
         exit 1
@@ -158,7 +169,8 @@ fi
 
 ACTION="$1"
 _raw="${2:-}"
-PROBLEM="${_raw#code/}"
+_raw="${_raw#code/}"
+PROBLEM="${_raw%.py}"
 
 case "$ACTION" in
     random)
@@ -190,6 +202,7 @@ case "$ACTION" in
         ;;
     *)
         # Default: treat first arg as problem name
-        drill "${ACTION#code/}"
+        _problem="${ACTION#code/}"
+        drill "${_problem%.py}"
         ;;
 esac

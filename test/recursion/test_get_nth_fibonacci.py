@@ -1,31 +1,25 @@
-r"""TODO: port to Python.
+from code.recursion.get_nth_fibonacci import get_nth_fibonacci
 
-Original JavaScript (test/recursion/get-nth-fibonacci.test.js):
 
-const getNthFibonacci = require('../../code/recursion/get-nth-fibonacci');
+def test_1st_fibonacci():
+    assert get_nth_fibonacci(1) == 0
 
-test('1st fibonacci', () => {
-    expect(getNthFibonacci(1)).toBe(0);
-});
 
-test('2nd fibonacci', () => {
-    expect(getNthFibonacci(2)).toBe(1);
-});
+def test_2nd_fibonacci():
+    assert get_nth_fibonacci(2) == 1
 
-test('3rd fibonacci', () => {
-    expect(getNthFibonacci(3)).toBe(1);
-});
 
-test('6th fibonacci', () => {
-    expect(getNthFibonacci(6)).toBe(5);
-});
+def test_3rd_fibonacci():
+    assert get_nth_fibonacci(3) == 1
 
-test('10th fibonacci', () => {
-    expect(getNthFibonacci(10)).toBe(34);
-});
 
-test('20th fibonacci', () => {
-    expect(getNthFibonacci(20)).toBe(4181);
-});
+def test_6th_fibonacci():
+    assert get_nth_fibonacci(6) == 5
 
-"""
+
+def test_10th_fibonacci():
+    assert get_nth_fibonacci(10) == 34
+
+
+def test_20th_fibonacci():
+    assert get_nth_fibonacci(20) == 4181

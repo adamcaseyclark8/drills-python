@@ -1,35 +1,26 @@
-r"""TODO: port to Python.
+import string
+from collections import deque
 
-Original JavaScript (code/graphs/word-ladder.js):
 
-const wordLadderLength = (begin, end, list) => {
-    const wordSet = new Set(list);
-    if (!wordSet.has(end)) return 0;
+def word_ladder_length(begin, end, words):
+    word_set = set(words)
+    if end not in word_set:
+        return 0
 
-    const queue = [[begin, 1]]; // [currentWord, steps]
+    queue = deque([(begin, 1)])  # (current_word, steps)
 
-    while (queue.length > 0) {
-        const [word, steps] = queue.shift();
+    while queue:
+        word, steps = queue.popleft()
 
-        if (word === end) return steps;
+        if word == end:
+            return steps
 
-        for (let i = 0; i < word.length; i++) {
-            for (let c = 97; c <= 122; c++) {
-                // 'a' to 'z'
-                const char = String.fromCharCode(c);
-                const nextWord = word.slice(0, i) + char + word.slice(i + 1);
+        for i in range(len(word)):
+            for char in string.ascii_lowercase:
+                next_word = word[:i] + char + word[i + 1:]
 
-                if (wordSet.has(nextWord)) {
-                    queue.push([nextWord, steps + 1]);
-                    wordSet.delete(nextWord); // mark as visited
-                }
-            }
-        }
-    }
+                if next_word in word_set:
+                    queue.append((next_word, steps + 1))
+                    word_set.remove(next_word)  # mark as visited
 
-    return 0; // no path found
-};
-
-module.exports = wordLadderLength;
-
-"""
+    return 0  # no path found

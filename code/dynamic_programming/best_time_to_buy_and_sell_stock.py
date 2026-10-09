@@ -1,21 +1,12 @@
-r"""TODO: port to Python.
+def best_time_to_buy_and_sell_stock(prices):
+    if not prices or len(prices) < 2:
+        return 0
 
-Original JavaScript (code/dynamic-programming/best-time-to-buy-and-sell-stock.js):
+    minimum = prices[0]
+    maximum = 0
 
-const bestTimeToBuyAndSellStock = prices => {
-    if (!prices || prices.length < 2) return 0;
+    for i in range(1, len(prices)):
+        minimum = min(minimum, prices[i])
+        maximum = max(maximum, prices[i] - minimum)
 
-    let minimum = prices[0];
-    let maximum = 0;
-
-    for (let i = 1; i < prices.length; i++) {
-        minimum = Math.min(minimum, prices[i]);
-        maximum = Math.max(maximum, prices[i] - minimum);
-    }
-
-    return maximum;
-};
-
-module.exports = bestTimeToBuyAndSellStock;
-
-"""
+    return maximum

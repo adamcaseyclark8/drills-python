@@ -1,29 +1,23 @@
-r"""TODO: port to Python.
+from code.hashing.get_most_frequent_element import get_most_frequent_element
 
-Original JavaScript (test/hashing/get-most-frequent-element.test.js):
+# THE FIRST ENCOUNTERED MOST ELEMENT IF TIED
 
-const getMostFrequentElement = require('../../code/hashing/get-most-frequent-element');
 
-// THE FIRST ENCOUNTERED MOST ELEMENT IF TIED
+def test_returns_most_frequent_element():
+    assert get_most_frequent_element(['a', 'b', 'a', 'c', 'a', 'b']) == 'a'
 
-test('returns most frequent element', () => {
-    expect(getMostFrequentElement(['a', 'b', 'a', 'c', 'a', 'b'])).toBe('a');
-});
 
-test('single element array', () => {
-    expect(getMostFrequentElement(['x'])).toBe('x');
-});
+def test_single_element_array():
+    assert get_most_frequent_element(['x']) == 'x'
 
-test('all same elements', () => {
-    expect(getMostFrequentElement(['z', 'z', 'z'])).toBe('z');
-});
 
-test('numbers', () => {
-    expect(getMostFrequentElement([1, 2, 2, 3, 2])).toBe(2);
-});
+def test_all_same_elements():
+    assert get_most_frequent_element(['z', 'z', 'z']) == 'z'
 
-test('tie returns first most frequent encountered', () => {
-    expect(getMostFrequentElement(['a', 'b', 'b', 'a'])).toBe('a');
-});
 
-"""
+def test_numbers():
+    assert get_most_frequent_element([1, 2, 2, 3, 2]) == 2
+
+
+def test_tie_returns_first_most_frequent_encountered():
+    assert get_most_frequent_element(['a', 'b', 'b', 'a']) == 'a'

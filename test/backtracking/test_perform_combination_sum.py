@@ -1,40 +1,28 @@
-r"""TODO: port to Python.
+from code.backtracking.perform_combination_sum import perform_combination_sum
 
-Original JavaScript (test/backtracking/perform-combination-sum.test.js):
 
-const performCombinationSum = require('../../code/backtracking/perform-combination-sum.js');
+def test_returns_correct_combinations_for_2_3_6_7_target_7():
+    result = perform_combination_sum([2, 3, 6, 7], 7)
+    assert [2, 2, 3] in result
+    assert [7] in result
+    assert len(result) == 2
 
-describe('perform combination sum tests', () => {
-    test('returns correct combinations for [2,3,6,7], target 7', () => {
-        const result = performCombinationSum([2, 3, 6, 7], 7);
-        expect(result).toEqual(expect.arrayContaining([[2, 2, 3], [7]]));
-        expect(result).toHaveLength(2);
-    });
 
-    test('returns correct combinations for [2,3,5], target 8', () => {
-        const result = performCombinationSum([2, 3, 5], 8);
-        expect(result).toEqual(
-            expect.arrayContaining([
-                [2, 2, 2, 2],
-                [2, 3, 3],
-                [3, 5]
-            ])
-        );
-        expect(result).toHaveLength(3);
-    });
+def test_returns_correct_combinations_for_2_3_5_target_8():
+    result = perform_combination_sum([2, 3, 5], 8)
+    assert [2, 2, 2, 2] in result
+    assert [2, 3, 3] in result
+    assert [3, 5] in result
+    assert len(result) == 3
 
-    test('returns empty when no combination exists', () => {
-        expect(performCombinationSum([3, 5], 1)).toEqual([]);
-    });
 
-    test('single candidate that equals target', () => {
-        expect(performCombinationSum([7], 7)).toEqual([[7]]);
-    });
+def test_returns_empty_when_no_combination_exists():
+    assert perform_combination_sum([3, 5], 1) == []
 
-    test('candidate can be reused multiple times', () => {
-        const result = performCombinationSum([2], 6);
-        expect(result).toEqual([[2, 2, 2]]);
-    });
-});
 
-"""
+def test_single_candidate_that_equals_target():
+    assert perform_combination_sum([7], 7) == [[7]]
+
+
+def test_candidate_can_be_reused_multiple_times():
+    assert perform_combination_sum([2], 6) == [[2, 2, 2]]

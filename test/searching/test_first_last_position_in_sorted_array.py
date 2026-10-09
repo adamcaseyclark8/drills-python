@@ -1,7 +1,6 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/searching/first-last-position-in-sorted-array.test.js):
 
-test.todo('first and last position in sorted array');
-
-"""
+@pytest.mark.skip(reason='todo')
+def test_first_and_last_position_in_sorted_array():
+    pass

@@ -1,28 +1,14 @@
-r"""TODO: port to Python.
+def verify_valid_anagram(first, second):
+    if len(first) != len(second):
+        return False
+    hash_table = {}
 
-Original JavaScript (code/hashing/verify-valid-anagram.js):
+    for char in first:
+        hash_table[char] = hash_table.get(char, 0) + 1
 
-const verifyValidAnagram = (first, second) => {
-    if (first.length !== second.length) return false;
-    const hashTable = {};
+    for char in second:
+        if not hash_table.get(char):
+            return False
+        hash_table[char] -= 1
 
-    for (let i = 0; i < first.length; i++) {
-        if (!hashTable[first[i]]) {
-            hashTable[first[i]] = 0;
-        }
-        hashTable[first[i]]++;
-    }
-
-    for (let j = 0; j < second.length; j++) {
-        if (!hashTable[second[j]]) {
-            return false;
-        }
-        hashTable[second[j]]--;
-    }
-
-    return true;
-};
-
-module.exports = verifyValidAnagram;
-
-"""
+    return True

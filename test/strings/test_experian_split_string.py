@@ -1,21 +1,13 @@
-r"""TODO: port to Python.
+from code.strings.experian_split_string import experian_split_string_function
 
-Original JavaScript (test/strings/experian-split-string.test.js):
 
-const experianSplitStingFunction = require('../../code/strings/experian-split-string.js');
+def test_string_length_is_16():
+    assert experian_split_string_function('adamcaseyclarkxx', 4) == ['adam', 'case', 'ycla', 'rkxx']
 
-describe('verify experian split string function', () => {
-    test('string length is 16', () => {
-        expect(experianSplitStingFunction('adamcaseyclarkxx', 4)).toStrictEqual(['adam', 'case', 'ycla', 'rkxx']);
-    });
 
-    test('string length is 16', () => {
-        expect(experianSplitStingFunction('adam', 4)).toStrictEqual(['adam']);
-    });
+def test_string_length_is_4():
+    assert experian_split_string_function('adam', 4) == ['adam']
 
-    test('string length is 7', () => {
-        expect(experianSplitStingFunction('adamcas', 4)).toBe('string is not divisible by 4');
-    });
-});
 
-"""
+def test_string_length_is_7():
+    assert experian_split_string_function('adamcas', 4) == 'string is not divisible by 4'

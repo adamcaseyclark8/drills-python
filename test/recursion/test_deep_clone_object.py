@@ -1,50 +1,44 @@
-r"""TODO: port to Python.
+from code.recursion.deep_clone_object import deep_clone_object
 
-Original JavaScript (test/recursion/deep-clone-object.test.js):
 
-const deepCloneObject = require('../../code/recursion/deep-clone-object');
+def test_basic_shallow_object():
+    obj = {'a': 1, 'b': 2}
+    clone = deep_clone_object(obj)
+    assert clone == obj
+    assert clone is not obj
 
-test('basic shallow object', () => {
-    const obj = { a: 1, b: 2 };
-    const clone = deepCloneObject(obj);
-    expect(clone).toEqual(obj);
-    expect(clone).not.toBe(obj);
-});
 
-test('nested object is a new reference', () => {
-    const obj = { a: 1, b: { c: 2 } };
-    const clone = deepCloneObject(obj);
-    expect(clone).toEqual(obj);
-    expect(clone.b).not.toBe(obj.b);
-});
+def test_nested_object_is_a_new_reference():
+    obj = {'a': 1, 'b': {'c': 2}}
+    clone = deep_clone_object(obj)
+    assert clone == obj
+    assert clone['b'] is not obj['b']
 
-test('nested arrays', () => {
-    const obj = { a: [1, 2, 3] };
-    const clone = deepCloneObject(obj);
-    expect(clone).toEqual(obj);
-    expect(clone.a).not.toBe(obj.a);
-});
 
-test('deeply nested object', () => {
-    const obj = { a: { b: { c: { d: 4 } } } };
-    const clone = deepCloneObject(obj);
-    expect(clone).toEqual(obj);
-    expect(clone.a.b.c).not.toBe(obj.a.b.c);
-});
+def test_nested_arrays():
+    obj = {'a': [1, 2, 3]}
+    clone = deep_clone_object(obj)
+    assert clone == obj
+    assert clone['a'] is not obj['a']
 
-test('null value', () => {
-    expect(deepCloneObject(null)).toBeNull();
-});
 
-test('primitive value', () => {
-    expect(deepCloneObject(42)).toBe(42);
-});
+def test_deeply_nested_object():
+    obj = {'a': {'b': {'c': {'d': 4}}}}
+    clone = deep_clone_object(obj)
+    assert clone == obj
+    assert clone['a']['b']['c'] is not obj['a']['b']['c']
 
-test('array of objects', () => {
-    const obj = [{ a: 1 }, { b: 2 }];
-    const clone = deepCloneObject(obj);
-    expect(clone).toEqual(obj);
-    expect(clone[0]).not.toBe(obj[0]);
-});
 
-"""
+def test_none_value():
+    assert deep_clone_object(None) is None
+
+
+def test_primitive_value():
+    assert deep_clone_object(42) == 42
+
+
+def test_array_of_objects():
+    obj = [{'a': 1}, {'b': 2}]
+    clone = deep_clone_object(obj)
+    assert clone == obj
+    assert clone[0] is not obj[0]

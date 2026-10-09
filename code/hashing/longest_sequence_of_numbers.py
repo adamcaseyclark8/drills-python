@@ -1,28 +1,16 @@
-r"""TODO: port to Python.
+def longest_sequence_of_numbers(nums):
+    set_of_numbers = set(nums)
+    longest_sequence = 0
 
-Original JavaScript (code/hashing/longest-sequence-of-numbers.js):
+    for num in set_of_numbers:
+        if num - 1 not in set_of_numbers:
+            current_num = num
+            current_sequence = 1
 
-const longestSequenceOfNumbers = nums => {
-    const setOfNumbers = new Set(nums);
-    let longestSequence = 0;
+            while current_num + 1 in set_of_numbers:
+                current_num += 1
+                current_sequence += 1
 
-    for (const num of setOfNumbers) {
-        if (!setOfNumbers.has(num - 1)) {
-            let currentNum = num;
-            let currentSequence = 1;
+            longest_sequence = max(longest_sequence, current_sequence)
 
-            while (setOfNumbers.has(currentNum + 1)) {
-                currentNum++;
-                currentSequence++;
-            }
-
-            longestSequence = Math.max(longestSequence, currentSequence);
-        }
-    }
-
-    return longestSequence;
-};
-
-module.exports = longestSequenceOfNumbers;
-
-"""
+    return longest_sequence

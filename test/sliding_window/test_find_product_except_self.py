@@ -1,37 +1,25 @@
-r"""TODO: port to Python.
+from code.sliding_window.find_product_except_self import find_product_except_self
 
-Original JavaScript (test/sliding-window/find-product-except-self.test.js):
 
-const findProductExceptSelf = require('../../code/sliding-window/find-product-except-self.js');
+def test_1_2_3_4_returns_24_12_8_6():
+    assert find_product_except_self([1, 2, 3, 4]) == [24, 12, 8, 6]
 
-describe('find product except self tests', () => {
-    test('[1,2,3,4] returns [24,12,8,6]', () => {
-        expect(findProductExceptSelf([1, 2, 3, 4])).toEqual([24, 12, 8, 6]);
-    });
 
-    // test('[-1,1,0,-3,3] returns [0,0,9,0,0]', () => {
-    //     expect(findProductExceptSelf([-1, 1, 0, -3, 3])).toEqual([0, 0, 9, 0, 0]);
-    // });
+def test_two_elements_returns_reversed_values():
+    assert find_product_except_self([3, 4]) == [4, 3]
 
-    test('two elements returns reversed values', () => {
-        expect(findProductExceptSelf([3, 4])).toEqual([4, 3]);
-    });
 
-    test('array with a zero', () => {
-        expect(findProductExceptSelf([1, 0, 3])).toEqual([0, 3, 0]);
-    });
+def test_array_with_a_zero():
+    assert find_product_except_self([1, 0, 3]) == [0, 3, 0]
 
-    test('array with two zeros returns all zeros', () => {
-        expect(findProductExceptSelf([0, 0, 3])).toEqual([0, 0, 0]);
-    });
 
-    test('all ones returns all ones', () => {
-        expect(findProductExceptSelf([1, 1, 1, 1])).toEqual([1, 1, 1, 1]);
-    });
+def test_array_with_two_zeros_returns_all_zeros():
+    assert find_product_except_self([0, 0, 3]) == [0, 0, 0]
 
-    test('negative numbers', () => {
-        expect(findProductExceptSelf([-2, -3, -4])).toEqual([12, 8, 6]);
-    });
-});
 
-"""
+def test_all_ones_returns_all_ones():
+    assert find_product_except_self([1, 1, 1, 1]) == [1, 1, 1, 1]
+
+
+def test_negative_numbers():
+    assert find_product_except_self([-2, -3, -4]) == [12, 8, 6]

@@ -1,124 +1,102 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (test/structures/implement-stack-using-queues.test.js):
+from code.structures.implement_stack_using_queues import StackUsingQueues
 
-const StackUsingQueues = require('../../code/structures/implement-stack-using-queues.js');
+# IMPLEMENT STACK METHODS:
+# PUSH, POP, PEEK, IS EMPTY, SIZE
 
-// IMPLEMENT STACK METHODS:
-// PUSH, POP, PEEK, IS EMPTY, SIZE
 
-describe('StackUsingQueues', () => {
-    let stack;
+@pytest.fixture
+def stack():
+    return StackUsingQueues()
 
-    beforeEach(() => {
-        stack = new StackUsingQueues();
-    });
 
-    describe('push and pop', () => {
-        test('push one item and pop it', () => {
-            stack.push(1);
-            expect(stack.pop()).toBe(1);
-        });
+class TestPushAndPop:
+    def test_push_one_item_and_pop_it(self, stack):
+        stack.push(1)
+        assert stack.pop() == 1
 
-        test('push multiple items — pops in LIFO order', () => {
-            stack.push(1);
-            stack.push(2);
-            stack.push(3);
-            expect(stack.pop()).toBe(3);
-            expect(stack.pop()).toBe(2);
-            expect(stack.pop()).toBe(1);
-        });
+    def test_push_multiple_items_pops_in_lifo_order(self, stack):
+        stack.push(1)
+        stack.push(2)
+        stack.push(3)
+        assert stack.pop() == 3
+        assert stack.pop() == 2
+        assert stack.pop() == 1
 
-        test('pop on empty stack returns null', () => {
-            expect(stack.pop()).toBeNull();
-        });
+    def test_pop_on_empty_stack_returns_none(self, stack):
+        assert stack.pop() is None
 
-        test('pop reduces size', () => {
-            stack.push(1);
-            stack.push(2);
-            stack.pop();
-            expect(stack.size()).toBe(1);
-        });
-    });
+    def test_pop_reduces_size(self, stack):
+        stack.push(1)
+        stack.push(2)
+        stack.pop()
+        assert stack.size() == 1
 
-    describe('peek', () => {
-        test('peek returns top element without removing it', () => {
-            stack.push(1);
-            stack.push(2);
-            expect(stack.peek()).toBe(2);
-            expect(stack.size()).toBe(2);
-        });
 
-        test('peek on empty stack returns null', () => {
-            expect(stack.peek()).toBeNull();
-        });
+class TestPeek:
+    def test_peek_returns_top_element_without_removing_it(self, stack):
+        stack.push(1)
+        stack.push(2)
+        assert stack.peek() == 2
+        assert stack.size() == 2
 
-        test('peek reflects latest push', () => {
-            stack.push(10);
-            expect(stack.peek()).toBe(10);
-            stack.push(20);
-            expect(stack.peek()).toBe(20);
-        });
-    });
+    def test_peek_on_empty_stack_returns_none(self, stack):
+        assert stack.peek() is None
 
-    describe('isEmpty', () => {
-        test('new stack is empty', () => {
-            expect(stack.isEmpty()).toBe(true);
-        });
+    def test_peek_reflects_latest_push(self, stack):
+        stack.push(10)
+        assert stack.peek() == 10
+        stack.push(20)
+        assert stack.peek() == 20
 
-        test('not empty after push', () => {
-            stack.push(1);
-            expect(stack.isEmpty()).toBe(false);
-        });
 
-        test('empty again after popping all elements', () => {
-            stack.push(1);
-            stack.push(2);
-            stack.pop();
-            stack.pop();
-            expect(stack.isEmpty()).toBe(true);
-        });
-    });
+class TestIsEmpty:
+    def test_new_stack_is_empty(self, stack):
+        assert stack.is_empty() is True
 
-    describe('size fn() tests', () => {
-        test('size starts at 0', () => {
-            expect(stack.size()).toBe(0);
-        });
+    def test_not_empty_after_push(self, stack):
+        stack.push(1)
+        assert stack.is_empty() is False
 
-        test('size increments with each push', () => {
-            stack.push(1);
-            stack.push(2);
-            stack.push(3);
-            expect(stack.size()).toBe(3);
-        });
+    def test_empty_again_after_popping_all_elements(self, stack):
+        stack.push(1)
+        stack.push(2)
+        stack.pop()
+        stack.pop()
+        assert stack.is_empty() is True
 
-        test('size decrements with each pop', () => {
-            stack.push(1);
-            stack.push(2);
-            stack.pop();
-            expect(stack.size()).toBe(1);
-        });
-    });
 
-    describe('interleaved push and pop', () => {
-        test('push, pop, push, pop maintains correct order', () => {
-            stack.push(1);
-            stack.push(2);
-            expect(stack.pop()).toBe(2);
-            stack.push(3);
-            expect(stack.pop()).toBe(3);
-            expect(stack.pop()).toBe(1);
-        });
+class TestSize:
+    def test_size_starts_at_0(self, stack):
+        assert stack.size() == 0
 
-        test('alternating pushes and peeks', () => {
-            stack.push(5);
-            expect(stack.peek()).toBe(5);
-            stack.push(10);
-            expect(stack.peek()).toBe(10);
-            stack.pop();
-            expect(stack.peek()).toBe(5);
-        });
-    });
-});
+    def test_size_increments_with_each_push(self, stack):
+        stack.push(1)
+        stack.push(2)
+        stack.push(3)
+        assert stack.size() == 3
 
-"""
+    def test_size_decrements_with_each_pop(self, stack):
+        stack.push(1)
+        stack.push(2)
+        stack.pop()
+        assert stack.size() == 1
+
+
+class TestInterleavedPushAndPop:
+    def test_push_pop_push_pop_maintains_correct_order(self, stack):
+        stack.push(1)
+        stack.push(2)
+        assert stack.pop() == 2
+        stack.push(3)
+        assert stack.pop() == 3
+        assert stack.pop() == 1
+
+    def test_alternating_pushes_and_peeks(self, stack):
+        stack.push(5)
+        assert stack.peek() == 5
+        stack.push(10)
+        assert stack.peek() == 10
+        stack.pop()
+        assert stack.peek() == 5

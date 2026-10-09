@@ -1,104 +1,40 @@
-r"""TODO: port to Python.
+from code.arrays.merge_array_intervals import merge_array_intervals
 
-Original JavaScript (test/arrays/merge-array-intervals.test.js):
+# EACH INTERVAL HAS EXACTLY 2 ELEMENTS [START, END]
+# START <= END ALWAYS (A VALID INTERVAL NEVER GOES BACKWARDS)
+# INTERVALS CAN OVERLAP, TOUCH, OR BE COMPLETELY NESTED
+# INPUT CAN BE UNSORTED
+# VALUES CAN BE NEGATIVE
+# ARRAY CAN BE EMPTY
 
-const mergeArrayIntervals = require('../../code/arrays/merge-array-intervals');
 
-// EACH INTERVAL HAS EXACTLY 2 ELEMENTS [START, END]
-// START <= END ALWAYS (A VALID INTERVAL NEVER GOES BACKWARDS)
-// INTERVALS CAN OVERLAP, TOUCH, OR BE COMPLETELY NESTED
-// INPUT CAN BE UNSORTED
-// VALUES CAN BE NEGATIVE
-// ARRAY CAN BE EMPTY
+def test_basic_overlapping_intervals():
+    assert merge_array_intervals([[1, 3], [2, 6], [8, 10], [15, 18]]) == [[1, 6], [8, 10], [15, 18]]
 
-describe('merge array intervals tests ', () => {
-    test('basic overlapping intervals', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 3],
-                [2, 6],
-                [8, 10],
-                [15, 18]
-            ])
-        ).toEqual([
-            [1, 6],
-            [8, 10],
-            [15, 18]
-        ]);
-    });
 
-    test('intervals that touch at boundary', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 4],
-                [4, 5]
-            ])
-        ).toEqual([[1, 5]]);
-    });
+def test_intervals_that_touch_at_boundary():
+    assert merge_array_intervals([[1, 4], [4, 5]]) == [[1, 5]]
 
-    test('no overlapping intervals', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 2],
-                [3, 4],
-                [5, 6]
-            ])
-        ).toEqual([
-            [1, 2],
-            [3, 4],
-            [5, 6]
-        ]);
-    });
 
-    test('all intervals merge into one', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 4],
-                [2, 5],
-                [3, 6]
-            ])
-        ).toEqual([[1, 6]]);
-    });
+def test_no_overlapping_intervals():
+    assert merge_array_intervals([[1, 2], [3, 4], [5, 6]]) == [[1, 2], [3, 4], [5, 6]]
 
-    test('one interval completely contains another', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 10],
-                [2, 5]
-            ])
-        ).toEqual([[1, 10]]);
-    });
 
-    test('unsorted input', () => {
-        expect(
-            mergeArrayIntervals([
-                [8, 10],
-                [1, 3],
-                [2, 6],
-                [15, 18]
-            ])
-        ).toEqual([
-            [1, 6],
-            [8, 10],
-            [15, 18]
-        ]);
-    });
+def test_all_intervals_merge_into_one():
+    assert merge_array_intervals([[1, 4], [2, 5], [3, 6]]) == [[1, 6]]
 
-    test('single interval', () => {
-        expect(mergeArrayIntervals([[1, 5]])).toEqual([[1, 5]]);
-    });
 
-    test('two non-overlapping intervals', () => {
-        expect(
-            mergeArrayIntervals([
-                [1, 2],
-                [4, 5]
-            ])
-        ).toEqual([
-            [1, 2],
-            [4, 5]
-        ]);
-    });
-});
+def test_one_interval_completely_contains_another():
+    assert merge_array_intervals([[1, 10], [2, 5]]) == [[1, 10]]
 
-"""
+
+def test_unsorted_input():
+    assert merge_array_intervals([[8, 10], [1, 3], [2, 6], [15, 18]]) == [[1, 6], [8, 10], [15, 18]]
+
+
+def test_single_interval():
+    assert merge_array_intervals([[1, 5]]) == [[1, 5]]
+
+
+def test_two_non_overlapping_intervals():
+    assert merge_array_intervals([[1, 2], [4, 5]]) == [[1, 2], [4, 5]]

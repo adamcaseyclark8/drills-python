@@ -1,64 +1,56 @@
-r"""TODO: port to Python.
+from code.searching.search_2_dimension_matrix_ii import search_2d_matrix
 
-Original JavaScript (test/searching/search-2-dimension-matrix-ii.test.js):
 
-const search2DMatrix = require('../../code/searching/search-2-dimension-matrix-ii.js');
+def test_returns_true_when_target_exists_in_matrix():
+    matrix = [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 50],
+    ]
+    assert search_2d_matrix(matrix, 3) is True
+    assert search_2d_matrix(matrix, 16) is True
+    assert search_2d_matrix(matrix, 50) is True
 
-describe('search a 2 d matrix', () => {
-    test('returns true when target exists in matrix', () => {
-        const matrix = [
-            [1, 3, 5, 7],
-            [10, 11, 16, 20],
-            [23, 30, 34, 50]
-        ];
-        expect(search2DMatrix(matrix, 3)).toBe(true);
-        expect(search2DMatrix(matrix, 16)).toBe(true);
-        expect(search2DMatrix(matrix, 50)).toBe(true);
-    });
 
-    test('returns false when target does not exist', () => {
-        const matrix = [
-            [1, 3, 5, 7],
-            [10, 11, 16, 20],
-            [23, 30, 34, 50]
-        ];
-        expect(search2DMatrix(matrix, 13)).toBe(false);
-        expect(search2DMatrix(matrix, 0)).toBe(false);
-        expect(search2DMatrix(matrix, 51)).toBe(false);
-    });
+def test_returns_false_when_target_does_not_exist():
+    matrix = [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 50],
+    ]
+    assert search_2d_matrix(matrix, 13) is False
+    assert search_2d_matrix(matrix, 0) is False
+    assert search_2d_matrix(matrix, 51) is False
 
-    test('handles empty matrix', () => {
-        expect(search2DMatrix([], 1)).toBe(false);
-        expect(search2DMatrix([[]], 1)).toBe(false);
-    });
 
-    test('handles single-row matrix', () => {
-        const matrix = [[1, 2, 3, 4, 5]];
-        expect(search2DMatrix(matrix, 3)).toBe(true);
-        expect(search2DMatrix(matrix, 6)).toBe(false);
-    });
+def test_handles_empty_matrix():
+    assert search_2d_matrix([], 1) is False
+    assert search_2d_matrix([[]], 1) is False
 
-    test('handles single-column matrix', () => {
-        const matrix = [[1], [3], [5], [7]];
-        expect(search2DMatrix(matrix, 5)).toBe(true);
-        expect(search2DMatrix(matrix, 2)).toBe(false);
-    });
 
-    test('handles 1x1 matrix', () => {
-        expect(search2DMatrix([[1]], 1)).toBe(true);
-        expect(search2DMatrix([[1]], 2)).toBe(false);
-    });
+def test_handles_single_row_matrix():
+    matrix = [[1, 2, 3, 4, 5]]
+    assert search_2d_matrix(matrix, 3) is True
+    assert search_2d_matrix(matrix, 6) is False
 
-    test('handles negative numbers', () => {
-        const matrix = [
-            [-10, -5, -1],
-            [0, 3, 7],
-            [10, 12, 15]
-        ];
-        expect(search2DMatrix(matrix, -5)).toBe(true);
-        expect(search2DMatrix(matrix, 12)).toBe(true);
-        expect(search2DMatrix(matrix, -6)).toBe(false);
-    });
-});
 
-"""
+def test_handles_single_column_matrix():
+    matrix = [[1], [3], [5], [7]]
+    assert search_2d_matrix(matrix, 5) is True
+    assert search_2d_matrix(matrix, 2) is False
+
+
+def test_handles_1x1_matrix():
+    assert search_2d_matrix([[1]], 1) is True
+    assert search_2d_matrix([[1]], 2) is False
+
+
+def test_handles_negative_numbers():
+    matrix = [
+        [-10, -5, -1],
+        [0, 3, 7],
+        [10, 12, 15],
+    ]
+    assert search_2d_matrix(matrix, -5) is True
+    assert search_2d_matrix(matrix, 12) is True
+    assert search_2d_matrix(matrix, -6) is False

@@ -1,61 +1,42 @@
-r"""TODO: port to Python.
+from code.arrays.increment_number_representation import increment_number_representation
 
-Original JavaScript (test/arrays/increment-number-representation.test.js):
 
-const incrementNumberRepresentation = require('../../code/arrays/increment-number-representation.js');
+class TestBasicIncrements:
+    def test_1_2_9_becomes_1_3_0(self):
+        assert increment_number_representation([1, 2, 9]) == [1, 3, 0]
 
-describe('incrementNumberRepresentation', () => {
-    describe('basic increments', () => {
-        test('[1, 2, 9] → [1, 3, 0]', () => {
-            expect(incrementNumberRepresentation([1, 2, 9])).toEqual([1, 3, 0]);
-        });
+    def test_1_2_3_becomes_1_2_4(self):
+        assert increment_number_representation([1, 2, 3]) == [1, 2, 4]
 
-        test('[1, 2, 3] → [1, 2, 4]', () => {
-            expect(incrementNumberRepresentation([1, 2, 3])).toEqual([1, 2, 4]);
-        });
+    def test_0_becomes_1(self):
+        assert increment_number_representation([0]) == [1]
 
-        test('[0] → [1]', () => {
-            expect(incrementNumberRepresentation([0])).toEqual([1]);
-        });
+    def test_8_becomes_9(self):
+        assert increment_number_representation([8]) == [9]
 
-        test('[8] → [9]', () => {
-            expect(incrementNumberRepresentation([8])).toEqual([9]);
-        });
-    });
 
-    describe('carry propagation', () => {
-        test('[9] → [1, 0]', () => {
-            expect(incrementNumberRepresentation([9])).toEqual([1, 0]);
-        });
+class TestCarryPropagation:
+    def test_9_becomes_1_0(self):
+        assert increment_number_representation([9]) == [1, 0]
 
-        test('[9, 9, 9] → [1, 0, 0, 0]', () => {
-            expect(incrementNumberRepresentation([9, 9, 9])).toEqual([1, 0, 0, 0]);
-        });
+    def test_9_9_9_becomes_1_0_0_0(self):
+        assert increment_number_representation([9, 9, 9]) == [1, 0, 0, 0]
 
-        test('[1, 9, 9] → [2, 0, 0]', () => {
-            expect(incrementNumberRepresentation([1, 9, 9])).toEqual([2, 0, 0]);
-        });
+    def test_1_9_9_becomes_2_0_0(self):
+        assert increment_number_representation([1, 9, 9]) == [2, 0, 0]
 
-        test('[2, 9] → [3, 0]', () => {
-            expect(incrementNumberRepresentation([2, 9])).toEqual([3, 0]);
-        });
-    });
+    def test_2_9_becomes_3_0(self):
+        assert increment_number_representation([2, 9]) == [3, 0]
 
-    describe('edge cases', () => {
-        test('single zero [0] → [1]', () => {
-            expect(incrementNumberRepresentation([0])).toEqual([1]);
-        });
 
-        test('large all-nines [9, 9, 9, 9, 9] → [1, 0, 0, 0, 0, 0]', () => {
-            expect(incrementNumberRepresentation([9, 9, 9, 9, 9])).toEqual([1, 0, 0, 0, 0, 0]);
-        });
+class TestEdgeCases:
+    def test_single_zero(self):
+        assert increment_number_representation([0]) == [1]
 
-        test('does not mutate original array', () => {
-            const input = [1, 2, 9];
-            incrementNumberRepresentation(input);
-            expect(input).toEqual([1, 2, 9]);
-        });
-    });
-});
+    def test_large_all_nines(self):
+        assert increment_number_representation([9, 9, 9, 9, 9]) == [1, 0, 0, 0, 0, 0]
 
-"""
+    def test_does_not_mutate_original_array(self):
+        numbers = [1, 2, 9]
+        increment_number_representation(numbers)
+        assert numbers == [1, 2, 9]

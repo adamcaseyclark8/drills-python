@@ -1,17 +1,8 @@
-r"""TODO: port to Python.
-
-Original JavaScript (misc/algo-experts/arrays/two-number-sum/code/als-version.js):
-
-const twoSum = (smallerTargetSum, start) => {
-    const x = {};
-    for (let i = start; i < arr.length; i += 1) {
-        const num = arr[i];
-        if (x[num]) {
-            return true;
-        }
-        x[smallerTargetSum - num] = true;
-    }
-    return false;
-};
-
-"""
+def two_sum(arr, smaller_target_sum, start):
+    x = {}
+    for i in range(start, len(arr)):
+        num = arr[i]
+        if x.get(num):
+            return True
+        x[smaller_target_sum - num] = True
+    return False

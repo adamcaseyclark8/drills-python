@@ -1,96 +1,78 @@
-r"""TODO: port to Python.
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-Original JavaScript (code/linked-lists/singly-linked-list.js):
 
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
-}
+class List:
+    def __init__(self):
+        self.head = None
+        self.length = 0
 
-class List {
-    constructor() {
-        this.head = null;
-        this.length = 0;
-    }
+    def push(self, value):
+        node = Node(value)
+        if not self.head:
+            self.head = node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node
+        self.length += 1
+        return node
 
-    push(value) {
-        const node = new Node(value);
-        if (!this.head) {
-            this.head = node;
-        } else {
-            let current = this.head;
-            while (current.next) current = current.next;
-            current.next = node;
-        }
-        this.length++;
-        return node;
-    }
+    def pop(self):
+        if not self.head:
+            return None
 
-    pop() {
-        if (!this.head) return null;
+        if not self.head.next:
+            node = self.head
+            self.head = None
+            self.length -= 1
+            return node
 
-        if (!this.head.next) {
-            const node = this.head;
-            this.head = null;
-            this.length--;
-            return node;
-        }
+        current = self.head
+        while current.next.next:
+            current = current.next
+        node = current.next
+        current.next = None
+        self.length -= 1
+        return node
 
-        let current = this.head;
-        while (current.next.next) current = current.next;
-        const node = current.next;
-        current.next = null;
-        this.length--;
-        return node;
-    }
+    def delete(self, value):
+        if not self.head:
+            return None
 
-    delete(value) {
-        if (!this.head) return null;
+        if self.head.value == value:
+            node = self.head
+            self.head = self.head.next
+            self.length -= 1
+            return node
 
-        if (this.head.value === value) {
-            const node = this.head;
-            this.head = this.head.next;
-            this.length--;
-            return node;
-        }
+        current = self.head
+        while current.next and current.next.value != value:
+            current = current.next
 
-        let current = this.head;
-        while (current.next && current.next.value !== value) {
-            current = current.next;
-        }
+        if current.next:
+            node = current.next
+            current.next = current.next.next
+            self.length -= 1
+            return node
 
-        if (current.next) {
-            const node = current.next;
-            current.next = current.next.next;
-            this.length--;
-            return node;
-        }
+        return None  # value not found
 
-        return null; // value not found
-    }
+    def find(self, value):
+        current = self.head
+        while current:
+            if current.value == value:
+                return current
+            current = current.next
+        return None
 
-    find(value) {
-        let current = this.head;
-        while (current) {
-            if (current.value === value) return current;
-            current = current.next;
-        }
-        return null;
-    }
-
-    toArray() {
-        const arr = [];
-        let current = this.head;
-        while (current) {
-            arr.push(current.value);
-            current = current.next;
-        }
-        return arr;
-    }
-}
-
-module.exports = { Node, List };
-
-"""
+    def to_array(self):
+        arr = []
+        current = self.head
+        while current:
+            arr.append(current.value)
+            current = current.next
+        return arr

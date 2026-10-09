@@ -1,322 +1,258 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (misc/algo-experts/linked-lists/doubly-linked-list/test/index.test.js):
+from ..code.index import DoublyLinkedList, Node
 
-const { DoublyLinkedList, Node } = require('../code/index');
 
-// class StartNode {
-//   constructor(value) {
-//     this.value = value;
-//     this.previous = null;
-//     this.next = null;
-//   }
-// }
-//
-// const nodeClass = program.Node || StartNode;
-//
-// class Node extends nodeClass {
-//   constructor(value) {
-//     super(value);
-//   }
-// }
+def expect_empty(linked_list):
+    assert linked_list.head is None
+    assert linked_list.tail is None
 
-function expectEmpty(linkedList) {
-    expect(linkedList.head).toEqual(null);
-    expect(linkedList.tail).toEqual(null);
-}
 
-function expectHeadTail(linkedList, head, tail) {
-    expect(linkedList.head).toEqual(head);
-    expect(linkedList.tail).toEqual(tail);
-}
+def expect_head_tail(linked_list, head, tail):
+    assert linked_list.head is head
+    assert linked_list.tail is tail
 
-function expectSingleNode(linkedList, node) {
-    expect(linkedList.head).toEqual(node);
-    expect(linkedList.tail).toEqual(node);
-}
 
-function getNodeValuesHeadToTail(linkedList) {
-    const values = [];
-    let node = linkedList.head;
-    while (node !== null) {
-        values.push(node.value);
-        node = node.next;
-    }
-    return values;
-}
+def expect_single_node(linked_list, node):
+    assert linked_list.head is node
+    assert linked_list.tail is node
 
-function getNodeValuesTailToHead(linkedList) {
-    const values = [];
-    let node = linkedList.tail;
-    while (node !== null) {
-        values.push(node.value);
-        node = node.previous;
-    }
-    return values;
-}
 
-function removeNodes(linkedList, nodes) {
-    for (const node of nodes) {
-        linkedList.remove(node);
-    }
-}
+def get_node_values_head_to_tail(linked_list):
+    values = []
+    node = linked_list.head
+    while node is not None:
+        values.append(node.value)
+        node = node.next
+    return values
 
-describe('Doubly Linked List Tests', () => {
-    let linkedList, node, first, second, third, fourth, fifth, sixth, seventh;
 
-    beforeEach(() => {
-        linkedList = DoublyLinkedList();
-        first = Node(1);
-        second = Node(2);
-        third = Node(3);
-        fourth = Node(4);
-        fifth = Node(5);
-        sixth = Node(6);
-        seventh = Node(7);
-    });
+def get_node_values_tail_to_head(linked_list):
+    values = []
+    node = linked_list.tail
+    while node is not None:
+        values.append(node.value)
+        node = node.previous
+    return values
 
-    it('test case #1', () => {
-        linkedList.setHead(first);
-        expectSingleNode(linkedList, first);
-        linkedList.remove(first);
-        expectEmpty(linkedList);
-        linkedList.setTail(first);
-        expectSingleNode(linkedList, first);
-        linkedList.removeNodesWithValue(1);
-        expectEmpty(linkedList);
-        linkedList.insertAtPosition(1, node);
-        expectSingleNode(linkedList, node);
-    });
 
-    it('test case #2', () => {
-        const nodes = [first, second];
+def remove_nodes(linked_list, nodes):
+    for node in nodes:
+        linked_list.remove(node)
 
-        linkedList.setHead(first);
-        linkedList.setTail(second);
-        expectHeadTail(linkedList, first, second);
-        removeNodes(linkedList, nodes);
-        expectEmpty(linkedList);
 
-        linkedList.setHead(first);
-        linkedList.insertAfter(first, second);
-        expectHeadTail(linkedList, first, second);
-        removeNodes(linkedList, nodes);
-        expectEmpty(linkedList);
+@pytest.fixture
+def linked_list():
+    return DoublyLinkedList()
 
-        linkedList.setHead(first);
-        linkedList.insertBefore(first, second);
-        expectHeadTail(linkedList, second, first);
-        removeNodes(linkedList, nodes);
-        expectEmpty(linkedList);
 
-        linkedList.insertAtPosition(1, first);
-        linkedList.insertAtPosition(2, second);
-        expectHeadTail(linkedList, first, second);
-        removeNodes(linkedList, nodes);
-        expectEmpty(linkedList);
+@pytest.fixture
+def nodes():
+    return [Node(value) for value in range(1, 8)]
 
-        // linkedList.insertAtPosition(2, first);
-        // linkedList.insertAtPosition(1, second);
-        // expectHeadTail(linkedList, second, first);
-    });
 
-    it('test case #3', () => {
-        linkedList.setHead(first);
-        expect(linkedList.containsNodeWithValue(1)).toBe(true);
-        linkedList.insertAfter(first, second);
-        expect(linkedList.containsNodeWithValue(2)).toBe(true);
-        linkedList.insertAfter(second, third);
-        expect(linkedList.containsNodeWithValue(3)).toBe(true);
-        linkedList.insertAfter(third, fourth);
-        expect(linkedList.containsNodeWithValue(4)).toBe(true);
-        linkedList.removeNodesWithValue(3);
-        expect(linkedList.containsNodeWithValue(3)).toBe(false);
-        linkedList.remove(first);
-        expect(linkedList.containsNodeWithValue(1)).toBe(false);
-        linkedList.removeNodesWithValue(4);
-        expect(linkedList.containsNodeWithValue(4)).toBe(false);
-        linkedList.remove(second);
-        expect(linkedList.containsNodeWithValue(2)).toBe(false);
-    });
+def test_case_1(linked_list, nodes):
+    first = nodes[0]
+    node = None  # never assigned in the original test
 
-    it('test case #4', () => {
-        linkedList.setHead(first);
-        linkedList.insertAfter(first, second);
-        linkedList.insertAfter(second, third);
-        linkedList.insertAfter(third, fourth);
-        linkedList.insertAfter(fourth, fifth);
-        linkedList.insertAfter(fifth, sixth);
-        linkedList.insertAfter(sixth, seventh);
+    linked_list.set_head(first)
+    expect_single_node(linked_list, first)
+    linked_list.remove(first)
+    expect_empty(linked_list)
+    linked_list.set_tail(first)
+    expect_single_node(linked_list, first)
+    linked_list.remove_nodes_with_value(1)
+    expect_empty(linked_list)
+    linked_list.insert_at_position(1, node)
+    expect_single_node(linked_list, node)
 
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([1, 2, 3, 4, 5, 6, 7]);
-        expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([7, 6, 5, 4, 3, 2, 1]);
-        expectHeadTail(linkedList, first, seventh);
-        linkedList.remove(second);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([1, 3, 4, 5, 6, 7]);
-        expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([7, 6, 5, 4, 3, 1]);
-        expectHeadTail(linkedList, first, seventh);
-        linkedList.removeNodesWithValue(1);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([3, 4, 5, 6, 7]);
-        expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([7, 6, 5, 4, 3]);
-        expectHeadTail(linkedList, third, seventh);
-        linkedList.removeNodesWithValue(3);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([4, 5, 6, 7]);
-        expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([7, 6, 5, 4]);
-        expectHeadTail(linkedList, fourth, seventh);
-        linkedList.removeNodesWithValue(4);
-        linkedList.removeNodesWithValue(5);
-        linkedList.removeNodesWithValue(7);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6]);
-        expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([6]);
-        expectHeadTail(linkedList, sixth, sixth);
-    });
 
-    test('test case #5', () => {
-        linkedList.setHead(first);
-        linkedList.insertAfter(first, second);
-        linkedList.insertAfter(second, third);
-        linkedList.insertAfter(third, fourth);
+def test_case_2(linked_list, nodes):
+    first, second = nodes[:2]
+    pair = [first, second]
 
-        linkedList.insertAfter(fourth, fifth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([1, 2, 3, 4, 5]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([5, 4, 3, 2, 1]);
-        expectHeadTail(linkedList, first, fifth);
+    linked_list.set_head(first)
+    linked_list.set_tail(second)
+    expect_head_tail(linked_list, first, second)
+    remove_nodes(linked_list, pair)
+    expect_empty(linked_list)
 
-        linkedList.insertAfter(third, fifth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([1, 2, 3, 5, 4]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([4, 5, 3, 2, 1]);
-        expectHeadTail(linkedList, first, fourth);
+    linked_list.set_head(first)
+    linked_list.insert_after(first, second)
+    expect_head_tail(linked_list, first, second)
+    remove_nodes(linked_list, pair)
+    expect_empty(linked_list)
 
-        linkedList.insertAfter(third, first);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([2, 3, 1, 5, 4]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([4, 5, 1, 3, 2]);
-        expectHeadTail(linkedList, second, fourth);
+    linked_list.set_head(first)
+    linked_list.insert_before(first, second)
+    expect_head_tail(linked_list, second, first)
+    remove_nodes(linked_list, pair)
+    expect_empty(linked_list)
 
-        // linkedList.insertAfter(fifth, second);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([3, 1, 5, 2, 4]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([4, 2, 5, 1, 3]);
-        // expectHeadTail(linkedList, third, fourth);
+    linked_list.insert_at_position(1, first)
+    linked_list.insert_at_position(2, second)
+    expect_head_tail(linked_list, first, second)
+    remove_nodes(linked_list, pair)
+    expect_empty(linked_list)
 
-        // linkedList.insertAfter(fourth, sixth);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([3, 1, 5, 2, 4, 6]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([6, 4, 2, 5, 1, 3]);
-        // expectHeadTail(linkedList, third, sixth);
+    # linked_list.insert_at_position(2, first)
+    # linked_list.insert_at_position(1, second)
+    # expect_head_tail(linked_list, second, first)
 
-        // linkedList.insertAfter(second, seventh);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([3, 1, 5, 2, 7, 4, 6]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([6, 4, 7, 2, 5, 1, 3]);
-        // expectHeadTail(linkedList, third, sixth);
-    });
 
-    test('test case #6', () => {
-        linkedList.setHead(first);
-        linkedList.insertBefore(first, second);
-        linkedList.insertBefore(second, third);
-        linkedList.insertBefore(third, fourth);
+def test_case_3(linked_list, nodes):
+    first, second, third, fourth = nodes[:4]
 
-        linkedList.insertBefore(fourth, fifth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([5, 4, 3, 2, 1]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([1,2,3,4,5]);
-        expectHeadTail(linkedList, fifth, first);
+    linked_list.set_head(first)
+    assert linked_list.contains_node_with_value(1) is True
+    linked_list.insert_after(first, second)
+    assert linked_list.contains_node_with_value(2) is True
+    linked_list.insert_after(second, third)
+    assert linked_list.contains_node_with_value(3) is True
+    linked_list.insert_after(third, fourth)
+    assert linked_list.contains_node_with_value(4) is True
+    linked_list.remove_nodes_with_value(3)
+    assert linked_list.contains_node_with_value(3) is False
+    linked_list.remove(first)
+    assert linked_list.contains_node_with_value(1) is False
+    linked_list.remove_nodes_with_value(4)
+    assert linked_list.contains_node_with_value(4) is False
+    linked_list.remove(second)
+    assert linked_list.contains_node_with_value(2) is False
 
-        linkedList.insertBefore(third, first);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([5, 4, 1, 3, 2]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([2,3,1,4,5]);
-        expectHeadTail(linkedList, fifth, second);
 
-        linkedList.insertBefore(fifth, second);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([2, 5, 4, 1, 3]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,4,5,2]);
-        expectHeadTail(linkedList, second, third);
+def test_case_4(linked_list, nodes):
+    first, second, third, fourth, fifth, sixth, seventh = nodes
 
-        // linkedList.insertBefore(fifth, fourth);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([2,4,5,1,3]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,5,4,2]);
-        // expectHeadTail(linkedList, second, third);
+    linked_list.set_head(first)
+    linked_list.insert_after(first, second)
+    linked_list.insert_after(second, third)
+    linked_list.insert_after(third, fourth)
+    linked_list.insert_after(fourth, fifth)
+    linked_list.insert_after(fifth, sixth)
+    linked_list.insert_after(sixth, seventh)
 
-        // linkedList.insertBefore(second, sixth);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6,2,4,5,1,3]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,5,4,2,6]);
-        // expectHeadTail(linkedList, sixth, third);
+    assert get_node_values_head_to_tail(linked_list) == [1, 2, 3, 4, 5, 6, 7]
+    assert get_node_values_tail_to_head(linked_list) == [7, 6, 5, 4, 3, 2, 1]
+    expect_head_tail(linked_list, first, seventh)
+    linked_list.remove(second)
+    assert get_node_values_head_to_tail(linked_list) == [1, 3, 4, 5, 6, 7]
+    assert get_node_values_tail_to_head(linked_list) == [7, 6, 5, 4, 3, 1]
+    expect_head_tail(linked_list, first, seventh)
+    linked_list.remove_nodes_with_value(1)
+    assert get_node_values_head_to_tail(linked_list) == [3, 4, 5, 6, 7]
+    assert get_node_values_tail_to_head(linked_list) == [7, 6, 5, 4, 3]
+    expect_head_tail(linked_list, third, seventh)
+    linked_list.remove_nodes_with_value(3)
+    assert get_node_values_head_to_tail(linked_list) == [4, 5, 6, 7]
+    assert get_node_values_tail_to_head(linked_list) == [7, 6, 5, 4]
+    expect_head_tail(linked_list, fourth, seventh)
+    linked_list.remove_nodes_with_value(4)
+    linked_list.remove_nodes_with_value(5)
+    linked_list.remove_nodes_with_value(7)
+    assert get_node_values_head_to_tail(linked_list) == [6]
+    assert get_node_values_tail_to_head(linked_list) == [6]
+    expect_head_tail(linked_list, sixth, sixth)
 
-        // linkedList.insertBefore(first, seventh);
-        // expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6,2,4,5,7,1,3]);
-        // // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,7,5,4,2,6]);
-        // expectHeadTail(linkedList, sixth, third);
-    });
 
-    test('test case #7', () => {
-        linkedList.setHead(first);
-        linkedList.insertAtPosition(1, second);
-        linkedList.insertAtPosition(1, third);
-        linkedList.insertAtPosition(1, fourth);
-        linkedList.insertAtPosition(1, fifth);
+def test_case_5(linked_list, nodes):
+    first, second, third, fourth, fifth = nodes[:5]
 
-        const expectedNestedArray = [
-            {
-                head: [5, 4, 3, 2, 1],
-                tail: [1, 2, 3, 4, 5]
-            },
-            {
-                head: [5, 1, 4, 3, 2],
-                tail: [2, 3, 4, 1, 5]
-            },
-            {
-                head: [],
-                tail: []
-            },
-            {
-                head: [],
-                tail: []
-            },
-            {
-                head: [],
-                tail: []
-            },
-            {
-                head: [],
-                tail: []
-            },
-            {
-                head: [],
-                tail: []
-            }
-        ];
+    linked_list.set_head(first)
+    linked_list.insert_after(first, second)
+    linked_list.insert_after(second, third)
+    linked_list.insert_after(third, fourth)
 
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual(expectedNestedArray[0].head);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual(expectedNestedArray[0].tail);
-        expectHeadTail(linkedList, fifth, first);
+    linked_list.insert_after(fourth, fifth)
+    assert get_node_values_head_to_tail(linked_list) == [1, 2, 3, 4, 5]
+    expect_head_tail(linked_list, first, fifth)
 
-        linkedList.insertAtPosition(2, first);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([5, 1, 4, 3, 2]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([2,3,4,1,5]);
-        expectHeadTail(linkedList, fifth, second);
+    linked_list.insert_after(third, fifth)
+    assert get_node_values_head_to_tail(linked_list) == [1, 2, 3, 5, 4]
+    expect_head_tail(linked_list, first, fourth)
 
-        linkedList.insertAtPosition(1, second);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([2, 5, 1, 4, 3]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,4,1,5,2]);
-        expectHeadTail(linkedList, second, third);
+    linked_list.insert_after(third, first)
+    assert get_node_values_head_to_tail(linked_list) == [2, 3, 1, 5, 4]
+    expect_head_tail(linked_list, second, fourth)
 
-        linkedList.insertAtPosition(2, fourth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([2, 4, 5, 1, 3]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,5,4,2]);
-        expectHeadTail(linkedList, second, third);
+    # linked_list.insert_after(fifth, second)
+    # assert get_node_values_head_to_tail(linked_list) == [3, 1, 5, 2, 4]
+    # expect_head_tail(linked_list, third, fourth)
+    #
+    # linked_list.insert_after(fourth, sixth)
+    # assert get_node_values_head_to_tail(linked_list) == [3, 1, 5, 2, 4, 6]
+    # expect_head_tail(linked_list, third, sixth)
+    #
+    # linked_list.insert_after(second, seventh)
+    # assert get_node_values_head_to_tail(linked_list) == [3, 1, 5, 2, 7, 4, 6]
+    # expect_head_tail(linked_list, third, sixth)
 
-        linkedList.insertAtPosition(1, sixth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6, 2, 4, 5, 1, 3]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,5,4,2,6]);
-        expectHeadTail(linkedList, sixth, third);
 
-        linkedList.insertAtPosition(5, seventh);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6, 2, 4, 5, 7, 1, 3]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([3,1,7,5,4,2,6]);
-        expectHeadTail(linkedList, sixth, third);
+def test_case_6(linked_list, nodes):
+    first, second, third, fourth, fifth = nodes[:5]
 
-        linkedList.insertAtPosition(8, fourth);
-        expect(getNodeValuesHeadToTail(linkedList)).toStrictEqual([6, 2, 5, 7, 1, 3, 4]);
-        // expect(getNodeValuesTailToHead(linkedList)).toStrictEqual([4,3,1,7,5,2,6]);
-        expectHeadTail(linkedList, sixth, fourth);
-    });
-});
+    linked_list.set_head(first)
+    linked_list.insert_before(first, second)
+    linked_list.insert_before(second, third)
+    linked_list.insert_before(third, fourth)
 
-"""
+    linked_list.insert_before(fourth, fifth)
+    assert get_node_values_head_to_tail(linked_list) == [5, 4, 3, 2, 1]
+    expect_head_tail(linked_list, fifth, first)
+
+    linked_list.insert_before(third, first)
+    assert get_node_values_head_to_tail(linked_list) == [5, 4, 1, 3, 2]
+    expect_head_tail(linked_list, fifth, second)
+
+    linked_list.insert_before(fifth, second)
+    assert get_node_values_head_to_tail(linked_list) == [2, 5, 4, 1, 3]
+    expect_head_tail(linked_list, second, third)
+
+    # linked_list.insert_before(fifth, fourth)
+    # assert get_node_values_head_to_tail(linked_list) == [2, 4, 5, 1, 3]
+    # expect_head_tail(linked_list, second, third)
+    #
+    # linked_list.insert_before(second, sixth)
+    # assert get_node_values_head_to_tail(linked_list) == [6, 2, 4, 5, 1, 3]
+    # expect_head_tail(linked_list, sixth, third)
+    #
+    # linked_list.insert_before(first, seventh)
+    # assert get_node_values_head_to_tail(linked_list) == [6, 2, 4, 5, 7, 1, 3]
+    # expect_head_tail(linked_list, sixth, third)
+
+
+def test_case_7(linked_list, nodes):
+    first, second, third, fourth, fifth, sixth, seventh = nodes
+
+    linked_list.set_head(first)
+    linked_list.insert_at_position(1, second)
+    linked_list.insert_at_position(1, third)
+    linked_list.insert_at_position(1, fourth)
+    linked_list.insert_at_position(1, fifth)
+
+    assert get_node_values_head_to_tail(linked_list) == [5, 4, 3, 2, 1]
+    expect_head_tail(linked_list, fifth, first)
+
+    linked_list.insert_at_position(2, first)
+    assert get_node_values_head_to_tail(linked_list) == [5, 1, 4, 3, 2]
+    expect_head_tail(linked_list, fifth, second)
+
+    linked_list.insert_at_position(1, second)
+    assert get_node_values_head_to_tail(linked_list) == [2, 5, 1, 4, 3]
+    expect_head_tail(linked_list, second, third)
+
+    linked_list.insert_at_position(2, fourth)
+    assert get_node_values_head_to_tail(linked_list) == [2, 4, 5, 1, 3]
+    expect_head_tail(linked_list, second, third)
+
+    linked_list.insert_at_position(1, sixth)
+    assert get_node_values_head_to_tail(linked_list) == [6, 2, 4, 5, 1, 3]
+    expect_head_tail(linked_list, sixth, third)
+
+    linked_list.insert_at_position(5, seventh)
+    assert get_node_values_head_to_tail(linked_list) == [6, 2, 4, 5, 7, 1, 3]
+    expect_head_tail(linked_list, sixth, third)
+
+    linked_list.insert_at_position(8, fourth)
+    assert get_node_values_head_to_tail(linked_list) == [6, 2, 5, 7, 1, 3, 4]
+    expect_head_tail(linked_list, sixth, fourth)

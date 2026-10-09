@@ -1,48 +1,33 @@
-r"""TODO: port to Python.
+def find_triplets_with_zero_sum(nums):
+    nums.sort()  # Sort the array
+    result = []
+    n = len(nums)
 
-Original JavaScript (code/two-pointers/find-triplets-with-zero-sum.js):
+    for i in range(n - 2):
+        # Skip duplicate first elements
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
 
-function findTripletsWithZeroSum(nums) {
-    nums.sort((a, b) => a - b); // Sort the array
-    const result = [];
-    const n = nums.length;
+        left = i + 1
+        right = n - 1
 
-    for (let i = 0; i < n - 2; i++) {
-        // Skip duplicate first elements
-        if (i > 0 && nums[i] === nums[i - 1]) {
-            continue;
-        }
+        while left < right:
+            current_sum = nums[i] + nums[left] + nums[right]
 
-        let left = i + 1;
-        let right = n - 1;
+            if current_sum == 0:
+                result.append([nums[i], nums[left], nums[right]])
 
-        while (left < right) {
-            const currentSum = nums[i] + nums[left] + nums[right];
+                # Skip duplicate second and third elements
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
 
-            if (currentSum === 0) {
-                result.push([nums[i], nums[left], nums[right]]);
-
-                // Skip duplicate second and third elements
-                while (left < right && nums[left] === nums[left + 1]) {
-                    left++;
-                }
-                while (left < right && nums[right] === nums[right - 1]) {
-                    right--;
-                }
-
-                left++;
-                right--;
-            } else if (currentSum < 0) {
-                left++;
-            } else {
-                // currentSum > 0
-                right--;
-            }
-        }
-    }
-    return result;
-}
-
-module.exports = findTripletsWithZeroSum;
-
-"""
+                left += 1
+                right -= 1
+            elif current_sum < 0:
+                left += 1
+            else:
+                # current_sum > 0
+                right -= 1
+    return result

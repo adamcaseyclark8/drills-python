@@ -1,26 +1,13 @@
-r"""TODO: port to Python.
+def insertion_sort(array):
+    for i in range(1, len(array)):
+        j = i
 
-Original JavaScript (misc/algo-experts/sorting/insertion-sort/code/index.js):
+        while j > 0 and array[j] < array[j - 1]:
+            swap(j, j - 1, array)
 
-function insertionSort(array) {
-    for (let i = 1; i < array.length; i++) {
-        let j = i;
+            j -= 1
+    return array
 
-        while (j > 0 && array[j] < array[j - 1]) {
-            swap(j, j - 1, array);
 
-            j -= 1;
-        }
-    }
-    return array;
-}
-
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
-
-exports.insertionSort = insertionSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

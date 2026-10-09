@@ -1,71 +1,45 @@
-r"""TODO: port to Python.
+from code.recursion.flatten_nested_list import flatten_nested_list
 
-Original JavaScript (test/recursion/flatten-nested-list.test.js):
 
-const flattenNestedList = require('../../code/recursion/flatten-nested-list.js');
+class TestBasicCases:
+    def test_already_flat_returns_same_values(self):
+        assert flatten_nested_list([1, 2, 3]) == [1, 2, 3]
 
-describe('flattenNestedList', () => {
-    describe('basic cases', () => {
-        test('[1, 2, 3] → already flat, returns same values', () => {
-            expect(flattenNestedList([1, 2, 3])).toEqual([1, 2, 3]);
-        });
+    def test_one_level_of_nesting(self):
+        assert flatten_nested_list([1, [2, 3]]) == [1, 2, 3]
 
-        test('[1, [2, 3]] → one level of nesting', () => {
-            expect(flattenNestedList([1, [2, 3]])).toEqual([1, 2, 3]);
-        });
+    def test_two_levels_of_nesting(self):
+        assert flatten_nested_list([1, [2, [3, 4]]]) == [1, 2, 3, 4]
 
-        test('[1, [2, [3, 4]]] → two levels of nesting', () => {
-            expect(flattenNestedList([1, [2, [3, 4]]])).toEqual([1, 2, 3, 4]);
-        });
+    def test_deeply_nested(self):
+        assert flatten_nested_list([1, [2, [3, [4, [5]]]]]) == [1, 2, 3, 4, 5]
 
-        test('[1, [2, [3, [4, [5]]]]] → deeply nested', () => {
-            expect(flattenNestedList([1, [2, [3, [4, [5]]]]])).toEqual([1, 2, 3, 4, 5]);
-        });
-    });
 
-    describe('mixed nesting', () => {
-        test('[[1, 2], [3, 4], [5, 6]] → multiple nested arrays at same level', () => {
-            expect(
-                flattenNestedList([
-                    [1, 2],
-                    [3, 4],
-                    [5, 6]
-                ])
-            ).toEqual([1, 2, 3, 4, 5, 6]);
-        });
+class TestMixedNesting:
+    def test_multiple_nested_arrays_at_same_level(self):
+        assert flatten_nested_list([[1, 2], [3, 4], [5, 6]]) == [1, 2, 3, 4, 5, 6]
 
-        test('[1, [2, 3], 4, [5, [6, 7]]] → mix of flat and nested', () => {
-            expect(flattenNestedList([1, [2, 3], 4, [5, [6, 7]]])).toEqual([1, 2, 3, 4, 5, 6, 7]);
-        });
+    def test_mix_of_flat_and_nested(self):
+        assert flatten_nested_list([1, [2, 3], 4, [5, [6, 7]]]) == [1, 2, 3, 4, 5, 6, 7]
 
-        test('strings and numbers mixed', () => {
-            expect(flattenNestedList([1, ['a', 'b'], [2, ['c']]])).toEqual([1, 'a', 'b', 2, 'c']);
-        });
-    });
+    def test_strings_and_numbers_mixed(self):
+        assert flatten_nested_list([1, ['a', 'b'], [2, ['c']]]) == [1, 'a', 'b', 2, 'c']
 
-    describe('edge cases', () => {
-        test('empty array → []', () => {
-            expect(flattenNestedList([])).toEqual([]);
-        });
 
-        test('array of empty arrays → []', () => {
-            expect(flattenNestedList([[], [], []])).toEqual([]);
-        });
+class TestEdgeCases:
+    def test_empty_array(self):
+        assert flatten_nested_list([]) == []
 
-        test('nested empty arrays → []', () => {
-            expect(flattenNestedList([[], [[], []]])).toEqual([]);
-        });
+    def test_array_of_empty_arrays(self):
+        assert flatten_nested_list([[], [], []]) == []
 
-        test('single element [42] → [42]', () => {
-            expect(flattenNestedList([42])).toEqual([42]);
-        });
+    def test_nested_empty_arrays(self):
+        assert flatten_nested_list([[], [[], []]]) == []
 
-        test('does not mutate the original array', () => {
-            const input = [1, [2, 3]];
-            flattenNestedList(input);
-            expect(input).toEqual([1, [2, 3]]);
-        });
-    });
-});
+    def test_single_element(self):
+        assert flatten_nested_list([42]) == [42]
 
-"""
+    def test_does_not_mutate_the_original_array(self):
+        nested = [1, [2, 3]]
+        flatten_nested_list(nested)
+        assert nested == [1, [2, 3]]

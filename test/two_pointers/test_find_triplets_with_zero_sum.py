@@ -1,25 +1,14 @@
-r"""TODO: port to Python.
+from code.two_pointers.find_triplets_with_zero_sum import find_triplets_with_zero_sum  # noqa: F401
 
-Original JavaScript (test/two-pointers/find-triplets-with-zero-sum.test.js):
 
-const findTripletsWithZeroSum = require('../../code/two-pointers/find-triplets-with-zero-sum.js');
+def test_multiple_passing_triplets():
+    print('NEED TO FIX TESTS')
+    # assert find_triplets_with_zero_sum([[-1, 0, 1, 2, -1, -4]]) == [[-1, -1, 2], [-1, 0, 1]]
 
-describe('verify find triplets with zero sum', () => {
-    test('multiple passing triplets', () => {
-        console.log('NEED TO FIX TESTS');
-        // expect(findTripletsWithZeroSum([[-1, 0, 1, 2, -1, -4]])).toStrictEqual([
-        //     [-1, -1, 2],
-        //     [-1, 0, 1]
-        // ]);
-    });
 
-    // test('one passing triplets', () => {
-    //     expect(findTripletsWithZeroSum([0, 0, 0])).toStrictEqual([[0, 0, 0]]);
-    // });
-    //
-    // test('no cases - return empty array', () => {
-    //     expect(findTripletsWithZeroSum([1, 2, 3])).toStrictEqual([]);
-    // });
-});
-
-"""
+# def test_one_passing_triplets():
+#     assert find_triplets_with_zero_sum([0, 0, 0]) == [[0, 0, 0]]
+#
+#
+# def test_no_cases_return_empty_array():
+#     assert find_triplets_with_zero_sum([1, 2, 3]) == []

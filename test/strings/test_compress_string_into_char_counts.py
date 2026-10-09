@@ -1,51 +1,34 @@
-r"""TODO: port to Python.
+from code.strings.compress_string_into_char_counts import compress_string_into_char_counts
 
-Original JavaScript (test/strings/compress-string-into-char-counts.test.js):
 
-const compressStringIntoCharCounts = require('../../code/strings/compress-string-into-char-counts.js');
+class TestBasicCompression:
+    def test_compresses_repeated_characters(self):
+        assert compress_string_into_char_counts('aabcccdddd') == 'a2b1c3d4'
 
-describe('compressStringIntoCharCounts', () => {
-    describe('basic compression', () => {
-        test('compresses repeated characters', () => {
-            expect(compressStringIntoCharCounts('aabcccdddd')).toBe('a2b1c3d4');
-        });
+    def test_compresses_all_same_characters(self):
+        assert compress_string_into_char_counts('aaaaaaa') == 'a7'
 
-        test('compresses all same characters', () => {
-            expect(compressStringIntoCharCounts('aaaaaaa')).toBe('a7');
-        });
+    def test_compresses_two_groups(self):
+        assert compress_string_into_char_counts('aaabbb') == 'a3b3'
 
-        test('compresses two groups', () => {
-            expect(compressStringIntoCharCounts('aaabbb')).toBe('a3b3');
-        });
-    });
 
-    describe('no compression needed', () => {
-        test('returns original if compressed is not smaller', () => {
-            expect(compressStringIntoCharCounts('aabbcc')).toBe('aabbcc');
-        });
+class TestNoCompressionNeeded:
+    def test_returns_original_if_compressed_is_not_smaller(self):
+        assert compress_string_into_char_counts('aabbcc') == 'aabbcc'
 
-        test('returns original if all characters are unique', () => {
-            expect(compressStringIntoCharCounts('abcd')).toBe('abcd');
-        });
-    });
+    def test_returns_original_if_all_characters_are_unique(self):
+        assert compress_string_into_char_counts('abcd') == 'abcd'
 
-    describe('4 edge cases', () => {
-        test('returns empty string for empty input', () => {
-            expect(compressStringIntoCharCounts('')).toBe('');
-        });
 
-        test('returns null for null input', () => {
-            expect(compressStringIntoCharCounts(null)).toBe(null);
-        });
+class TestEdgeCases:
+    def test_returns_empty_string_for_empty_input(self):
+        assert compress_string_into_char_counts('') == ''
 
-        test('handles single character', () => {
-            expect(compressStringIntoCharCounts('a')).toBe('a');
-        });
+    def test_returns_none_for_none_input(self):
+        assert compress_string_into_char_counts(None) is None
 
-        test('handles single repeated character', () => {
-            expect(compressStringIntoCharCounts('aa')).toBe('aa');
-        });
-    });
-});
+    def test_handles_single_character(self):
+        assert compress_string_into_char_counts('a') == 'a'
 
-"""
+    def test_handles_single_repeated_character(self):
+        assert compress_string_into_char_counts('aa') == 'aa'

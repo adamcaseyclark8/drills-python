@@ -1,46 +1,38 @@
-r"""TODO: port to Python.
+from code.backtracking.advanced_combination_sum import perform_advanced_combination_sum
 
-Original JavaScript (test/backtracking/advanced-combination-sum.test.js):
+# CANDIDATES MAY HAVE DUPLICATES
+# EACH NUMBER USED ONCE ONLY
+# NO DUPLICATE COMBINATIONS IN OUTPUT
 
-const performAdvancedCombinationSum = require('../../code/backtracking/advanced-combination-sum');
 
-// CANDIDATES MAY HAVE DUPLICATES
-// EACH NUMBER USED ONCE ONLY
-// NO DUPLICATE COMBINATIONS IN OUTPUT
+def test_basic_case_with_duplicates_in_input():
+    result = perform_advanced_combination_sum([10, 1, 2, 7, 6, 1, 5], 8)
+    assert len(result) == 4
+    assert [1, 1, 6] in result
+    assert [1, 2, 5] in result
+    assert [1, 7] in result
+    assert [2, 6] in result
 
-describe('advanced combination sum', () => {
-    test('basic case with duplicates in input', () => {
-        const result = performAdvancedCombinationSum([10, 1, 2, 7, 6, 1, 5], 8);
-        expect(result).toHaveLength(4);
-        expect(result).toContainEqual([1, 1, 6]);
-        expect(result).toContainEqual([1, 2, 5]);
-        expect(result).toContainEqual([1, 7]);
-        expect(result).toContainEqual([2, 6]);
-    });
 
-    test('no valid combination', () => {
-        expect(performAdvancedCombinationSum([2, 4], 3)).toEqual([]);
-    });
+def test_no_valid_combination():
+    assert perform_advanced_combination_sum([2, 4], 3) == []
 
-    test('no duplicate combinations in output', () => {
-        const result = performAdvancedCombinationSum([1, 1, 1, 1], 2);
-        expect(result).toHaveLength(1);
-        expect(result).toContainEqual([1, 1]);
-    });
 
-    test('single element equals target', () => {
-        const result = performAdvancedCombinationSum([1, 2, 3], 3);
-        expect(result).toHaveLength(2);
-        expect(result).toContainEqual([3]);
-        expect(result).toContainEqual([1, 2]);
-    });
+def test_no_duplicate_combinations_in_output():
+    result = perform_advanced_combination_sum([1, 1, 1, 1], 2)
+    assert len(result) == 1
+    assert [1, 1] in result
 
-    test('each element used at most once', () => {
-        const result = performAdvancedCombinationSum([1, 2, 3], 4);
-        expect(result).toHaveLength(1);
-        expect(result).not.toContainEqual([2, 2]);
-        expect(result).toContainEqual([1, 3]);
-    });
-});
 
-"""
+def test_single_element_equals_target():
+    result = perform_advanced_combination_sum([1, 2, 3], 3)
+    assert len(result) == 2
+    assert [3] in result
+    assert [1, 2] in result
+
+
+def test_each_element_used_at_most_once():
+    result = perform_advanced_combination_sum([1, 2, 3], 4)
+    assert len(result) == 1
+    assert [2, 2] not in result
+    assert [1, 3] in result
