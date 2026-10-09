@@ -1,6 +1,7 @@
-node_modules
 build
-npm-debug.log
 .env
 .DS_Store
 .solutions/
+__pycache__/
+*.pyc
+.pytest_cache/
