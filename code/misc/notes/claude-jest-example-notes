@@ -1,0 +1,33 @@
+Key Concepts Demonstrated
+
+Spying on class methods - We spy on apiClient.fetchUser and apiClient.saveUser
+Mock return values - Control what the API returns without making real calls
+Verify call counts - Check how many times methods were called
+Verify call arguments - Ensure methods were called with correct parameters
+Test caching logic - Verify API is only called when cache misses
+Mock errors - Test error handling with mockRejectedValueOnce
+Sequential mocks - Different return values for consecutive calls
+
+This pattern is perfect for testing code that depends on external services, databases, or any expensive operations!
+
+---------------------------------------------------------
+---------------------------------------------------------
+
+Spy vs Mock vs Spy + Mock
+
+// 1. SPY ONLY (watches but doesn't change behavior)
+const spy = jest.spyOn(apiClient, 'fetchUser');
+// ✓ Tracks calls, arguments, return values
+// ✗ Still makes real API call (not what we want for tests!)
+
+// 2. MOCK ONLY (replaces function completely)
+apiClient.fetchUser = jest.fn(() => Promise.resolve({ id: 1, name: 'John' }));
+// ✓ No real API call
+// ✗ Lost reference to original function, harder to restore
+
+// 3. SPY + MOCK (best of both worlds - what we're doing)
+const spy = jest.spyOn(apiClient, 'fetchUser')
+  .mockImplementation(() => Promise.resolve({ id: 1, name: 'John' }));
+// ✓ Tracks calls, arguments, return values
+// ✓ No real API call
+// ✓ Can easily restore with mockRestore()

@@ -1,0 +1,9 @@
+getting javascript code
+
+1. arrow functions always
+2. commonjs export at bottom
+3. one algorithm/function unless you explicitly ask for more
+4. no comments or explanations in the code
+5. tests in a separate block only when you ask for them
+6. no prose before or after — just the codesaved. anything to add or change?
+

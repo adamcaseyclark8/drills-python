@@ -1,0 +1,34 @@
+--------------------------------------
+-- TEST FUNCTION NAMES FOR DRILLING --
+--------------------------------------
+-------------------
+-- NEW DIRECTORY --
+-------------------
+
+// module.exports = findDuplicateNumber;
+// module.exports = rotate;
+// module.exports = getTopKFrequentElements;
+// module.exports = bestTimeToBuyOrSellStock;
+// module.exports = calculateWinnerInTicTacToe;
+
+-------------------
+-- NEW DIRECTORY --
+-------------------
+
+// module.exports = experianSplitStringFunction;
+// module.exports = findTwoHighestValues;
+// module.exports = firstRepeatingFirstMissing;
+// module.exports = moveZeroesRight;
+// module.exports = removeAllDuplicates;
+// module.exports = reverseStringInPlace;
+// module.exports = twoNumberSumUsingSet;
+// module.exports = verifyValidAnagram;
+// module.exports = verifyValidPalindrome;
+// module.exports = performBinarySearch;
+// module.exports = findGroupedAnagrams;
+// module.exports = longestSequenceOfNumbers;
+// module.exports = sortViaBubbleSort;
+// module.exports = performBinarySearch;
+// module.exports = changeStartingIndex;
+// module.exports = mergeOverlappingArrays;
+// module.exports = vailStockProblem;

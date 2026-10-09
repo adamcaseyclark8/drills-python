@@ -1,0 +1,39 @@
+0.) merge k sorted lists
+
+merge k sorted linked lists into one sorted list.
+
+0.) lcs (longest common subsequence)
+
+find the longest subsequence present in two given sequences.
+
+0.) search a 2d matrix ii
+
+given a matrix sorted both row-wise and column-wise, search efficiently for a target value.
+
+0.) word ladder
+
+given start and end words and a dictionary, transform the start into the end by changing one letter at a time, with each intermediate word also in the dictionary. find the shortest transformation sequence.
+
+0.) course schedule
+
+given a number of courses and prerequisites, decide if you can finish all courses (detect cycles etc.).
+
+0.) combination sum
+
+given a set of candidate numbers and a target, find all unique combinations in candidates where the numbers sum to target.
+
+0.) partition labels
+
+split a string into as many parts as possible so that each letter appears in at most one part; return lengths of the parts.
+
+0.) number of islands
+
+count the number of islands in a 2d grid (where ‘1’ is land and ‘0’ is water), using graph traversal.
+
+0.) minimum window substring
+
+given two strings s and t, return the smallest substring of s that contains all the characters of t.
+
+0.) sliding window maximum
+
+given an array and a window size k, find the maximum for each subarray of size k.

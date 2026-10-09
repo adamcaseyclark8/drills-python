@@ -1,0 +1,70 @@
+**linked lists**
+18. reverse a linked list
+19. detect a cycle in a linked list
+20. merge two sorted linked lists
+21. find the middle node of a linked list
+
+**trees & graphs**
+22. binary tree level order traversal (bfs)
+23. check if a binary tree is balanced
+24. find the lowest common ancestor in a binary tree
+25. depth-first search on a graph
+
+removed ^^^
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+here's the updated list with linked lists and trees & graphs swapped out:
+
+**string manipulation**
+01. reverse a string
+02. check if a string is a palindrome
+03. find duplicate characters in a string
+04. count vowels and consonants
+05. check if two strings are anagrams
+06. find the longest substring without repeating characters
+07. compress a string using character counts
+
+**arrays & collections**
+08. find the missing number in an array
+09. remove duplicates from an array
+10. find the second largest element in an array
+11. rotate an array by k positions
+12. find two numbers that sum to a target (two sum)
+13. flatten a nested list
+
+**sorting & searching**
+14. implement binary search
+15. implement bubble sort
+16. implement quicksort
+17. find the first and last position of a target in a sorted array
+
+**hashmap & hashset**
+18. find the first non-repeating character in a string
+19. group anagrams together from a list
+20. find all pairs in an array with a given sum
+21. count word frequency in a sentence
+
+**concurrency & multithreading**
+22. implement a thread-safe singleton
+23. producer-consumer problem using blockingqueue
+24. implement a simple thread pool
+25. deadlock detection and prevention example
+
+**oop & design patterns**
+26. implement a singleton class
+27. implement a stack using queues
+28. implement a queue using two stacks
+29. design a parking lot system (oop)
+
+**sdet-specific**
+30. parse and validate a json-like string
+31. write a generic retry mechanism
+32. implement a simple rate limiter
+33. read and process a csv file
+34. write a custom assertion utility class
+
+---
+
+the concurrency section is a solid addition — multithreading questions come up often in senior-level interviews. let me know which one you want to start with!

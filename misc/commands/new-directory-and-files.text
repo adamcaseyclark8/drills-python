@@ -1,0 +1,10 @@
+-----------------------------------------------
+-- PASTE TO TERMINAL TO CREATE NEW DIRECTORY --
+-----------------------------------------------
+
+mkdir exercises/current/advance-notice-demo
+mkdir exercises/current/advance-notice-demo/code
+mkdir exercises/current/advance-notice-demo/test
+touch exercises/current/advance-notice-demo/code/index.js
+touch exercises/current/advance-notice-demo/code/demo.js
+touch exercises/current/advance-notice-demo/test/index.test.js

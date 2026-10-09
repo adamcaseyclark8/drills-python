@@ -1,0 +1,27 @@
+The problem asks to render an ASCII art pyramid with N levels by printing N rows of asterisks, where:
+
+The top row has a single asterisk in the center
+Each successive row has two additional asterisks on either side
+
+Examples shown:
+
+N = 3:
+
+  *
+ ***
+*****
+```
+
+- N = 5:
+```
+    *
+   ***
+  *****
+ *******
+*********
+
+The question asks: "Can you write a program that generates this pyramid with a N value of 10?"
+Constraints:
+
+Execution time limit: 4 seconds
+Memory limit: 2g

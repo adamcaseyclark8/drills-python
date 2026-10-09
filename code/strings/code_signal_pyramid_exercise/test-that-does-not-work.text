@@ -1,0 +1,67 @@
+const buildAsciiPyramid = require('../code/index.js');
+
+describe('build ascii pyramid exercise', () => {
+    let consoleSpy;
+
+    beforeEach(() => {
+        consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    });
+
+    afterEach(() => {
+        consoleSpy.mockRestore();
+    });
+
+    test('creates a buildAsciiPyramid with n=1', () => {
+        buildAsciiPyramid(1);
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+        expect(consoleSpy).toHaveBeenCalledWith('*');
+    });
+
+    test('creates a buildAsciiPyramid with n=3', () => {
+        buildAsciiPyramid(3);
+        expect(consoleSpy).toHaveBeenCalledTimes(3);
+        expect(consoleSpy.mock.calls[0][0]).toBe('  *');
+        expect(consoleSpy.mock.calls[1][0]).toBe(' ***');
+        expect(consoleSpy.mock.calls[2][0]).toBe('*****');
+    });
+
+    test('creates a buildAsciiPyramid with n=5', () => {
+        buildAsciiPyramid(5);
+        expect(consoleSpy).toHaveBeenCalledTimes(5);
+        expect(consoleSpy.mock.calls[0][0]).toBe('    *');
+        expect(consoleSpy.mock.calls[1][0]).toBe('   ***');
+        expect(consoleSpy.mock.calls[2][0]).toBe('  *****');
+        expect(consoleSpy.mock.calls[3][0]).toBe(' *******');
+        expect(consoleSpy.mock.calls[4][0]).toBe('*********');
+    });
+
+    test('creates a buildAsciiPyramid with n=10', () => {
+        buildAsciiPyramid(10);
+        expect(consoleSpy).toHaveBeenCalledTimes(10);
+        expect(consoleSpy.mock.calls[0][0]).toBe('         *');
+        expect(consoleSpy.mock.calls[9][0]).toBe('*******************');
+    });
+
+    test('each row has correct number of characters', () => {
+        const n = 7;
+        buildAsciiPyramid(n);
+
+        for (let i = 0; i < n; i++) {
+            const row = consoleSpy.mock.calls[i][0];
+            // expect(row.length).toBe(2 * n - 1);
+            expect(row.length).toBe(13);
+        }
+    });
+
+    test('each row has correct number of asterisks', () => {
+        const n = 5;
+        buildAsciiPyramid(n);
+
+        for (let i = 0; i < n; i++) {
+            const row = consoleSpy.mock.calls[i][0];
+            const asteriskCount = (row.match(/\*/g) || []).length;
+            // expect(asteriskCount).toBe(2 * (i + 1) - 1);
+            expect(asteriskCount).toBe(11);
+        }
+    });
+});

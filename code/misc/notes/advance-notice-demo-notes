@@ -1,0 +1,79 @@
+This code calculates a **scheduling window** — given a request datetime, it figures out the earliest and latest valid dates/times a service can be scheduled.
+
+---
+
+**The Core Idea**
+
+You configure it with rules, hand it a request timestamp, and it hands back `{ minDateTime, maxDateTime }` — the valid booking window.
+
+---
+
+**Configuration (constructor)**
+
+- `minDays` — minimum days out before the service can be scheduled
+- `maxDays` — maximum days out (the window's far edge)
+- `cutOffTime` — a time-of-day threshold (e.g., 2:00 PM). Requests made *after* this get pushed to the next day
+- `exclusions` — which days of the week don't count (Saturdays, Sundays, or both)
+
+---
+
+**What `calculate()` Does Step by Step**
+
+1. **Strip the time** from the request — work date-only as the baseline
+2. **Cut-off check** — if the request came in after the cut-off time, advance the baseline by 1 day
+3. **Skip excluded days** (`adjustRequestForward`) — if the baseline lands on a weekend that's excluded, keep nudging it forward until it hits a valid service day
+4. **Earliest date** — walk forward `minDays` *service days* from baseline (skipping excluded days as they don't count toward the minimum)
+5. **Latest date** — `requestDate + maxDays` calendar days at 5:00 PM, no service-day filtering
+6. **Delta guard** — if `minDateTime` ends up *at or after* `maxDateTime` (can happen with lots of exclusions), it recalculates max relative to the earliest date using the `maxDays - minDays` gap
+
+---
+
+**Key Distinction: Service Days vs Calendar Days**
+
+- `minDays` counts only *eligible* service days (weekends excluded if configured)
+- `maxDays` is raw calendar days from the original request date — no filtering
+
+This means a 2-day minimum with weekends excluded could push the earliest date to Wednesday if submitted on a Thursday afternoon after cut-off.
+
+---
+
+**Example**
+
+Config: `minDays=2, maxDays=10, cutOffTime=14:00, excludeSunday=true`
+Request submitted: **Friday at 3:00 PM**
+
+- After cut-off → baseline moves to **Saturday**
+- Saturday is not excluded → baseline stays **Saturday**
+- +2 service days (skipping Sunday) → earliest is **Tuesday** at 8:00 AM
+- Max = Friday + 10 calendar days → **Monday** at 5:00 PM
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+Both, split pretty cleanly:
+
+**Employee/Business Side (configuration — set up once)**
+- `minDays` — business rule (e.g., "we need at least 2 days notice")
+- `maxDays` — business rule (e.g., "can't book more than 10 days out")
+- `cutOffTime` — business rule (e.g., "requests after 2 PM roll to next day")
+- `exclusions` — business rule (e.g., "we don't work weekends")
+
+These define *how the business operates* and would typically be hardcoded or pulled from a config/database, not entered per request.
+
+**Customer Side (runtime input — changes every call)**
+- `requestDateTime` — the timestamp of when the customer is submitting the request
+
+That's the only dynamic input. The customer doesn't control any of the rules — the code just uses their submission time to calculate what window is available to them *given* the business's constraints.
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+Correct. This code only calculates a **date/time window** — it has no awareness of what's already booked. It will return the same `minDateTime` and `maxDateTime` regardless of whether the calendar is completely full or completely empty.
+
+To actually check availability you'd need a separate layer that:
+
+- Queries existing appointments within the calculated window
+- Finds open slots based on capacity (how many jobs can run per day, per time block, etc.)
+- Returns specific available times rather than just a range
+
+So what this code gives you is more of a **guardrail** — "the appointment must fall somewhere between these two dates" — but the actual slot selection and conflict checking would have to happen elsewhere, likely against a database of scheduled appointments.

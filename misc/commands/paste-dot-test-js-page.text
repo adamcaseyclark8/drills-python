@@ -1,0 +1,43 @@
+---------------------------------------------
+-- PASTE TO .TEST FILE TO CREATE NEW TESTS --
+---------------------------------------------
+
+const nameOfFunctionToTest = require('../code/tortoise.js');
+
+describe('verify name of function to test', () => {
+    test('I', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('II', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('III', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('IV', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('VI', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('VII', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('VIII', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('IX', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+
+    test('X', () => {
+        expect(nameOfFunctionToTest([])).toStrictEqual([])
+    });
+});

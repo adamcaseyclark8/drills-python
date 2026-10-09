@@ -1,0 +1,40 @@
+--------------------------------------------
+-- COMMANDS TO REMOVE AND REPLACE DEMO.JS --
+--------------------------------------------
+
+-----------------------
+-- NEW DIRECTORY (0) --
+-----------------------
+
+---------------------------
+-- CURRENT DIRECTORY (14) --
+---------------------------
+
+rm exercises/current/binary-search/code/demo.js
+touch exercises/current/binary-search/code/demo.js
+rm exercises/current/bubble-sort/code/demo.js
+touch exercises/current/bubble-sort/code/demo.js
+rm exercises/current/change-starting-index/code/demo.js
+touch exercises/current/change-starting-index/code/demo.js
+rm exercises/current/experian-split-string/code/demo.js
+touch exercises/current/experian-split-string/code/demo.js
+rm exercises/current/find-grouped-anagrams/code/demo.js
+touch exercises/current/find-grouped-anagrams/code/demo.js
+rm exercises/current/find-two-highest-values/code/demo.js
+touch exercises/current/find-two-highest-values/code/demo.js
+rm exercises/current/first-repeating-first-missing/code/demo.js
+touch exercises/current/first-repeating-first-missing/code/demo.js
+rm exercises/current/longest-sequence-of-numbers/code/demo.js
+touch exercises/current/longest-sequence-of-numbers/code/demo.js
+rm exercises/current/move-zeroes-right/code/demo.js
+touch exercises/current/move-zeroes-right/code/demo.js
+rm exercises/current/remove-all-duplicates/code/demo.js
+touch exercises/current/remove-all-duplicates/code/demo.js
+rm exercises/current/reverse-string-in-place/code/demo.js
+touch exercises/current/reverse-string-in-place/code/demo.js
+rm exercises/current/two-number-sum/code/demo.js
+touch exercises/current/two-number-sum/code/demo.js
+rm exercises/current/verify-valid-anagram/code/demo.js
+touch exercises/current/verify-valid-anagram/code/demo.js
+rm exercises/current/verify-valid-palindrome/code/demo.js
+touch exercises/current/verify-valid-palindrome/code/demo.js

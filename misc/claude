@@ -1,0 +1,145 @@
+Here's batch 1. I'll do 20 at a time so you can actually work through them before the next set.
+
+---
+
+## Batch 1 — Arrays & Strings (1–20)
+
+**1.** Write a function that takes an array of numbers and returns the two indices that add up to a target sum.
+twoSum([2, 7, 11, 15], 9) → [0, 1]
+
+**2.** Write a function that removes duplicates from an array without using `Set`.
+removeDupes([1, 2, 2, 3, 3, 3]) → [1, 2, 3]
+
+**3.** Write a function that flattens a nested array one level deep without using `.flat()`.
+flattenOne([1, [2, 3], [4, [5]]]) → [1, 2, 3, 4, [5]]
+
+**4.** Write a function that returns the most frequently occurring element in an array.
+mostFrequent(['a', 'b', 'a', 'c', 'a', 'b']) → 'a'
+
+**5.** Write a function that chunks an array into groups of size n.
+chunk([1,2,3,4,5], 2) → [[1,2],[3,4],[5]]
+
+**6.** Write a function that returns all pairs in an array that sum to zero.
+zeroPairs([-3, -1, 1, 2, 3]) → [[-3, 3], [-1, 1]]
+
+**7.** Write a function that rotates an array to the right by k steps.
+rotate([1,2,3,4,5], 2) → [4,5,1,2,3]
+
+**8.** Write a function that returns the longest substring without repeating characters.
+longestUnique('abcabcbb') → 'abc'
+
+**9.** Write a function that checks whether a string is a palindrome, ignoring spaces and casing.
+isPalindrome('A man a plan a canal Panama') → true
+
+**10.** Write a function that returns the intersection of two arrays (elements that appear in both).
+intersect([1,2,3,4], [2,4,6]) → [2, 4]
+
+**11.** Write a function that moves all zeroes in an array to the end while preserving order of non-zero elements.
+moveZeroes([0,1,0,3,12]) → [1,3,12,0,0]
+
+**12.** Write a function that takes a string and returns a count of each character.
+charCount('hello') → { h:1, e:1, l:2, o:1 }
+
+**13.** Write a function that finds the first non-repeating character in a string and returns its index.
+firstUnique('loveleetcode') → 2
+
+**14.** Write a function that takes two strings and returns true if one is an anagram of the other.
+isAnagram('listen', 'silent') → true
+
+**15.** Write a function that returns the maximum sum of a contiguous subarray (Kadane's algorithm).
+maxSubarray([-2,1,-3,4,-1,2,1,-5,4]) → 6
+
+**16.** Write a function that merges two sorted arrays into one sorted array without using `.sort()`.
+mergeSorted([1,3,5], [2,4,6]) → [1,2,3,4,5,6]
+
+**17.** Write a function that groups an array of strings by their first letter.
+groupByFirst(['apple','avocado','banana','blueberry','cherry'])
+→ { a: ['apple','avocado'], b: ['banana','blueberry'], c: ['cherry'] }
+
+**18.** Write a function that returns true if an array contains a duplicate value.
+hasDuplicate([1,2,3,4,5,1]) → true
+
+**19.** Write a function that takes a sorted array and a target and returns the index using binary search.
+binarySearch([1,3,5,7,9,11], 7) → 3
+
+**20.** Write a function that returns the product of every element in an array except the element at that index, without using division.
+productExceptSelf([1,2,3,4]) → [24,12,8,6]
+
+## Batch 2 — Objects & Data Transformation (21–40)
+
+**21.** Write a function that deeply clones an object without using `JSON.parse/stringify` or `structuredClone`.
+deepClone({ a: 1, b: { c: 2 } }) → { a: 1, b: { c: 2 } } // new reference
+
+**22.** Write a function that flattens a nested object into a single level using dot notation for keys.
+flattenObj({ a: { b: { c: 1 } }, d: 2 }) → { 'a.b.c': 1, d: 2 }
+
+**23.** Write a function that inverts the keys and values of an object.
+invert({ a: 1, b: 2, c: 3 }) → { 1: 'a', 2: 'b', 3: 'c' }
+
+**24.** Write a function that merges two objects, with the second object's values winning on conflicts.
+merge({ a: 1, b: 2 }, { b: 99, c: 3 }) → { a: 1, b: 99, c: 3 }
+
+**25.** Write a function that picks only specified keys from an object.
+pick({ a: 1, b: 2, c: 3 }, ['a', 'c']) → { a: 1, c: 3 }
+
+**26.** Write a function that omits specified keys from an object.
+omit({ a: 1, b: 2, c: 3 }, ['b']) → { a: 1, c: 3 }
+
+**27.** Write a function that takes an array of objects and groups them by a given key.
+groupBy([
+  { name: 'Alice', dept: 'eng' },
+  { name: 'Bob', dept: 'eng' },
+  { name: 'Carol', dept: 'qa' }
+], 'dept')
+→ { eng: [{...}, {...}], qa: [{...}] }
+
+**28.** Write a function that takes an array of objects and returns a new array sorted by a given key.
+sortByKey([{ name: 'Carol', age: 30 }, { name: 'Alice', age: 25 }], 'age')
+→ [{ name: 'Alice', age: 25 }, { name: 'Carol', age: 30 }]
+
+**29.** Write a function that counts how many objects in an array match a given predicate.
+countWhere([{active: true}, {active: false}, {active: true}], o => o.active) → 2
+
+**30.** Write a function that transforms an array of key-value pair arrays into an object.
+fromPairs([['a', 1], ['b', 2], ['c', 3]]) → { a: 1, b: 2, c: 3 }
+
+**31.** Write a function that does the reverse — converts an object into an array of key-value pairs.
+toPairs({ a: 1, b: 2 }) → [['a', 1], ['b', 2]]
+
+**32.** Write a function that takes an array of objects and returns only the objects where all specified keys exist.
+hasKeys([{ a: 1, b: 2 }, { a: 1 }, { a: 1, b: 2, c: 3 }], ['a', 'b'])
+→ [{ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }]
+
+**33.** Write a function that deeply compares two objects for equality.
+deepEqual({ a: { b: 1 } }, { a: { b: 1 } }) → true
+deepEqual({ a: { b: 1 } }, { a: { b: 2 } }) → false
+
+**34.** Write a function that takes an array of objects and returns a map of a specified key to the full object.
+keyBy([{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }], 'id')
+→ { 1: { id: 1, name: 'Alice' }, 2: { id: 2, name: 'Bob' } }
+
+**35.** Write a function that recursively finds a value in a nested object by key name.
+findByKey({ a: { b: { target: 42 } } }, 'target') → 42
+
+**36.** Write a function that returns all keys in an object where the value satisfies a predicate.
+keysWhere({ a: 1, b: 0, c: 3, d: 0 }, v => v === 0) → ['b', 'd']
+
+**37.** Write a function that takes a flat list of nodes with `id` and `parentId` and builds a tree structure.
+buildTree([
+  { id: 1, parentId: null, name: 'root' },
+  { id: 2, parentId: 1, name: 'child1' },
+  { id: 3, parentId: 1, name: 'child2' }
+])
+→ { id: 1, name: 'root', children: [{ id: 2, ... }, { id: 3, ... }] }
+
+**38.** Write a function that maps over an object's values and returns a new object with transformed values.
+mapValues({ a: 1, b: 2, c: 3 }, v => v * 2) → { a: 2, b: 4, c: 6 }
+
+**39.** Write a function that returns the difference between two objects — only keys where values differ.
+diff({ a: 1, b: 2, c: 3 }, { a: 1, b: 99, c: 3 }) → { b: { from: 2, to: 99 } }
+
+**40.** Write a function that takes a deeply nested object and sets a value at a given dot-notation path.
+setPath({ a: { b: 1 } }, 'a.b', 99) → { a: { b: 99 } }
+setPath({}, 'a.b.c', 5) → { a: { b: { c: 5 } } }
+
+---

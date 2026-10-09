@@ -1,0 +1,102 @@
+**********************************************
+list of test commands
+**********************************************
+
+./drill.sh arrays/filter-all-prime-numbers
+./drill.sh arrays/find-two-highest-values
+./drill.sh arrays/increment-number-representation
+./drill.sh arrays/merge-array-intervals
+./drill.sh arrays/product-except-self
+./drill.sh arrays/rotate-array-in-place
+./drill.sh backtracking/advanced-combination-sum
+./drill.sh backtracking/perform-combination-sum
+./drill.sh backtracking/permutations-of-an-array
+./drill.sh dynamic-programming/best-time-to-buy-and-sell-stock
+./drill.sh dynamic-programming/find-number-of-coin-combinations
+./drill.sh dynamic-programming/get-least-number-of-coins
+./drill.sh dynamic-programming/longest-common-subsequence
+./drill.sh graphs/count-number-of-islands
+./drill.sh graphs/course-schedule
+./drill.sh graphs/word-ladder
+./drill.sh greedy/perform-activity-selection
+./drill.sh greedy/perform-column-addition
+./drill.sh greedy/vail-stock-problem
+./drill.sh hashing/contains-duplicates
+./drill.sh hashing/count-word-frequency
+./drill.sh hashing/find-all-duplicates
+./drill.sh hashing/find-grouped-anagrams
+./drill.sh hashing/first-repeating-first-missing
+./drill.sh hashing/first-unique-character
+./drill.sh hashing/get-all-sum-to-zero
+./drill.sh hashing/get-most-frequent-element
+./drill.sh hashing/longest-sequence-of-numbers
+./drill.sh hashing/remove-all-duplicates
+./drill.sh hashing/three-number-sum
+./drill.sh hashing/top-k-frequent-elements
+./drill.sh hashing/two-number-sum-map
+./drill.sh hashing/two-number-sum-set
+./drill.sh hashing/verify-valid-anagram
+./drill.sh heap/k-closest-points-to-origin
+./drill.sh linked-lists/detect-loop-in-a-linked-list
+./drill.sh linked-lists/find-middle-node-of-list
+./drill.sh linked-lists/singly-linked-list
+./drill.sh math/find-duplicate-number
+./drill.sh math/glider-find-prime-numbers
+./drill.sh matrices/rotate-matrix
+./drill.sh matrices/verify-tic-tac-toe
+./drill.sh misc/advance-notice-demo
+./drill.sh misc/claude-jest-example
+./drill.sh recursion/deep-clone-object
+./drill.sh recursion/flatten-nested-list
+./drill.sh recursion/get-nth-fibonacci
+./drill.sh reimplementation/assertion-utils
+./drill.sh reimplementation/implement-deep-equal
+./drill.sh reimplementation/implement-promise
+./drill.sh searching/binary-search
+./drill.sh searching/find-minimum-value
+./drill.sh searching/first-last-position-in-sorted-array
+./drill.sh searching/search-2-dimension-matrix-ii
+./drill.sh sliding-window/buy-sell-stock
+./drill.sh sliding-window/chunk-array-into-groups
+./drill.sh sliding-window/find-product-except-self
+./drill.sh sliding-window/get-minimum-window-substring
+./drill.sh sliding-window/longest-unique-substring
+./drill.sh sorting/bubble-sort
+./drill.sh sorting/merge-overlapping-arrays
+./drill.sh strings/code-signal-pyramid-exercise
+./drill.sh strings/compress-string-into-char-counts
+./drill.sh strings/count-vowels-and-consonants
+./drill.sh strings/experian-split-string
+./drill.sh strings/reverse-string-in-place
+./drill.sh structures/coder-byte-tetris
+./drill.sh structures/implement-stack-using-queues
+./drill.sh two-pointers/change-starting-index
+./drill.sh two-pointers/code-signal-container-exercise
+./drill.sh two-pointers/find-triplets-with-zero-sum
+./drill.sh two-pointers/move-zeroes-right
+./drill.sh two-pointers/three-number-sum
+./drill.sh two-pointers/verify-valid-palindrome
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+./drill.sh
+./drill.sh random
+./drill.sh <category/problem>
+./drill.sh test <category/problem>
+./drill.sh show <category/problem>
+./drill.sh reset <category/problem>
+./drill.sh reset-all
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+./drill.sh hashing/longest-sequence-of-numbers
+./drill.sh searching/binary-search
+./drill.sh hashing/remove-all-duplicates
+./drill.sh two-pointers/move-zeroes-right
+./drill.sh hashing/find-grouped-anagrams
+./drill.sh arrays/filter-all-prime-numbers
+./drill.sh hashing/first-repeating-first-missing
+./drill.sh greedy/perform-column-addition
+./drill.sh greedy/best-time-to-buy-sell-stock
