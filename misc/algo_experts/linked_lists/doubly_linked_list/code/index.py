@@ -1,137 +1,101 @@
-r"""TODO: port to Python.
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.previous = None
+        self.next = None
 
-Original JavaScript (misc/algo-experts/linked-lists/doubly-linked-list/code/index.js):
 
-function Node(value) {
-    return {
-        value: value,
-        previous: null,
-        next: null
-    };
-}
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
 
-function DoublyLinkedList() {
-    return {
-        head: null,
-        tail: null,
+    def set_head(self, node):
+        if self.head is None:
+            self.head = node
+            self.tail = node
+            return
+        self.insert_before(self.head, node)
 
-        setHead(node) {
-            if (this.head === null) {
-                this.head = node;
-                this.tail = node;
-                return;
-            }
-            this.insertBefore(this.head, node);
-        },
+    def set_tail(self, node):
+        if self.tail is None:
+            self.set_head(node)
+            return
+        self.insert_after(self.tail, node)
 
-        setTail(node) {
-            if (this.tail === null) {
-                this.setHead(node);
-                return;
-            }
-            this.insertAfter(this.tail, node);
-        },
+    def insert_before(self, node, node_to_insert):
+        if node_to_insert is self.head and node_to_insert is self.tail:
+            return
 
-        insertBefore(node, nodeToInsert) {
-            if (nodeToInsert === this.head && nodeToInsert === this.tail) {
-                return;
-            }
+        self.remove(node_to_insert)
+        node_to_insert.previous = node.previous
+        node_to_insert.next = node
 
-            this.remove(nodeToInsert);
-            nodeToInsert.previous = node.previous;
-            nodeToInsert.next = node;
+        if node.previous is None:
+            self.head = node_to_insert
+        else:
+            node.previous.next = node_to_insert
+        node.previous = node_to_insert
 
-            if (node.previous === null) {
-                this.head = nodeToInsert;
-            } else {
-                node.previous.next = nodeToInsert;
-            }
-            node.previous = nodeToInsert;
-        },
+    def insert_after(self, node, node_to_insert):
+        if node_to_insert is self.head and node_to_insert is self.tail:
+            return
 
-        insertAfter(node, nodeToInsert) {
-            if (nodeToInsert === this.head && nodeToInsert === this.tail) {
-                return;
-            }
+        self.remove(node_to_insert)
+        node_to_insert.previous = node
+        node_to_insert.next = node.next
 
-            this.remove(nodeToInsert);
-            nodeToInsert.previous = node;
-            nodeToInsert.next = node.next;
+        if node.next is None:
+            self.tail = node_to_insert
+        else:
+            node.next.previous = node_to_insert
+        node.next = node_to_insert
 
-            if (node.next === null) {
-                this.tail = nodeToInsert;
-            } else {
-                node.next.previous = nodeToInsert;
-            }
-            node.next = nodeToInsert;
-        },
+    def insert_at_position(self, position, node_to_insert):
+        if position == 1:
+            self.set_head(node_to_insert)
+            return
 
-        insertAtPosition(position, nodeToInsert) {
-            if (position === 1) {
-                this.setHead(nodeToInsert);
-                return;
-            }
+        node = self.head
+        current_position = 1
+        while node is not None and current_position != position:
+            current_position += 1
+            node = node.next
 
-            let node = this.head;
-            let currentPosition = 1;
-            while (node !== null && currentPosition++ !== position) {
-                node = node.next;
+            if node is not None:
+                self.insert_before(node, node_to_insert)
+            else:
+                self.set_tail(node_to_insert)
 
-                if (node !== null) {
-                    this.insertBefore(node, nodeToInsert);
-                } else {
-                    this.setTail(nodeToInsert);
-                }
-            }
-        },
+    def remove_nodes_with_value(self, value):
+        node = self.head
+        while node is not None:
+            node_to_remove = node
+            node = node.next
+            if node_to_remove.value == value:
+                self.remove(node_to_remove)
 
-        removeNodesWithValue(value) {
-            let node = this.head;
-            while (node !== null) {
-                const nodeToRemove = node;
-                node = node.next;
-                if (nodeToRemove.value === value) {
-                    this.remove(nodeToRemove);
-                }
-            }
-        },
+    def contains_node_with_value(self, value):
+        node = self.head
+        while node is not None and node.value != value:
+            node = node.next
+        return node is not None
 
-        containsNodeWithValue(value) {
-            let node = this.head;
-            while (node !== null && node.value !== value) {
-                node = node.next;
-            }
-            return node !== null;
-        },
+    def remove(self, node):
+        if node is self.head:
+            self.head = self.head.next
 
-        remove(node) {
-            if (node === this.head) {
-                this.head = this.head.next;
-            }
+        if node is self.tail:
+            self.tail = self.tail.previous
 
-            if (node === this.tail) {
-                this.tail = this.tail.previous;
-            }
+        self.remove_node_bindings(node)
 
-            this.removeNodeBindings(node);
-        },
+    def remove_node_bindings(self, node):
+        if node.previous is not None:
+            node.previous.next = node.next
 
-        removeNodeBindings(node) {
-            if (node.previous !== null) {
-                node.previous.next = node.next;
-            }
+        if node.next is not None:
+            node.next.previous = node.previous
 
-            if (node.next !== null) {
-                node.next.previous = node.previous;
-            }
-
-            node.previous = null;
-            node.next = null;
-        }
-    };
-}
-
-exports.Node = Node;
-exports.DoublyLinkedList = DoublyLinkedList;
-
-"""
+        node.previous = None
+        node.next = None

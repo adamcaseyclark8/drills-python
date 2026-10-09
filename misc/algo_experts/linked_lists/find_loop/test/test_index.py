@@ -1,65 +1,39 @@
-r"""TODO: port to Python.
+from ..code.index import LinkedList, find_loop
 
-Original JavaScript (misc/algo-experts/linked-lists/find-loop/test/index.test.js):
 
-const { LinkedList, findLoop } = require('../code/index');
+class LinkedListImplementation(LinkedList):
+    def add_many(self, values):
+        current = self
 
-class StartLinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
-}
+        while current.next is not None:
+            current = current.next
 
-const linkedListClass = LinkedList || StartLinkedList;
+        for value in values:
+            current.next = LinkedListImplementation(value)
+            current = current.next
+        return self
 
-class LinkedListImplementation extends linkedListClass {
-    constructor(value) {
-        super(value);
-    }
+    def get_nth_node(self, n):
+        counter = 1
+        current = self
 
-    addMany(values) {
-        let current = this;
+        while counter < n:
+            current = current.next
+            counter += 1
+        return current
 
-        while (current.next !== null) {
-            current = current.next;
-        }
 
-        for (const value of values) {
-            current.next = new LinkedListImplementation(value);
-            current = current.next;
-        }
-        return this;
-    }
+def test_case_1():
+    test1 = LinkedListImplementation(0).add_many([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    getNthNode(n) {
-        let counter = 1;
-        let current = this;
+    print(LinkedListImplementation)
 
-        while (counter < n) {
-            current = current.next;
-            counter++;
-        }
-        return current;
-    }
-}
+    test1.get_nth_node(10).next = test1.get_nth_node(1)
+    assert find_loop(test1) is test1.get_nth_node(1)
 
-describe('Find Loop Tests, Linked List', () => {
-    test('Test Case #1', () => {
-        const test1 = new LinkedListImplementation(0).addMany([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
-        console.log(LinkedListImplementation);
+def test_case_2():
+    test2 = LinkedListImplementation(0).add_many([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-        test1.getNthNode(10).next = test1.getNthNode(1);
-        expect(findLoop(test1)).toStrictEqual(test1.getNthNode(1));
-    });
-
-    test('Test Case #2', () => {
-        const test2 = new LinkedListImplementation(0).addMany([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
-        test2.getNthNode(10).next = test2.getNthNode(2);
-        expect(findLoop(test2)).toStrictEqual(test2.getNthNode(2));
-    });
-});
-
-"""
+    test2.get_nth_node(10).next = test2.get_nth_node(2)
+    assert find_loop(test2) is test2.get_nth_node(2)

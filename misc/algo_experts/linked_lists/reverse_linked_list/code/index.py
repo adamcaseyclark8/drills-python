@@ -1,22 +1,12 @@
-r"""TODO: port to Python.
+def reverse_linked_list(head):
+    p1 = None
+    p2 = head
 
-Original JavaScript (misc/algo-experts/linked-lists/reverse-linked-list/code/index.js):
+    while p2 is not None:
+        p3 = p2.next
 
-function reverseLinkedList(head) {
-    let p1 = null;
-    let p2 = head;
+        p2.next = p1
 
-    while (p2 !== null) {
-        const p3 = p2.next;
-
-        p2.next = p1;
-
-        p1 = p2;
-        p2 = p3;
-    }
-    return p1;
-}
-
-exports.reverseLinkedList = reverseLinkedList;
-
-"""
+        p1 = p2
+        p2 = p3
+    return p1

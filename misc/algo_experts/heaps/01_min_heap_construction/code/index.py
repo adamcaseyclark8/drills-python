@@ -1,47 +1,35 @@
-r"""TODO: port to Python.
+class MinHeap:
+    def __init__(self, array):
+        self.heap = self.build_heap(array)
 
-Original JavaScript (misc/algo-experts/heaps/01-min-heap-construction/code/index.js):
+    def build_heap(self, array):
+        first_parent_idx = (len(array) - 2) // 2
 
-class MinHeap {
-    constructor() {
-        this.heap = this.buildHeap(array);
-    }
+        for current_idx in range(first_parent_idx, -1, -1):
+            self.sift_down(current_idx, len(array) - 1, array)
 
-    buildHeap(array) {
-        const firstParentIdx = Math.floor((array.length - 2) / 2);
+    def sift_down(self, current_idx, end_idx, heap):
+        child_one_idx = current_idx * 2 + 1
 
-        for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
-            this.siftDown(currentIdx, array.length - 1, array);
-        }
-    }
+        # unfinished: the original loop had an empty body, which never terminates
+        # while child_one_idx <= end_idx:
+        #     ...
 
-    siftDown(currentIdx, endIdx, heap) {
-        let childOneIdx = currentIdx * 2 + 1;
+    def sift_up(self, *args):
+        pass
 
-        while (childOneIdx <= endIdx) {}
-    }
+    def peek(self):
+        return self.heap[0]
 
-    siftUp() {}
+    def remove(self):
+        pass
 
-    peek() {
-        return this.heap[0];
-    }
+    def insert(self, value):
+        self.heap.append(value)
+        self.sift_up(len(self.heap) - 1, self.heap)
 
-    remove() {}
+    def swap(self, i, j, heap):
+        temp = heap[j]
 
-    insert(value) {
-        this.heap.push(value);
-        this.siftUp(this.heap.length - 1, this.heap);
-    }
-
-    swap(i, j, heap) {
-        const temp = heap[j];
-
-        heap[j] = heap[i];
-        heap[j] = temp;
-    }
-}
-
-exports.MinHeap = MinHeap;
-
-"""
+        heap[j] = heap[i]
+        heap[j] = temp

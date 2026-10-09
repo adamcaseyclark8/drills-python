@@ -1,25 +1,11 @@
-r"""TODO: port to Python.
+def three_number_sum(number_list, target):
+    def get_two(numbers, i):
+        return numbers[i] + numbers[i + 1]
 
-Original JavaScript (misc/algo-experts/arrays/three-number-sum/code/index.js):
+    def get_three(total_so_far, starting, total):
+        for i in range(len(number_list[starting])):
+            return total_so_far + number_list[starting + index] == total  # noqa: F821 - unfinished
 
-const threeNumberSum = (numberList, target) => {
-    const getTwo = (list, i) => {
-        return list[i] + list[i + 1];
-    };
-
-    const getThree = (sum, starting, total) => {
-        for (let i = 0; i < numberList[starting].length; i++) {
-            return sum + numberList[starting + index] === total;
-        }
-    };
-
-    for (let index = 0; index < numberList.length; index++) {
-        if (getTwo(numberList, index)) {
-            return getThree(getTwo(numberList, index), index + 2, target);
-        }
-    }
-};
-
-module.exports = threeNumberSum;
-
-"""
+    for index in range(len(number_list)):
+        if get_two(number_list, index):
+            return get_three(get_two(number_list, index), index + 2, target)

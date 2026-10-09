@@ -1,52 +1,35 @@
-r"""TODO: port to Python.
+def quick_sort(array):
+    quick_sort_helper(array, 0, len(array) - 1)
+    return array
 
-Original JavaScript (misc/algo-experts/sorting/quick-sort/code/index.js):
 
-function quickSort(array) {
-    quickSortHelper(array, 0, array.length - 1);
-    return array;
-}
+def quick_sort_helper(array, start_idx, end_idx):
+    if start_idx >= end_idx:
+        return
 
-function quickSortHelper(array, startIdx, endIdx) {
-    if (startIdx >= endIdx) {
-        return;
-    }
+    pivot_idx = start_idx
+    left_idx = start_idx + 1
+    right_idx = end_idx
 
-    const pivotIdx = startIdx;
-    let leftIdx = startIdx + 1;
-    let rightIdx = endIdx;
+    while right_idx >= left_idx:
+        if array[left_idx] > array[pivot_idx] and array[right_idx] < array[pivot_idx]:
+            swap(left_idx, right_idx, array)
+        if array[left_idx] <= array[pivot_idx]:
+            left_idx += 1
 
-    while (rightIdx >= leftIdx) {
-        if (array[leftIdx] > array[pivotIdx] && array[rightIdx] < array[pivotIdx]) {
-            swap(leftIdx, rightIdx, array);
-        }
-        if (array[leftIdx] <= array[pivotIdx]) {
-            leftIdx++;
-        }
+        if array[right_idx] >= array[pivot_idx]:
+            right_idx -= 1
 
-        if (array[rightIdx] >= array[pivotIdx]) {
-            rightIdx--;
-        }
-    }
+    swap(pivot_idx, right_idx, array)
+    left_sub_array_is_smaller = right_idx - 1 - start_idx < end_idx - (right_idx + 1)
 
-    swap(pivotIdx, rightIdx, array);
-    const leftSubArrayIsSmaller = rightIdx - 1 - startIdx < endIdx - (rightIdx + 1);
+    if left_sub_array_is_smaller:
+        quick_sort_helper(array, start_idx, right_idx - 1)
+        quick_sort_helper(array, right_idx + 1, end_idx)
+    else:
+        quick_sort_helper(array, right_idx + 1, end_idx)
+        quick_sort_helper(array, start_idx, right_idx - 1)
 
-    if (leftSubArrayIsSmaller) {
-        quickSortHelper(array, startIdx, rightIdx - 1);
-        quickSortHelper(array, rightIdx + 1, endIdx);
-    } else {
-        quickSortHelper(array, rightIdx + 1, endIdx);
-        quickSortHelper(array, startIdx, rightIdx - 1);
-    }
-}
 
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
-
-exports.quickSort = quickSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

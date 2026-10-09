@@ -1,50 +1,33 @@
-r"""TODO: port to Python.
+def heap_sort(array):
+    build_max_heap(array)
+    for end_idx in range(len(array) - 1, 0, -1):
+        swap(0, end_idx, array)
+        sift_down(0, end_idx - 1, array)
+    return array
 
-Original JavaScript (misc/algo-experts/sorting/heap-sort/code/index.js):
 
-function heapSort(array) {
-    buildMaxHeap(array);
-    for (let endIdx = array.length - 1; endIdx > 0; endIdx--) {
-        swap(0, endIdx, array);
-        siftDown(0, endIdx - 1, array);
-    }
-    return array;
-}
+def build_max_heap(array):
+    first_parent_idx = (len(array) - 2) // 2
+    for current_idx in range(first_parent_idx, -1, -1):
+        sift_down(current_idx, len(array) - 1, array)
 
-function buildMaxHeap(array) {
-    const firstParentIdx = Math.floor((array.length - 2) / 2);
-    for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
-        siftDown(currentIdx, array.length - 1, array);
-    }
-}
 
-function siftDown(currentIdx, endIdx, heap) {
-    let childOneIdx = currentIdx * 2 + 1;
-    while (childOneIdx <= endIdx) {
-        const childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
-        let idxToSwap;
-        if (childTwoIdx !== -1 && heap[childTwoIdx] > heap[childOneIdx]) {
-            idxToSwap = childTwoIdx;
-        } else {
-            idxToSwap = childOneIdx;
-        }
+def sift_down(current_idx, end_idx, heap):
+    child_one_idx = current_idx * 2 + 1
+    while child_one_idx <= end_idx:
+        child_two_idx = current_idx * 2 + 2 if current_idx * 2 + 2 <= end_idx else -1
+        if child_two_idx != -1 and heap[child_two_idx] > heap[child_one_idx]:
+            idx_to_swap = child_two_idx
+        else:
+            idx_to_swap = child_one_idx
 
-        if (heap[idxToSwap] > heap[currentIdx]) {
-            swap(currentIdx, idxToSwap, heap);
-            currentIdx = idxToSwap;
-            childOneIdx = currentIdx * 2 + 1;
-        } else {
-            return;
-        }
-    }
-}
+        if heap[idx_to_swap] > heap[current_idx]:
+            swap(current_idx, idx_to_swap, heap)
+            current_idx = idx_to_swap
+            child_one_idx = current_idx * 2 + 1
+        else:
+            return
 
-function swap(first, second, array) {
-    const temp = array[second];
-    array[second] = array[first];
-    array[first] = temp;
-}
 
-exports.heapSort = heapSort;
-
-"""
+def swap(first, second, array):
+    array[first], array[second] = array[second], array[first]

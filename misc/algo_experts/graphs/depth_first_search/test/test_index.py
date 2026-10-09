@@ -1,32 +1,21 @@
-r"""TODO: port to Python.
+from ..code.index import Node
 
-Original JavaScript (misc/algo-experts/graphs/depth-first-search/test/index.test.js):
 
-const program = require('../code/index');
-const chai = require('chai');
+def test_case_1():
+    test1 = Node('A')
+    test1.add_child('B').add_child('C')
+    test1.children[0].add_child('D')
 
-const test1 = new program.Node('A');
-test1.addChild('B').addChild('C');
-test1.children[0].addChild('D');
+    assert test1.depth_first_search([]) == ['A', 'B', 'D', 'C']
 
-const test2 = new program.Node('A');
 
-test2.addChild('B').addChild('C').addChild('D').addChild('E');
-test2.children[1].addChild('F');
+def test_case_2():
+    test2 = Node('A')
+    test2.add_child('B').add_child('C').add_child('D').add_child('E')
+    test2.children[1].add_child('F')
 
-const test3 = new program.Node('A');
+    assert test2.depth_first_search([]) == ['A', 'B', 'C', 'F', 'D', 'E']
 
-const test4 = new program.Node('A');
-const test5 = new program.Node('A');
 
-it('Test Case #1', function () {
-    chai.expect(test1.depthFirstSearch([])).to.deep.equal(['A', 'B', 'D', 'C']);
-});
-
-it('Test Case #2', function () {
-    chai.expect(test2.depthFirstSearch([])).to.deep.equal(['A', 'B', 'C', 'F', 'D', 'E']);
-});
-
-it('Test Case #3', () => {});
-
-"""
+def test_case_3():
+    pass

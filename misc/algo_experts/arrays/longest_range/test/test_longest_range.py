@@ -1,52 +1,30 @@
-r"""TODO: port to Python.
+import pytest
 
-Original JavaScript (misc/algo-experts/arrays/longest-range/test/longest-range.test.js):
+from ..code.longest_range import longest_range
 
-const program = require('../code/longest-range');
-const chai = require('chai');
+UNSOLVED = pytest.mark.xfail(strict=True, reason='longest_range is unfinished (fails in the JS original too)')
 
-test('TC#1', () => {
-    chai.expect(program.longestRange([1])).to.deep.equal([1, 1]);
-});
 
-test('TC#2', () => {
-    chai.expect(program.longestRange([1, 2])).to.deep.equal([1, 2]);
-});
+@UNSOLVED
+def test_tc_1():
+    assert longest_range([1]) == [1, 1]
 
-test('TC#3', () => {
-    chai.expect(program.longestRange([4, 2, 1, 3])).to.deep.equal([1, 4]);
-});
 
-test('TC#4', () => {
-    chai.expect(program.longestRange([4, 2, 1, 3, 6])).to.deep.equal([1, 4]);
-});
+@UNSOLVED
+def test_tc_2():
+    assert longest_range([1, 2]) == [1, 2]
 
-test('TC#5', () => {
-    chai.expect(program.longestRange([8, 4, 2, 10, 3, 6, 7, 9, 1])).to.deep.equal([6, 10]);
-});
 
-// test("TC#6", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
-//
-// test("TC#7", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
-//
-// test("TC#8", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
-//
-// test("TC#9", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
-//
-// test("TC#10", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
-//
-// test("TC#11", () => {
-//   chai.expect(program.longestRange([])).to.deep.equal([]);
-// });
+@UNSOLVED
+def test_tc_3():
+    assert longest_range([4, 2, 1, 3]) == [1, 4]
 
-"""
+
+@UNSOLVED
+def test_tc_4():
+    assert longest_range([4, 2, 1, 3, 6]) == [1, 4]
+
+
+@UNSOLVED
+def test_tc_5():
+    assert longest_range([8, 4, 2, 10, 3, 6, 7, 9, 1]) == [6, 10]

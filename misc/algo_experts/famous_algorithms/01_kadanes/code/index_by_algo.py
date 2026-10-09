@@ -1,19 +1,8 @@
-r"""TODO: port to Python.
+def kadanes(array):
+    max_ending_here = array[0]
+    max_so_far = array[0]
 
-Original JavaScript (misc/algo-experts/famous-algorithms/01-kadanes/code/index-by-algo.js):
-
-function Kadanes(array) {
-    let maxEndingHere = array[0];
-    let maxSoFar = array[0];
-
-    for (let i = 1; i < array.length; i++) {
-        const num = array[i];
-        maxEndingHere = Math.max(num, maxEndingHere + num);
-        maxSoFar = Math.max(maxSoFar, maxEndingHere);
-    }
-    return maxSoFar;
-}
-
-exports.Kadanes = Kadanes;
-
-"""
+    for num in array[1:]:
+        max_ending_here = max(num, max_ending_here + num)
+        max_so_far = max(max_so_far, max_ending_here)
+    return max_so_far

@@ -1,21 +1,16 @@
-r"""TODO: port to Python.
+arr = [1, 2, 3, 4]
 
-Original JavaScript (misc/helpers/flatmap.js):
+x = [[n * 2] for n in arr]
+# [[2], [4], [6], [8]]
 
-const arr = [1, 2, 3, 4];
+y = [item for n in arr for item in [n * 2]]
+# [2, 4, 6, 8]
 
-const x = arr.map(x => [x * 2]);
-// [[2], [4], [6], [8]]
+# only one level is flattened
+z = [item for n in arr for item in [[n * 2]]]
+# [[2], [4], [6], [8]]
 
-const y = arr.flatMap(x => [x * 2]);
-// [2, 4, 6, 8]
-
-// only one level is flattened
-const z = arr.flatMap(x => [[x * 2]]);
-// [[2], [4], [6], [8]]
-
-console.log(x);
-console.log(y);
-console.log(z);
-
-"""
+if __name__ == '__main__':
+    print(x)
+    print(y)
+    print(z)

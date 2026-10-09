@@ -1,29 +1,20 @@
-r"""TODO: port to Python.
+import importlib
 
-Original JavaScript (misc/algo-experts/recursion/02-product-sum/test/index.test.js):
+# `02_product_sum` isn't a valid identifier, so it can't appear in an import statement
+product_sum = importlib.import_module('misc.algo_experts.recursion.02_product_sum.code.index').product_sum
 
-// const program = require("../code/index");
-const program = require('../code/index');
-const chai = require('chai');
 
-test('Sample Input Gets Sample Output', () => {
-    const test = [5, 2, [7, -1], 3, [6, [-13, 8], 4]];
-    chai.expect(program.productSum(test)).to.deep.equal(12);
-});
+def test_sample_input_gets_sample_output():
+    assert product_sum([5, 2, [7, -1], 3, [6, [-13, 8], 4]]) == 12
 
-test('Test Case #1', () => {
-    const test = [1, 2, 3, 4, 5];
-    chai.expect(program.productSum(test)).to.deep.equal(15);
-});
 
-test('Test Case #2', () => {
-    const test = [1, 2, [3], 4, 5];
-    chai.expect(program.productSum(test)).to.deep.equal(18);
-});
+def test_case_1():
+    assert product_sum([1, 2, 3, 4, 5]) == 15
 
-test('Test Case #3', () => {
-    const test = [[1, 2], 3, [4, 5]];
-    chai.expect(program.productSum(test)).to.deep.equal(27);
-});
 
-"""
+def test_case_2():
+    assert product_sum([1, 2, [3], 4, 5]) == 18
+
+
+def test_case_3():
+    assert product_sum([[1, 2], 3, [4, 5]]) == 27

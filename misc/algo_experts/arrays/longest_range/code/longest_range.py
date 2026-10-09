@@ -1,46 +1,34 @@
-r"""TODO: port to Python.
+# hint: how can you use a hash table to solve this problem with an algorithm that runs in linear time?
 
-Original JavaScript (misc/algo-experts/arrays/longest-range/code/longest-range.js):
 
-// hint: how can you use a hash table to solve this problem with an algorithm that runs in linear time?
+def longest_range(array):
+    best = []
+    longest = 0
 
-function longestRange(array) {
-    let best = [];
-    let longest = 0;
+    nums = {}
 
-    const nums = {};
+    for num in array:
+        nums[num] = True
 
-    for (const num of array) {
-        nums[num] = true;
-    }
+    for num in array:
+        if not nums[num]:
+            continue
+        nums[num] = False
 
-    for (const num of array) {
-        if (!nums[num]) continue;
-        nums[num] = false;
+        current = 1
+        left = num - 1
+        right = num + 1
 
-        let current = 1;
-        let left = num - 1;
-        let right = num + 1;
+        while left in nums:
+            nums[left] = False
+            current += 1
+            left -= 1
+        while right in nums:
+            nums[right] = False
+            current += 1
+            right += 1
+        if current > longest:
+            longest = current
 
-        while (left in nums) {
-            nums[left] = false;
-            current++;
-            left--;
-        }
-        while (right in nums) {
-            nums[right] = false;
-            current++;
-            right++;
-        }
-        if (current > longest) {
-            longest = current;
-
-            best = [left + 1, right + 1];
-        }
-        return best;
-    }
-}
-
-exports.longestRange = longestRange;
-
-"""
+            best = [left + 1, right + 1]
+        return best

@@ -1,18 +1,10 @@
-r"""TODO: port to Python.
+def is_palindrome(string):
+    reversed_string = ''
 
-Original JavaScript (misc/algo-experts/strings/palindrome-check/code/v1.js):
+    for i in range(len(string) - 1, -1, -1):
+        reversed_string += string[i]
+    return string == reversed_string
 
-function isPalindrome(string) {
-    let reversedString = '';
 
-    for (let i = string.length - 1; i >= 0; i--) {
-        reversedString += string[i];
-    }
-    return string === reversedString;
-}
-
-exports.isPalindrome = isPalindrome;
-
-console.log(isPalindrome('hannah'));
-
-"""
+if __name__ == '__main__':
+    print(is_palindrome('hannah'))

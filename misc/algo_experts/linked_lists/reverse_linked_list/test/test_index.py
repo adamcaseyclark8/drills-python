@@ -1,55 +1,39 @@
-r"""TODO: port to Python.
+from ..code.index import reverse_linked_list
 
-Original JavaScript (misc/algo-experts/linked-lists/reverse-linked-list/test/index.test.js):
 
-const { reverseLinkedList } = require('../code/index');
+class LinkedList:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+    def add_many(self, values):
+        current = self
 
-    addMany(values) {
-        let current = this;
+        while current.next is not None:
+            current = current.next
 
-        while (current.next !== null) {
-            current = current.next;
-        }
+        for value in values:
+            current.next = LinkedList(value)
+            current = current.next
+        return self
 
-        for (const value of values) {
-            current.next = new LinkedList(value);
-            current = current.next;
-        }
-        return this;
-    }
+    def get_nodes_in_array(self):
+        nodes = []
+        current = self
 
-    getNodesInArray() {
-        const nodes = [];
-        let current = this;
+        while current is not None:
+            nodes.append(current.value)
+            current = current.next
+        return nodes
 
-        while (current !== null) {
-            nodes.push(current.value);
-            current = current.next;
-        }
-        return nodes;
-    }
-}
 
-describe('Reverse Linked List Tests', () => {
-    test('Test Case #1', () => {
-        const test = new LinkedList(0);
-        const result = reverseLinkedList(test).getNodesInArray();
-        const expected = new LinkedList(0).getNodesInArray();
-        expect(result).toStrictEqual(expected);
-    });
+def test_case_1():
+    result = reverse_linked_list(LinkedList(0)).get_nodes_in_array()
+    expected = LinkedList(0).get_nodes_in_array()
+    assert result == expected
 
-    test('Test Case #2', () => {
-        const test = new LinkedList(0).addMany([1]);
-        const result = reverseLinkedList(test).getNodesInArray();
-        const expected = new LinkedList(1).addMany([0]).getNodesInArray();
-        expect(result).toStrictEqual(expected);
-    });
-});
 
-"""
+def test_case_2():
+    result = reverse_linked_list(LinkedList(0).add_many([1])).get_nodes_in_array()
+    expected = LinkedList(1).add_many([0]).get_nodes_in_array()
+    assert result == expected

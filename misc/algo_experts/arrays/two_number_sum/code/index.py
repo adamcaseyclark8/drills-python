@@ -1,70 +1,54 @@
-r"""TODO: port to Python.
+# v1 - time: O(n^2) | space: O(1)
+# runs first element in parent array
+# loops all in nested array
+# stops after it finds
 
-Original JavaScript (misc/algo-experts/arrays/two-number-sum/code/index.js):
+# def two_number_sum(array, target_sum):
+#     for i in range(len(array) - 1):
+#         first_num = array[i]
+#
+#         print('first_num')
+#         print(first_num)
+#
+#         for j in range(i + 1, len(array)):
+#             second_num = array[j]
+#
+#             print('second_num')
+#             print(second_num)
+#
+#             if first_num + second_num == target_sum:
+#                 return [first_num, second_num]
+#     return []
 
-// v1 - time: O(n^2) | space: O(1)
-// runs first element in parent array
-// loops all in nested array
-// stops after it finds
+# v2 - time: O(n) | space: O(n)
+# loops over array subtracts element from target
 
-// function twoNumberSum(array, targetSum) {
-//   for (let i = 0; i < array.length - 1; i++) {
-//     const firstNum = array[i];
-//
-//     console.log("firstNum");
-//     console.log(firstNum);
-//
-//     for (let j = i + 1; j < array.length; j++) {
-//       const secondNum = array[j];
-//
-//       console.log("secondNum");
-//       console.log(secondNum);
-//
-//       if (firstNum + secondNum === targetSum) {
-//         return [firstNum, secondNum];
-//       }
-//     }
-//   }
-//   return [];
-// }
 
-// v2 - time: O(n) | space: O(n)
-// loops over array subtracts element from target
+def two_number_sum(array, target_sum):
+    nums = {}
+    for num in array:
+        potential_match = target_sum - num
+        if potential_match in nums:
+            return [potential_match, num]
+        else:
+            nums[num] = True
 
-function twoNumberSum(array, targetSum) {
-    const nums = {};
-    for (const num of array) {
-        const potentialMatch = targetSum - num;
-        if (potentialMatch in nums) {
-            return [potentialMatch, num];
-        } else {
-            nums[num] = true;
-        }
-    }
+    return []
 
-    return [];
-}
 
-// v3 - time: O(nlog(n)) | space: O(1)
+# v3 - time: O(nlog(n)) | space: O(1)
 
-// function twoNumberSum(array, targetSum) {
-//   array.sort((a, b) => a - b);
-//   let left = 0;
-//   let right = array.length - 1;
-//
-//   while (left < right) {
-//     const currentSum = array[left] + array[right];
-//     if (currentSum === targetSum) {
-//       return [array[left], array[right]];
-//     } else if (currentSum < targetSum) {
-//       left++;
-//     } else if (currentSum > targetSum) {
-//       right--;
-//     }
-//   }
-//   return [];
-// }
-
-exports.twoNumberSum = twoNumberSum;
-
-"""
+# def two_number_sum(array, target_sum):
+#     array.sort()
+#     left = 0
+#     right = len(array) - 1
+#
+#     while left < right:
+#         current_sum = array[left] + array[right]
+#         if current_sum == target_sum:
+#             return [array[left], array[right]]
+#         elif current_sum < target_sum:
+#             left += 1
+#         elif current_sum > target_sum:
+#             right -= 1
+#     return []
